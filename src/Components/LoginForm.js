@@ -20,7 +20,7 @@ function LoginForm() {
   const [authUser] = useAuthUserMutation();
 
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     password: '',
     showPassword: false,
   });
@@ -56,6 +56,14 @@ function LoginForm() {
       password,
     });
   }
+
+const handleClick = () => {
+  console.log(process.env.REACT_APP_BACKEND_URL)
+  fetch(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
+        method: "POST",
+        body: { username, password }
+  })
+};
 
   return(
     <div className="LoginForm">
@@ -117,6 +125,7 @@ function LoginForm() {
       sx={{ mt: 3, mb: 2 }}
       >Sign In
     </Button>
+    <button onClick={handleClick}>login</button>
     </div>
   )
 }
