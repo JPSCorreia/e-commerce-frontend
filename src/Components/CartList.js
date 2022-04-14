@@ -1,8 +1,9 @@
 import '../Style/App.css';
 import * as React from 'react';
+
 import { useGetUsersQuery } from "../Features/apiSlice";
 
-function UserList() {
+function CartList() {
 
   const {
     data: users,
@@ -13,8 +14,8 @@ function UserList() {
   } = useGetUsersQuery();
 
   return(
-    <div className='UserList'>
-      <h1>Users</h1>
+    <div className='CartList'>
+            <h1>Cart</h1>
       <ul>
       {isLoading && <h2>...Loading</h2>}
       {isError && <h2>Something went wrong {error.status}</h2>}
@@ -28,4 +29,4 @@ function UserList() {
   )
 }
 
-export default UserList;
+export default CartList;

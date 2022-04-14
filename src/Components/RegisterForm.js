@@ -11,25 +11,31 @@ import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useRegisterUserMutation } from '../Features/authApiSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {loginNow} from '../Features/isAuthenticatedSlice';
 
 function RegisterForm() {
+
   const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
-  const [first_name, setFirstName] = useState('');
-  const [last_name, setLastName] = useState('');
 
-  const [registerUser] = useRegisterUserMutation();
+  // Redux State/Action Management.
+  const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
+  const dispatch = useDispatch();
 
+  const handleLoginNow = () => {
+    if (!isAuthenticated) {
+      dispatch(loginNow())
+      console.log('Logging in')
+    }
+  }
 
   const [values, setValues] = React.useState({
     password: '',
     showPassword: false,
   });
-
-  // const handleChange = (prop) => (event) => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
 
   const handleClickShowPassword = () => {
     setValues({
@@ -42,22 +48,31 @@ function RegisterForm() {
     event.preventDefault();
   };
 
+  const body = { username, firstName, lastName, password }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
 
-    await registerUser({
-      username,
-      first_name,
-      last_name,
-      password,
-    });
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+      })
 
-    console.log({
-      username,
-      first_name,
-      last_name,
-      password,
-    });
+      // get token
+      const parseRes = await response.json()
+      console.log(parseRes)
+
+      // store in local storage
+      localStorage.setItem('token', parseRes.token)
+
+      // set authorized state as true
+      handleLoginNow();
+      
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   return(
@@ -75,7 +90,7 @@ function RegisterForm() {
       <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
       <InputLabel htmlFor="outlined-adornment-password">Username</InputLabel>
       <OutlinedInput
-        id="outlined-required"
+        id="outlined-required-username"
         label="Username"
         value={username}
         onChange={(e) => setUsername(e.currentTarget.value)}
@@ -88,21 +103,21 @@ function RegisterForm() {
       </FormControl> 
 
       <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-      <InputLabel htmlFor="outlined-adornment-password">First Name</InputLabel>
+      <InputLabel htmlFor="outlined-adornment">First Name</InputLabel>
       <OutlinedInput
-        id="outlined-required"
+        id="outlined-required-firstname"
         label="firstName"
-        value={first_name}
+        value={firstName}
         onChange={(e) => setFirstName(e.currentTarget.value)}
       />
       </FormControl>
 
       <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-      <InputLabel htmlFor="outlined-adornment-password">Last Name</InputLabel>
+      <InputLabel htmlFor="outlined-adornment">Last Name</InputLabel>
       <OutlinedInput
-        id="outlined-required"
+        id="outlined-required-lastname"
         label="lastName"
-        value={last_name}
+        value={lastName}
         onChange={(e) => setLastName(e.currentTarget.value)}
       />
       </FormControl> 
@@ -113,6 +128,7 @@ function RegisterForm() {
           id="outlined-adornment-password"
           type={values.showPassword ? 'text' : 'password'}
           value={password}
+          autoComplete="current-password"
           onChange={(e) => setPassword(e.currentTarget.value)}
           endAdornment={
             <InputAdornment position="end">
@@ -136,7 +152,7 @@ function RegisterForm() {
       variant="contained"
       onClick={handleSubmit}
       sx={{ mt: 3, mb: 2 }}
-      >Register Now
+      >Register
     </Button>
     </div>
   )

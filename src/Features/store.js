@@ -1,23 +1,30 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { usersApi } from "./usersApiSlice";
-import { authApi } from "./authApiSlice";
+import { persistReducer } from 'redux-persist'
+import { combineReducers } from 'redux';
+import storage from 'redux-persist/lib/storage'
+import { api } from "./apiSlice";
 import toggleUsersReducer from "./toggleUsersSlice";
-import isLoggedReducer from "./isLoggedSlice";
+import isAuthenticatedReducer from "./isAuthenticatedSlice";
 
-export const store = configureStore({
-  reducer: {
-    [authApi.reducerPath]: authApi.reducer,
-    [usersApi.reducerPath]: usersApi.reducer,
-    // [productssApi.reducerPath]: productsApi.reducer,
-    toggleUsers: toggleUsersReducer,
-    isLogged: isLoggedReducer,
-  },
+const persistConfig = {
+  key:'main-root',
+  storage, 
+}
+
+const rootReducer = combineReducers({
+  [api.reducerPath]: api.reducer,
+  toggleUsers: toggleUsersReducer,
+  isAuthenticated: isAuthenticatedReducer,
+})
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+const store = configureStore({
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({serializableCheck: false})
-      .concat(authApi.middleware)
-      .concat(usersApi.middleware)
-      // .concat(productsApi.middleware)
+    getDefaultMiddleware({serializableCheck: false, immutableCheck: false})
+      .concat(api.middleware)
 })
 
 setupListeners(store.dispatch);
