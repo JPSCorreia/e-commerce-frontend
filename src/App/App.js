@@ -5,7 +5,7 @@ import LoginPage from '../Components/LoginPage'
 import UserList from '../Components/UserList'
 import ProductList from '../Components/ProductList'
 import CartList from '../Components/CartList'
-import { Routes, Route, useLocation, useNavigate } from "react-router";
+import { Routes, Route, useLocation } from "react-router";
 import { Navigate } from "react-router";
 import NavBar from '../Components/NavBar';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ function App() {
   const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
+
 
   const handleLoginNow = () => {
     if (!isAuthenticated) {
@@ -41,8 +41,11 @@ function App() {
         method: 'GET',
         headers: {token: localStorage.token}
       })
+
+
       // get token
       const parseRes = await response.json()
+
       parseRes === true? handleLoginNow() : handleLogoutNow()
     } catch (error) {
       console.error(error.message)

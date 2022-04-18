@@ -13,15 +13,16 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {useSelector, useDispatch} from 'react-redux';
 import {loginNow} from '../Features/isAuthenticatedSlice';
+import { useLoginUserMutation } from '../Features/apiSlice';
 
 function LoginForm() {
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
   // Redux State/Action Management.
   const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
   const dispatch = useDispatch();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginUser] = useLoginUserMutation();
 
   const handleLoginNow = () => {
     if (!isAuthenticated) {
@@ -29,19 +30,16 @@ function LoginForm() {
       console.log('Logging in')
     }
   }
-
   const [values, setValues] = useState({
     password: '',
     showPassword: false,
   });
-
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
   };
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -52,14 +50,10 @@ function LoginForm() {
     event.preventDefault();
     try {
 
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(body)
-      })
+      const response = await loginUser(body);
 
       // get token
-      const parseRes = await response.json()
+      const parseRes = await response.data;
       console.log(parseRes)
 
       // store in local storage

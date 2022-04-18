@@ -46,9 +46,18 @@ export const api = createApi({
       query: (authData) => ({
         url: "/auth/register",
         method: "POST",
+        headers: {'Content-Type': 'application/json'},
         body: authData,
       }),
+      // transformResponse: (response, meta, arg) => response,
     }),
+    loginUser: builder.mutation({
+      query: (loginData) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: loginData
+      })
+    })
   })
 })
 
@@ -60,4 +69,5 @@ export const {
   useGetUserQuery,
   useAddUserMutation,
   useRegisterUserMutation,
+  useLoginUserMutation
 } = api;

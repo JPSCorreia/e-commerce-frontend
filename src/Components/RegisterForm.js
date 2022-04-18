@@ -13,17 +13,25 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {useSelector, useDispatch} from 'react-redux';
 import {loginNow} from '../Features/isAuthenticatedSlice';
+import {useRegisterUserMutation} from '../Features/apiSlice'
+
+
+
 
 function RegisterForm() {
+  
 
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [password, setPassword] = useState('');
+
 
   // Redux State/Action Management.
   const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
   const dispatch = useDispatch();
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [password, setPassword] = useState('');
+  const [registerUser] = useRegisterUserMutation()
+  const body = { username, firstName, lastName, password }
 
   const handleLoginNow = () => {
     if (!isAuthenticated) {
@@ -31,37 +39,28 @@ function RegisterForm() {
       console.log('Logging in')
     }
   }
-
   const [values, setValues] = React.useState({
     password: '',
     showPassword: false,
   });
-
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
   };
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const body = { username, firstName, lastName, password }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
 
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(body)
-      })
+      const response = await registerUser(body)
 
       // get token
-      const parseRes = await response.json()
+      const parseRes = await response.data;
       console.log(parseRes)
 
       // store in local storage
