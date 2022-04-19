@@ -4,7 +4,6 @@ import { persistReducer } from 'redux-persist'
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage'
 import { api } from "./apiSlice";
-import toggleUsersReducer from "./toggleUsersSlice";
 import isAuthenticatedReducer from "./isAuthenticatedSlice";
 
 const persistConfig = {
@@ -14,7 +13,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
-  toggleUsers: toggleUsersReducer,
   isAuthenticated: isAuthenticatedReducer,
 })
 

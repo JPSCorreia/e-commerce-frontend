@@ -1,43 +1,35 @@
 import '../Style/App.css';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logoutNow } from '../Features/isAuthenticatedSlice';
+import { useSelector } from 'react-redux';
+
 
 function NavBar() {
 
   // Redux State/Action Management.
   const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
-  const dispatch = useDispatch();
-
-  const handleLogoutNow = (event) => {
-    event.preventDefault(); // prevents refreshing of page
-    localStorage.removeItem('token');
-    dispatch(logoutNow())
-    console.log('Logging out')
-  }
 
   return(
     <div className='NavBar'>
       { !isAuthenticated? (<div className='LoggedOutBar'>
-        <NavLink
-          to={'/register'}
-          className='register-page-link'
-        >
-          <span>
-            Register
-          </span>
-        </NavLink>
-        <NavLink
-          to={'/login'}
-          className='login-page-link'
-        >
-          <span>
-            Login
-          </span>
-        </NavLink>
+        <a
+        className="App-link"
+        href={"/auth/login"}
+      >
+        <span>
+          Sign In
+        </span>
+      </a>
       </div>) 
       : (<div className='LoggedInBar'>
+        <NavLink
+          to={'/dashboard'}
+          className='dashboard-page-link'
+        >
+          <span>
+            Dashboard
+          </span>
+        </NavLink>
         <NavLink
           to={'/users'}
           className='users-page-link'
@@ -62,9 +54,14 @@ function NavBar() {
             Cart
           </span>
         </NavLink>
-        <span onClick={event => handleLogoutNow(event)} className='navbar-logout'>
-          Logout
+        <a
+        className="App-link"
+        href={"/auth/logout"}
+      >
+        <span>
+          Sign Out
         </span>
+      </a>
       </div>)}
     </div>
   )
