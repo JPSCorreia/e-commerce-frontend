@@ -17,6 +17,8 @@
 .env.development.local
 .env.test.local
 .env.production.local
+set-env-variables.env
+set-env-variables-dev.env
 
 npm-debug.log*
 yarn-debug.log*
