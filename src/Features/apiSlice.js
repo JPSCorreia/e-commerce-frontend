@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const backendURL = process.env.IN_DEVELOPMENT? process.env.REACT_APP_BACKEND_URL : process.env.PUBLIC_REACT_APP_BACKEND_URL
+
+// TODO: make this env variable work
+// const backendURL = process.env.IN_DEVELOPMENT? process.env.REACT_APP_BACKEND_URL : process.env.PUBLIC_REACT_APP_BACKEND_URL 
 
 export const api = createApi({
   reducersPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: backendURL
+    baseUrl: "http://localhost:8080"
   }),
   tagTypes: ["Products", "Users", "Sessions"],
   endpoints: (builder) => ({
