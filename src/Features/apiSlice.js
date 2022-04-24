@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // TODO: make this env variable work
-// const backendURL = process.env.IN_DEVELOPMENT? process.env.REACT_APP_BACKEND_URL : process.env.PUBLIC_REACT_APP_BACKEND_URL 
+ const backendURL = process.env.REACT_APP_IN_DEVELOPMENT? process.env.REACT_APP_BACKEND_URL : process.env.REACT_APP_PUBLIC_BACKEND_URL 
 
 export const api = createApi({
   reducersPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080"
+    baseUrl: backendURL
   }),
   tagTypes: ["Products", "Users", "Sessions"],
   endpoints: (builder) => ({
@@ -18,7 +18,7 @@ export const api = createApi({
         ] : [{ type: 'Products', id: 'LIST'}],
     }),
     verifySession: builder.query({
-      query: () => "/auth/register",
+      query: () => "/auth/current-session",
       // providesTags: (result) =>
       //   result ? [ ...result.map(({id}) => ({type: 'Sessions', id})),
       //     { type: 'Sessions', id: 'LIST' },
@@ -41,8 +41,8 @@ export const api = createApi({
           { type: 'Users', id: 'LIST' },
         ] : [{ type: 'Users', id: 'LIST'}],
     }),
-    getUser: builder.query({
-      query: (userId) => `/api/users/${userId}`,
+    getUserByUsername: builder.query({
+      query: (username) => `/api/users/${username}`,
     }),
     addUser: builder.mutation({
       query: (user) => ({
@@ -75,9 +75,12 @@ export const {
   useGetProductQuery,
   useAddProductMutation,
   useGetUsersQuery,
-  useGetUserQuery,
+  useGetUserByUsernameQuery,
+  useLazyGetUserByUsernameQuery,
   useAddUserMutation,
+  useLazyAddUserMutation,
   useRegisterUserMutation,
   useLoginUserMutation,
   useVerifySessionQuery,
+  useLazyVerifySessionQuery,
 } = api;

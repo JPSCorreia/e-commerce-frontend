@@ -23,14 +23,6 @@ function NavBar() {
       </div>) 
       : (<div className='LoggedInBar'>
         <NavLink
-          to={'/dashboard'}
-          className='dashboard-page-link'
-        >
-          <span>
-            Dashboard
-          </span>
-        </NavLink>
-        <NavLink
           to={'/users'}
           className='users-page-link'
         >
@@ -52,6 +44,14 @@ function NavBar() {
         >
           <span>
             Cart
+          </span>
+        </NavLink>
+        <NavLink
+          to={'/orders'}
+          className='orders-page-link'
+        >
+          <span>
+            Orders
           </span>
         </NavLink>
         <a

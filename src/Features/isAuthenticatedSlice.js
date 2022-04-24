@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 export const isAuthenticatedSlice = createSlice({
  name: 'isAuthenticated',
  initialState: {
-   value: null
+   value: null,
+   username: null
  },
  reducers: {
    loginNow(state) {
@@ -14,10 +15,13 @@ export const isAuthenticatedSlice = createSlice({
    },
    setLogState(state, action) {
      state.value = action.payload;
-   }
+   },
+   setUsername(state, action) {
+    state.username = action.payload;
+   },
  },
  extraReducers: {}
 })
 
-export const { loginNow, logoutNow, setLogState } = isAuthenticatedSlice.actions;
+export const { loginNow, logoutNow, setLogState, setUsername } = isAuthenticatedSlice.actions;
 export default isAuthenticatedSlice.reducer;

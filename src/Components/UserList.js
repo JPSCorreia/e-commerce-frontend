@@ -20,7 +20,7 @@ function UserList() {
       {isError && <h2>Something went wrong {error.status}</h2>}
       {isSuccess &&
         users?.map((user, index) => (
-          <li key={index} >{user.username} - {user.first_name} {user.last_name}</li>
+          <li key={index} className='user'>{user.username} - Admin: {user.admin? 'true' : 'false'} {user.last_name}</li>
         ))
       }
       </ul>

@@ -18,7 +18,7 @@ li {
   display: flex;
   font-size: 1.25rem;
   padding: 0.25rem;
-  border-bottom: 1px solid #1976d2;
+  border-bottom: 1px solid #076ae1;
 }
 
 .NavBar span{
@@ -57,4 +57,55 @@ form {
 
 .navbar-logout {
   cursor: pointer;
+}
+
+.product-image-preview {
+  display: inline-block;
+  max-width:230px;
+  max-height:95px;
+  width: auto;
+  height: auto;
+  margin: 2rem;
+}
+.product {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+  border: 1px solid #1976d2;
+  width: 50%;
+  align-self: center;
+  border-radius: 3px;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  border: 1px solid #1976d2;
+  width: 50%;
+  align-self: center;
+  border-radius: 3px;
+  margin: 2rem;
+  padding: 2rem;
+
+}
+
+.product-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+  margin: 2rem;
+}
+
+.product-price {
+  margin-top: 1rem;
+}
+
+.product-stock {
+  margin-top: 1rem;
 }

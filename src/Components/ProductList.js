@@ -20,7 +20,24 @@ function ProductList() {
       {isError && <h2>Something went wrong {error.status}</h2>}
       {isSuccess &&
         products?.map((product, index) => (
-          <li key={index} >{product.name} - {product.description}</li>
+          <li 
+          key={index}
+          className='product'
+          >
+            <div className='product-description'>
+              <div className='product-name'>
+                {product.name} - {product.description} 
+              </div>
+              <div className='product-stock'>Stock: {product.stock}</div>
+              <div className='product-price'>Price: {product.price}</div>
+            </div>
+            
+            <img
+              className='product-image-preview'
+              alt={`${product.image_link}`}
+              src={`images/${product.image_link}.jpg`}
+            />
+          </li>
         ))
       }
       </ul>

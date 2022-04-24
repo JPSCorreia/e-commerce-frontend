@@ -1,20 +1,18 @@
 import '../Style/App.css';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
+
 
 function Dashboard() {
+
+  const username = useSelector((state) => state.isAuthenticated.username)
 
   return(
     <div className='Dashboard'>
       <h1>Dashboard</h1>
       <p>
-        You are logged in
+        Welcome {username}
       </p>
-      <a
-        className="App-link"
-        href={"/auth/logout"}
-      >
-        Logout
-      </a>
     </div>
   )
 }
