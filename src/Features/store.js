@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage'
 import { api } from "./apiSlice";
 import isAuthenticatedReducer from "./isAuthenticatedSlice";
+import productQuantitySliceReducer from "./productQuantitySlice";
 
 const persistConfig = {
   key:'main-root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   isAuthenticated: isAuthenticatedReducer,
+  productQuantity: productQuantitySliceReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

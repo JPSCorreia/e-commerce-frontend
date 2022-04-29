@@ -19,9 +19,12 @@ export const isAuthenticatedSlice = createSlice({
    setUsername(state, action) {
     state.username = action.payload;
    },
+   setEmail(state, action) {
+    state.email = action.payload;
+   },
  },
  extraReducers: {}
 })
 
-export const { loginNow, logoutNow, setLogState, setUsername } = isAuthenticatedSlice.actions;
+export const { loginNow, logoutNow, setLogState, setUsername, setEmail } = isAuthenticatedSlice.actions;
 export default isAuthenticatedSlice.reducer;

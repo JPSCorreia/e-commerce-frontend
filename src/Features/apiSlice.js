@@ -8,14 +8,14 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: backendURL
   }),
-  tagTypes: ["Products", "Users", "Sessions"],
+  // tagTypes: ["Products", "Users", "Sessions"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/api/products",
-      providesTags: (result) =>
-        result ? [ ...result.map(({id}) => ({type: 'Products', id})),
-          { type: 'Products', id: 'LIST' },
-        ] : [{ type: 'Products', id: 'LIST'}],
+      // providesTags: (result) =>
+      //   result ? [ ...result.map(({id}) => ({type: 'Products', id})),
+      //     { type: 'Products', id: 'LIST' },
+      //   ] : [{ type: 'Products', id: 'LIST'}],
     }),
     verifySession: builder.query({
       query: () => "/auth/current-session",
@@ -36,10 +36,10 @@ export const api = createApi({
     }),
     getUsers: builder.query({
       query: () => "/api/users",
-      providesTags: (result) =>
-        result ? [ ...result.map(({id}) => ({type: 'Users', id})),
-          { type: 'Users', id: 'LIST' },
-        ] : [{ type: 'Users', id: 'LIST'}],
+      // providesTags: (result) =>
+      //   result ? [ ...result.map(({id}) => ({type: 'Users', id})),
+      //     { type: 'Users', id: 'LIST' },
+      //   ] : [{ type: 'Users', id: 'LIST'}],
     }),
     getUserByUsername: builder.query({
       query: (username) => `/api/users/${username}`,
@@ -51,30 +51,73 @@ export const api = createApi({
         body: user,
       })
     }),
-    // registerUser: builder.mutation({
-    //   query: (authData) => ({
-    //     url: "/auth/register",
-    //     method: "POST",
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: authData,
-    //   }),
-    //   // transformResponse: (response, meta, arg) => response,
-    // }),
-    // loginUser: builder.mutation({
-    //   query: (loginData) => ({
-    //     url: "/auth/login",
-    //     method: "POST",
-    //     body: loginData
-    //   })
-    // }),
+    getCartByEmail: builder.query({
+      query: ({authenticatedEmail, id}) => `/api/cart_items/get_cart/${authenticatedEmail}/${id}`,
+    }),
+    addProductToCart: builder.mutation({
+      query: ({authenticatedEmail, id, quant}) => ({
+        url: `/api/cart_items/`,
+        method: "POST",
+        body: {
+          products_id: id,
+          user_email: authenticatedEmail,
+          quantity: quant
+        }
+      })
+    }),
+    getCartProductsByEmail: builder.query({
+      query: (authenticatedEmail) => `/api/cart_items/cart_products/${authenticatedEmail}`,
+    }),
+    removeStockAddQuantity: builder.mutation({
+      query: ({quant, id, authenticatedEmail}) => ({
+        url: `/api/cart_items/`,
+        method: "PUT",
+        body: {
+          quantity: quant,
+          products_id: id,   
+          user_email: authenticatedEmail  
+        }
+      })
+    }),
+    removeQuantityAddStock: builder.mutation({
+      query: ({quant, id, authenticatedEmail}) => ({
+        url: `/api/cart_items/remove_quantity`,
+        method: "PUT",
+        body: {
+          quantity: quant,
+          products_id: id,   
+          user_email: authenticatedEmail  
+        }
+      })
+    }),
+    deleteFromCart: builder.mutation({
+      query: (id) => ({
+        url: `/api/cart_items/${id}`,
+        method: "DELETE"
+      })
+    }),
+    removeStock: builder.mutation({
+      query: ({quant, id, authenticatedEmail}) => ({
+        url: `/api/products/`,
+        method: "PUT",
+        body: {
+          quantity: quant,
+          products_id: id
+        }
+      })
+    }),
+    getTotalPrice: builder.query({
+      query: (email) => `/api/cart_items/total_price/${email}`,
+    }),
+
   })
 })
 
 export const {
-  useGetProductsQuery,
+  useLazyGetProductsQuery,
   useGetProductQuery,
   useAddProductMutation,
-  useGetUsersQuery,
+  useLazyGetUsersQuery,
   useGetUserByUsernameQuery,
   useLazyGetUserByUsernameQuery,
   useAddUserMutation,
@@ -83,4 +126,12 @@ export const {
   useLoginUserMutation,
   useVerifySessionQuery,
   useLazyVerifySessionQuery,
+  useLazyGetCartByEmailQuery,
+  useAddProductToCartMutation,
+  useLazyGetCartProductsByEmailQuery,
+  useRemoveStockAddQuantityMutation,
+  useRemoveQuantityAddStockMutation,
+  useDeleteFromCartMutation,
+  useRemoveStockMutation,
+  useLazyGetTotalPriceQuery,
 } = api;

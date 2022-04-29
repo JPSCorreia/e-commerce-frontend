@@ -109,3 +109,7 @@ form {
 .product-stock {
   margin-top: 1rem;
 }
+
+.hide-display {
+  display: none;
+}
