@@ -25,7 +25,6 @@ function App() {
   useEffect(() => {
     axios.get('/auth/current-session').then(({data}) => { 
       if (data) {
-        console.log(data)
         const newUserObj = {
           "email": data.email,
           "admin": false
