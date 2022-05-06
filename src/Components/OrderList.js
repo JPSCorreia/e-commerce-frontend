@@ -1,12 +1,13 @@
 import '../Style/App.css';
 import * as React from 'react';
+import { Box } from '@chakra-ui/react'
+
 
 function OrderList() {
 
   return(
-    <div className='OrderList'>
-      <h1>Orders</h1>
-    </div>
+    <Box className='OrderList'>
+    </Box>
   )
 }
 

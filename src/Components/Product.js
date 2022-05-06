@@ -1,46 +1,34 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { useRemoveStockMutation, useAddProductToCartMutation, useLazyGetCartByEmailQuery, useRemoveStockAddQuantityMutation } from "../Features/apiSlice";
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { api } from '../Features/routes';
+import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
+import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 
 function Product(props) {
 
+  // React/Redux State/Action Management.
   const authenticatedEmail = useSelector((state) => state.isAuthenticated.email)
   const id = props.product.id
   const [stock, setStock] = useState(props.product.stock);
-  const [
-    triggerGetCart
-   ] = useLazyGetCartByEmailQuery();
-
-   const [
-    triggerAddProductToCart
-   ] = useAddProductToCartMutation();
-
-   const [
-    triggerRemoveStockAddQuantity
-   ] = useRemoveStockAddQuantityMutation();
-
-   const [
-    triggerRemoveStock
-   ] = useRemoveStockMutation();
 
   const addToCart = () => {
-    //Look if time exists in cart already
+    //Look if item exists in cart already
     if (stock > 0) {
-       triggerGetCart({authenticatedEmail, id}).then((result) => {
-        const quant = 1;
+       api.getCartByEmail({authenticatedEmail, id}).then((result) => {
+        const quant = document.getElementById(`number-input-${props.id}`).value;
         if (result.data.length < 1) {
           //Create new row if product doesn't already exist in cart
-          triggerAddProductToCart({authenticatedEmail, id, quant}).then(() => {
+          api.addProductToCart({authenticatedEmail, id, quant}).then(() => {
             setStock(stock-quant)
-            triggerRemoveStock({quant, id}).then(() => {
+            api.removeStock({quant, id}).then(() => {
               setStock(stock-quant)
             })
           })
         } else {
           //Add to existing row if product already exists in cart
-          triggerRemoveStockAddQuantity({quant, id, authenticatedEmail}).then(() => {
+          api.removeStockAddQuantity({quant, id, authenticatedEmail}).then(() => {
             setStock(stock-quant)
           })
         }
@@ -49,27 +37,35 @@ function Product(props) {
   }
 
   return(
-    <li 
+    <ListItem 
       id={props.id}
       className='product'
+      border='1px solid'
+      borderColor={
+        useColorModeValue('blue.500', 'blue.200')
+      }
     >
-      <div className='product-description'>
-        <div className='product-name'>
-          {props.index}
+      <Box className='product-description'>
+        <Box className='product-name'>
           {props.product.name} - {props.product.description} 
-        </div>
-        <div className='product-stock'>Stock: {stock}</div>
-        <div className='product-price'>Price: {props.product.price}</div>
-        <button onClick={() => addToCart()}>
-            Add to Cart
-        </button>
-      </div>
-      <img
+        </Box>
+        <Box className='product-stock'>Stock: {stock}</Box>
+        <Box className='product-price'>Price: {props.product.price}€</Box>
+        <NumberInput id={'number-input-'+props.id} defaultValue={1} min={1} max={props.product.stock}>
+          <NumberInputField />
+          <NumberInputStepper>
+          <NumberIncrementStepper />
+          <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+        <Button colorScheme='blue' onClick={() => addToCart()}>Add to Cart</Button>
+      </Box>
+      <Image
         className='product-image-preview'
         alt={`${props.product.image_link}`}
         src={`images/${props.product.image_link}.jpg`}
       />
-    </li>
+    </ListItem>
   )
 }
 

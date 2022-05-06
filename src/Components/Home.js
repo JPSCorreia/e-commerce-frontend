@@ -1,21 +1,16 @@
 import '../Style/App.css';
 import * as React from 'react';
+import { Heading, Box, Text } from '@chakra-ui/react'
 
 function Home() {
 
   return(
-    <div className='Home'>
-      <h1>Home</h1>
-      <p>
+    <Box className='Home'>
+      <Heading>Home</Heading>
+      <Text>
         You are not logged in
-      </p>
-      <a
-        className="App-link"
-        href={"/auth/login"}
-      >
-        Login Here
-      </a>
-    </div>
+      </Text>
+    </Box>
   )
 }
 

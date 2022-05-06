@@ -1,43 +1,46 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { useLazyGetUsersQuery } from "../Features/apiSlice";
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { api } from '../Features/routes';
+import { Heading, Box, List, ListItem, useColorModeValue } from '@chakra-ui/react'
 
 function UserList() {
 
+  // React/Redux State/Action Management.
   const [listLoaded, setListLoaded] = useState(false);
-
-    const [
-    triggerGetUsers,
-    getUsersData,
-  ] = useLazyGetUsersQuery();
-
-
-
+  const [usersData, setUsersData] = useState([]);
+  const borderColor = useColorModeValue('blue.500', 'blue.200');
 
   useEffect(() => {
     const loadData = () => {
-      triggerGetUsers().then(() => {
+      api.getUsers().then((result) => {
         setListLoaded(true)
+        const list = result.data?.map((user, index) => (
+          <ListItem 
+            key={index} 
+            border='1px solid'
+            borderColor={borderColor}
+            className='user'
+          >
+            {user.email} - Admin: {user.admin? 'true' : 'false'} {user.last_name}      
+          </ListItem>
+        ))
+        setUsersData(list);
       })
     }
     loadData();
-  }, [triggerGetUsers]);
+  }, []);
 
   return(
-    <div className='UserList'>
-      <h1>Users</h1>
-      <ul>
-      {getUsersData.isUninitialized && <h2>Not Loaded yet.</h2>}
-      {getUsersData.isError && <h2>Something went wrong {getUsersData.status}</h2>}
-      { listLoaded &&
-        getUsersData.data?.map((user, index) => (
-          <li key={index} className='user'>{user.email} - Admin: {user.admin? 'true' : 'false'} {user.last_name}</li>
-        ))
-      }
-      </ul>
-    </div>
+    <Box className='UserList'>
+      <Heading>Users</Heading>
+      <List>
+      { !listLoaded && <h2>Not Loaded yet.</h2>}
+      { listLoaded && !usersData && <h2>Something went wrong</h2>}
+      { listLoaded && usersData }
+      </List>
+    </Box>
   )
 }
 

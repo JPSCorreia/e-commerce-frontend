@@ -1,44 +1,49 @@
 import '../Style/App.css';
 import * as React from 'react';
 import Product from './Product';
-import { useLazyGetProductsQuery } from "../Features/apiSlice";
 import { useEffect, useState } from 'react';
+import { api } from '../Features/routes';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProductListLoaded } from '../Features/loadedComponentsSlice';
+import { Spinner, Heading, Box, List } from '@chakra-ui/react'
+
+
 
 function ProductList() {
 
-  const [listLoaded, setListLoaded] = useState(false);
-
-  const [
-    triggerGetProducts,
-    products,
-  ] = useLazyGetProductsQuery();
+  // React/Redux State/Action Management.
+  const [productListData, setProductListData] = useState([]);
+  const dispatch = useDispatch();
+  const productListLoaded = useSelector((state) => state.loadedComponents.productList)
 
   useEffect(() => {
     const loadData = () => {
-      triggerGetProducts().then(() => {
-        setListLoaded(true)
+      // get all products from the database and put them in an array
+      api.getProducts().then((result) => {
+        dispatch(setProductListLoaded(true))
+        const list = result.data?.map((product, index) => (
+          <Product 
+            product={product}
+            key={index}
+            id={`product-${index+1}`}
+          />
+        ))
+        setProductListData(list);
       })
     }
     loadData();
-  }, [triggerGetProducts]);
+  }, [dispatch, productListLoaded]);
 
-  const productsList = products.data?.map((product, index) => (
-    <Product 
-      product={product}
-      key={index}
-      id={`product-${index+1}`}
-    />
-  ))
+
 
   return(
-    <div className='ProductList'>
-      <h1>Products</h1>
-      <ul>
-      {products.isUninitialized && <h2>...Loading</h2>}
-      {products.isError && <h2>Something went wrong {products.status}</h2>}
-      {listLoaded && productsList}
-      </ul>
-    </div>
+    <Box className='ProductList'>
+      <Heading>Products</Heading>
+      {!productListLoaded && <Spinner size='xl'/>}
+      <List>
+       {productListLoaded && productListData}
+      </List>
+    </Box>
   )
 }
 

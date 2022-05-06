@@ -1,65 +1,57 @@
 import '../Style/App.css';
 import * as React from 'react';
 import CartItem from './CartItem.js';
-import TotalCart from './TotalCart.js';
-import { useLazyGetCartProductsByEmailQuery } from "../Features/apiSlice";
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { api } from '../Features/routes';
+import { setNumberOfItems } from '../Features/cartItemsSlice';
+import { setCartListLoaded } from '../Features/loadedComponentsSlice';
+import { Spinner, Box, List } from '@chakra-ui/react'
+
 
 function CartList() {
 
-  // const dispatch = useDispatch();
-  const [listLoaded, setListLoaded] = useState(false);
+  // React/Redux State/Action Management.
   const email = useSelector((state) => state.isAuthenticated.email) 
-  const [cartSize, setCartSize] = useState(0);
+  const [productData, setProductData] = useState([]);
+  const dispatch = useDispatch();
+  const cartListLoaded = useSelector((state) => state.loadedComponents.cartList)
+
 
   
-
-  const [
-    triggerGetCartProducts,
-    cartProducts,
-  ] = useLazyGetCartProductsByEmailQuery();
+  useEffect(() => {
+    api.getItemTotal(email).then((result) => {
+      dispatch(setNumberOfItems(result.data[0].sum))
+    })
+  }, [dispatch, email])
 
   useEffect(() => {
     const loadData = () => {
-      triggerGetCartProducts(email).then(() => {
-        setListLoaded(true)
+      api.getCartProductsByEmail(email).then((result) => {
+        dispatch(setCartListLoaded(true))
+        const list = result.data?.map((product, index) => (
+          <CartItem 
+            product={product}
+            key={index}
+            id={`cart-product-${product.id}`}
+          />
+        ))
+        setProductData(list);
       })
     }
     loadData();
-  }, [triggerGetCartProducts, email]);
-
-
-  // useEffect(() => {
-  //   setCalculation(() => count * 2);
-  // }, [count]); // <- add the count variable here
-  
-
-
-
-  const cartProductsList = cartProducts.data?.map((product, index) => (
-    <CartItem 
-      product={product}
-      key={index}
-      id={`cart-product-${index+1}`}
-    />
-  ))
-  // console.log(cartProductsList)
-  // if (cartProductsList) setCartSize(cartProductsList.length)
+  }, [dispatch, email]);
 
 
   return(
-    <div className='cartlist'>
-      <h1>Cart</h1>
-      <ul>
-      {cartProducts.isUninitialized && <h2>...Loading</h2>}
-      {cartProducts.isError && <h2>Something went wrong {cartProducts.status}</h2>}
-      {/* {cartProducts.data && cartProducts.data.length === 0 && (<h1>Cart is empty.</h1>)} */}
-      { cartSize && (<h1>Cart is empty.</h1>)}
-      {listLoaded && cartProductsList}
-      </ul>
-      <TotalCart />
-    </div>
+    <Box className='cart-list'>
+      { !cartListLoaded && <Spinner size='xl'/>}
+      { cartListLoaded && 
+      <List>
+      {productData}
+      </List>
+      }
+    </Box>
   )
 }
 

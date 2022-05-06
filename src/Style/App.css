@@ -14,16 +14,16 @@ li {
   margin: 0.5rem;
 }
 
-.NavBar {
+.top-bar {
   display: flex;
   font-size: 1.25rem;
   padding: 0.25rem;
   border-bottom: 1px solid #076ae1;
+  justify-content: space-between;
 }
 
-.NavBar span{
+.top-bar span{
   margin: auto 0.5rem;
-  color: black;
   text-decoration: none;
 }
 
@@ -31,8 +31,13 @@ a {
   text-decoration: none;
 }
 
-span:hover {
-  color: #1976d2;
+.top-bar span:hover {
+  
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+}
+
+.top-bar p:hover {
   -webkit-transition-duration: 0.2s;
   transition-duration: 0.2s;
 }
@@ -73,8 +78,8 @@ form {
   justify-content: space-between;
   align-items: center;
   margin: 1rem;
-  border: 1px solid #1976d2;
-  width: 50%;
+  /* border: 1px solid #1976d2; */
+  width: 80%;
   align-self: center;
   border-radius: 3px;
 }
@@ -85,7 +90,7 @@ form {
   justify-content: center;
   align-items: center;
   margin: 1rem;
-  border: 1px solid #1976d2;
+  /* border: 1px solid #1976d2; */
   width: 50%;
   align-self: center;
   border-radius: 3px;
@@ -113,3 +118,73 @@ form {
 .hide-display {
   display: none;
 }
+
+.box-style {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+  /* border: 1px solid #1976d2; */
+  width: 80%;
+  align-self: center;
+  border-radius: 3px;
+}
+
+.box-center {
+  display: flex;
+  margin: 1rem;
+  /* border: 1px solid #1976d2; */
+  width: 80%; 
+  border-radius: 3px;
+  flex-direction: column;
+  padding: 0; 
+  align-self: center;
+}
+
+.center {
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0;
+}
+
+.total-cart {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+  
+}
+.total-cart .chakra-heading {
+  margin-top: 0.25rem;
+
+}
+
+.toggle-color-theme-button {
+  cursor: pointer;
+  margin-right: 0.25rem;
+}
+
+
+
+
+
+
+/* Chakra */
+
+.chakra-heading {
+  margin-top: 1.5rem;
+}
+
+.chakra-button {
+  margin: 0.5rem 0;
+  max-width: 256px;
+}
+
+.chakra-numberinput {
+  margin: 0.5rem 0;
+  max-width: 96px;
+}
+

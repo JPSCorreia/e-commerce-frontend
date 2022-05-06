@@ -1,80 +1,95 @@
 import '../Style/App.css';
 import * as React from 'react';
 import { useState } from 'react';
-import { useRemoveQuantityAddStockMutation, useDeleteFromCartMutation } from "../Features/apiSlice";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { api } from '../Features/routes';
+import { setNumberOfItems } from '../Features/cartItemsSlice';
+import { setTotalPrice } from '../Features/cartItemsSlice';
+import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
+import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
+
 
 function CartItem(props) {
 
+  // React/Redux State/Action Management.
   const authenticatedEmail = useSelector((state) => state.isAuthenticated.email)
   const [quantity, setQuantity] = useState(props.product.quantity);
+  const [hidden, setHidden] = useState(false);
   const id = props.product.id;
+  const dispatch = useDispatch();
+  const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)
+  const totalPrice = useSelector((state) => state.cartItems.totalPrice)
+  const borderColor = useColorModeValue('blue.500', 'blue.200');
 
-  const [
-    triggerRemoveQuantityAddStock
-   ] = useRemoveQuantityAddStockMutation();
-
-   const [
-    triggerDeleteFromCart
-   ] = useDeleteFromCartMutation();
-
-  const removeFromCart = () => {
-    const quant = 1
-    if (quantity > 1) {
-      triggerRemoveQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
-        setQuantity(quantity-quant)
-      })
-    }
-    if (quantity === 1) {
-      triggerRemoveQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
-      })
-      triggerDeleteFromCart(id).then(() => {
-        setQuantity(0)
-          document.getElementById(`cart-item-${props.product.id}`).classList.add('hide-display')
-      })
-    }
-
-  }
-
-  const removeAllFromCart = () => {
-    const quant = quantity
-    if (quantity > 0) {
-      triggerRemoveQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
-        triggerDeleteFromCart(id).then(() => {
-          setQuantity(0)
-            
-            document.getElementById(`cart-item-${props.product.id}`).classList.add('hide-display')
+  const removeFromCart = (id) => {
+    const quant = document.getElementById(`number-input-${props.product.id}`).value;
+    if (quantity -quant === 0) {
+      setHidden(true)
+      // document.getElementById(`cart-item-${props.product.id}`).classList.add('hide-display')
+      setQuantity(0)
+      dispatch(setNumberOfItems(numberOfItems - quant))
+      dispatch(setTotalPrice(totalPrice - props.product.price))
+      api.removeQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
+        api.deleteFromCart(id).then(() => {
         })
       })
     }
+    if (quantity - quant > 0) {
+      setQuantity(quantity-quant)
+      dispatch(setNumberOfItems(numberOfItems - quant))
+      dispatch(setTotalPrice(totalPrice - props.product.price))
+      api.removeQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
+      })
+    }
+  }
 
+  const removeAllFromCart = (id) => {
+    const quant = quantity
+    if (quantity > 0) {
+      // document.getElementById(`cart-item-${props.product.id}`).classList.add('hide-display')
+      setHidden(true)
+      setQuantity(0)
+      dispatch(setNumberOfItems(numberOfItems - quant))
+      dispatch(setTotalPrice(totalPrice - (props.product.price)*quant))
+      api.removeQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
+        api.deleteFromCart(id).then(() => {
+        })
+      })
+    }
   }
 
   return(
-    <li 
-      id={`cart-item-${props.product.id}`}
-      className='product'
-    >
-      <div className='product-description'>
-        <div className='product-name'>
-          {props.index}
-          {props.product.name} - {props.product.description} 
-        </div>
-        <div className='product-price'>Total Price: {(parseInt(props.product.price) * quantity) + '€'}</div>
-        <div className='product-quantity'>Quantity: {quantity}</div>
-        <button onClick={() => removeFromCart()}>
-           Remove from Cart
-        </button>
-        <button onClick={() => removeAllFromCart()}>
-           Remove All from Cart
-        </button>
-      </div>
-      <img
-        className='product-image-preview'
-        alt={`${props.product.image_link}`}
-        src={`images/${props.product.image_link}.jpg`}
-      />
-    </li>
+    <>
+      { !hidden && <ListItem 
+        id={`cart-item-${props.product.id}`}
+        className='product'
+        border='1px solid'
+        borderColor={borderColor}
+      >
+        <Box className='product-description'>
+          <Box className='product-name'>
+            {props.product.name} - {props.product.description} 
+          </Box>
+          <Box className='product-price'>Total Price: {(props.product.price * quantity)}€</Box>
+          <Box className='product-quantity'>Quantity: {quantity}</Box>
+          <NumberInput id={'number-input-'+props.product.id} defaultValue={1} min={1} max={props.product.quantity}>
+            <NumberInputField />
+            <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+          <Button colorScheme='blue' onClick={() => removeFromCart(id)}>Remove from Cart</Button>
+          <Button colorScheme='blue' onClick={() => removeAllFromCart(id)}>Remove All from Cart</Button>
+        </Box>
+        <Image
+          className='product-image-preview'
+          alt={`${props.product.image_link}`}
+          src={`images/${props.product.image_link}.jpg`}
+        />
+      </ListItem>
+      }
+    </>
   )
 }
 
