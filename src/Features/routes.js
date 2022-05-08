@@ -7,7 +7,7 @@ export const api = {
 
   // auth/users
   // get data from current session.
-  verifySession: () => { return axios.get(`/auth/current-session`) },
+  verifySession: () => { return axios.get(`${backendURL}/auth/current-session`) },
   // get user by email.
   getUserByEmail: (email) => { return axios.get(`${backendURL}/api/users/${email}`) },
   // create new user.
