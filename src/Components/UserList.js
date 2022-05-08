@@ -30,7 +30,7 @@ function UserList() {
       })
     }
     loadData();
-  }, []);
+  }, [borderColor]);
 
   return(
     <Box className='UserList'>
