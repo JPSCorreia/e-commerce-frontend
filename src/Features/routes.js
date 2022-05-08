@@ -1,5 +1,5 @@
 import axios from 'axios';
-const backendURL = process.env.REACT_APP_IN_DEVELOPMENT? process.env.REACT_APP_BACKEND_URL : process.env.REACT_APP_PUBLIC_BACKEND_URL 
+const backendURL = process.env.REACT_APP_IN_DEVELOPMENT ? process.env.REACT_APP_BACKEND_URL : process.env.REACT_APP_PUBLIC_BACKEND_URL 
 
 
 // endpoints
@@ -7,11 +7,11 @@ export const api = {
 
   // auth/users
   // get data from current session.
-  verifySession: () => { return axios.get('/auth/current-session') },
+  verifySession: () => { return axios.get(`${backendURL}/auth/current-session`) },
   // get user by email.
-  getUserByEmail: (email) => { return axios.get(`http://localhost:8080/api/users/${email}`) },
+  getUserByEmail: (email) => { return axios.get(`${backendURL}/api/users/${email}`) },
   // create new user.
-  addUser: (newUserObj) => { return axios.post(`http://localhost:8080/api/users/`, newUserObj) },
+  addUser: (newUserObj) => { return axios.post(`${backendURL}/api/users/`, newUserObj) },
   // get list of all users.
   getUsers: () => { return axios.get(`${backendURL}/api/users`) },
 
