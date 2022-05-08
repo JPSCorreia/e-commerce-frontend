@@ -42,8 +42,16 @@ export const api = {
   deleteFromCart: (id) => { return axios.delete(`${backendURL}/api/cart_items/${id}`) },
   // get item number total from cart.
   getItemTotal: (email) => { return axios.get(`${backendURL}/api/cart_items/total_number/${email}`) },
+  // delete row from cart.
+  deleteAllFromCart: (email) => { return axios.delete(`${backendURL}/api/cart_items/delete_cart/${email}`) },
 
+  // orders
+  // add new order
+  addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
 
+  // order_items
+  // add cart_items to order_items
+  addOrderItems: (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems )},
 
 }
 
