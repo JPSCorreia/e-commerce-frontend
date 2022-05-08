@@ -8,6 +8,8 @@ import ToggleColorTheme from './ToggleColorTheme';
 
 function NavBar() {
 
+  const backendURL = process.env.REACT_APP_IN_DEVELOPMENT ? process.env.REACT_APP_BACKEND_URL : process.env.REACT_APP_PUBLIC_BACKEND_URL 
+
   // Redux State/Action Management.
   const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
   const hoverColor = useColorModeValue('blue.500', 'blue.200')
@@ -25,7 +27,7 @@ function NavBar() {
               color: hoverColor
             }}
             className="App-link"
-            href={"/auth/login"}
+            href={`${backendURL}/auth/login`}
           >
           <Text 
               as='span'
@@ -96,7 +98,7 @@ function NavBar() {
             color: hoverColor
           }}
           className="App-link"
-          href={"/auth/logout"}
+          href={`${backendURL}/auth/logout`}
         >
           <Text 
             as='span'
