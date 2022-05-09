@@ -31,7 +31,6 @@ function TotalCart() {
     { (numberOfItems > 0) && 
       <Box 
         className='total-cart box-center'         
-
       >
         <Heading>Total Price: {totalPrice}€</Heading>
         <CheckoutButton />

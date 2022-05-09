@@ -6,7 +6,7 @@ import { api } from '../Features/routes';
 import { setNumberOfItems } from '../Features/cartItemsSlice';
 import { setTotalPrice } from '../Features/cartItemsSlice';
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
-import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
+import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 
 
 function CartItem(props) {
