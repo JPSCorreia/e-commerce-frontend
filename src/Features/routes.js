@@ -9,9 +9,9 @@ export const api = {
   // get data from current session.
   verifySession: () => { return axios.get(`/auth/current-session`) },
   // get user by email.
-  getUserByEmail: (email) => { return axios.get(`http://localhost:8080/api/users/${email}`) },
+  getUserByEmail: (email) => { return axios.get(`${backendURL}/api/users/${email}`) },
   // create new user.
-  addUser: (newUserObj) => { return axios.post(`http://localhost:8080/api/users/`, newUserObj) },
+  addUser: (newUserObj) => { return axios.post(`${backendURL}/api/users/`, newUserObj) },
   // get list of all users.
   getUsers: () => { return axios.get(`${backendURL}/api/users`) },
 
@@ -42,16 +42,16 @@ export const api = {
   deleteFromCart: (id) => { return axios.delete(`${backendURL}/api/cart_items/${id}`) },
   // get item number total from cart.
   getItemTotal: (email) => { return axios.get(`${backendURL}/api/cart_items/total_number/${email}`) },
-  // // delete row from cart.
-  // deleteAllFromCart: (email) => { return axios.delete(`${backendURL}/api/cart_items/delete_cart/${email}`) },
+  // delete row from cart.
+  deleteAllFromCart: (email) => { return axios.delete(`${backendURL}/api/cart_items/delete_cart/${email}`) },
 
-  // // orders
-  // // add new order
-  // addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
+  // orders
+  // add new order
+  addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
 
-  // // order_items
-  // // add cart_items to order_items
-  // addOrderItems: (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems )},
+  // order_items
+  // add cart_items to order_items
+  addOrderItems: (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems )},
 
 }
 
