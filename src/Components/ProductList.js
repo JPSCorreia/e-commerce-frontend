@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { api } from '../Features/routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProductListLoaded } from '../Features/loadedComponentsSlice';
-import { Spinner, Heading, Box, List } from '@chakra-ui/react'
+
+import { Heading, Box, List } from '@chakra-ui/react'
 
 
 
@@ -15,6 +16,7 @@ function ProductList() {
   const [productListData, setProductListData] = useState([]);
   const dispatch = useDispatch();
   const productListLoaded = useSelector((state) => state.loadedComponents.productList)
+
 
   useEffect(() => {
     const loadData = () => {
@@ -39,7 +41,7 @@ function ProductList() {
   return(
     <Box className='ProductList'>
       <Heading>Products</Heading>
-      {!productListLoaded && <Spinner size='xl'/>}
+      {/* {!productListLoaded && <Spinner size='xl'/>} */}
       <List>
        {productListLoaded && productListData}
       </List>

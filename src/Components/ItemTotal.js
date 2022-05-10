@@ -9,7 +9,6 @@ function ItemTotal() {
   const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)
   const cartListLoaded = useSelector((state) => state.loadedComponents.cartList)
 
-
   return(
     <>
       { cartListLoaded && 

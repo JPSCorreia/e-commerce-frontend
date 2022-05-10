@@ -11,14 +11,15 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from '@chakra-ui/react'
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 function CheckoutButton() {
 
   // React/Redux State/Action Management.
-  const email = useSelector((state) => state.isAuthenticated.email) 
+  const { user } = useAuth0();
+  const authenticatedEmail = user.email
   const totalPrice = useSelector((state) => state.cartItems.totalPrice)
-  const authenticatedEmail = useSelector((state) => state.isAuthenticated.email)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
@@ -38,7 +39,7 @@ function CheckoutButton() {
       finally send a DELETE request to delete all cart_items from user_email = logged user
 
     */
-      api.getCartProductsByEmail(email).then((result) => {
+      api.getCartProductsByEmail(authenticatedEmail).then((result) => {
         const cartList = result.data
         api.addOrder({authenticatedEmail, totalPrice}).then((result) => { 
           const orderId = result.data;

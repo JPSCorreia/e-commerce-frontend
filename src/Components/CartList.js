@@ -6,13 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { api } from '../Features/routes';
 import { setNumberOfItems } from '../Features/cartItemsSlice';
 import { setCartListLoaded } from '../Features/loadedComponentsSlice';
-import { Spinner, Box, List } from '@chakra-ui/react'
+import { Box, List } from '@chakra-ui/react'
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 function CartList() {
 
   // React/Redux State/Action Management.
-  const email = useSelector((state) => state.isAuthenticated.email) 
+  const { user } = useAuth0();
+  const authenticatedEmail = user.email
+
   const [productData, setProductData] = useState([]);
   const dispatch = useDispatch();
   const cartListLoaded = useSelector((state) => state.loadedComponents.cartList)
@@ -20,14 +23,14 @@ function CartList() {
 
   
   useEffect(() => {
-    api.getItemTotal(email).then((result) => {
+    api.getItemTotal(authenticatedEmail).then((result) => {
       dispatch(setNumberOfItems(result.data[0].sum))
     })
-  }, [dispatch, email])
+  }, [dispatch, authenticatedEmail])
 
   useEffect(() => {
     const loadData = () => {
-      api.getCartProductsByEmail(email).then((result) => {
+      api.getCartProductsByEmail(authenticatedEmail).then((result) => {
         dispatch(setCartListLoaded(true))
         const list = result.data?.map((product, index) => (
           <CartItem 
@@ -40,12 +43,11 @@ function CartList() {
       })
     }
     loadData();
-  }, [dispatch, email]);
+  }, [dispatch, authenticatedEmail]);
 
 
   return(
     <Box className='cart-list'>
-      { !cartListLoaded && <Spinner size='xl'/>}
       { cartListLoaded && 
       <List>
       {productData}

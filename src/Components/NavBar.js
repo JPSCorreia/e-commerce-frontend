@@ -1,117 +1,145 @@
 import '../Style/App.css';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Box, Text, useColorModeValue} from '@chakra-ui/react'
+import { useAuth0 } from "@auth0/auth0-react";
+import { Box, Text, useColorModeValue, Avatar, useColorMode, Image } from '@chakra-ui/react'
 import ToggleColorTheme from './ToggleColorTheme';
-
+import { useSelector } from 'react-redux';
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem
+} from '@chakra-ui/react'
+import { IoCartOutline } from 'react-icons/io5';
 
 function NavBar() {
 
-  const backendURL = process.env.REACT_APP_IN_DEVELOPMENT ? process.env.REACT_APP_BACKEND_URL : process.env.REACT_APP_PUBLIC_BACKEND_URL 
-
   // Redux State/Action Management.
-  const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
-  const hoverColor = useColorModeValue('blue.500', 'blue.200')
+  const { isAuthenticated, isLoading, loginWithRedirect, logout, user } = useAuth0();
+  const themeColor = useColorModeValue('blue.500', 'blue.200')
+  const { toggleColorMode } = useColorMode()
+  const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)
 
   return(
     <Box 
       className='top-bar'       
-      borderColor={ useColorModeValue('blue.500', 'blue.200')}
+      borderColor={themeColor}
     >
-      <Box className='nav-bar'>
-        { !isAuthenticated? (<Box className='LoggedOutBar'>
-          <Text
-            as='a'
-            _hover={{
-              color: hoverColor
-            }}
-            className="App-link"
-            href={`${backendURL}/auth/login`}
-          >
-          <Text 
-              as='span'
-              _hover={{
-                color: hoverColor
-              }}
-          >
-            Sign In
-          </Text>
-        </Text>
-        </Box>) 
-        : (<Box className='LoggedInBar'>
-          <NavLink
-            to={'/users'}
-            className='users-page-link'
-          >
-            <Text 
-              as='span'
-              _hover={{
-                color: hoverColor
-              }}
-            >
-              Users
-            </Text>
-          </NavLink>
-          <NavLink
-            to={'/products'}
-            className='products-page-link'
-          >
-            <Text 
-              as='span'
-              _hover={{
-                color: hoverColor
-              }}
-            >
-              Products
-            </Text>
-          </NavLink>
-          <NavLink
-            to={'/cart'}
-            className='cart-page-link'
-          >
-            <Text 
-              as='span'
-              _hover={{
-                color: hoverColor
-              }}
-            >
-              Cart
-            </Text>
-          </NavLink>
-          <NavLink
-            to={'/orders'}
-            className='orders-page-link'
-          >
-            <Text 
-              as='span'
-              _hover={{
-                color: hoverColor
-              }}
-            >
-              Orders
-            </Text>
-          </NavLink>
-          <Text 
-          as='a'
-          _hover={{
-            color: hoverColor
-          }}
-          className="App-link"
-          href={`${backendURL}/auth/logout`}
+      
+      <Box className='nav-bar' display='flex'>
+        <Image className='navbar-logo' src={`images/ecommerce.png`}/>
+        <NavLink
+          to={'/products'}
+          className='products-page-link'
         >
           <Text 
             as='span'
             _hover={{
-              color: hoverColor
+              color: themeColor
             }}
           >
-            Sign Out
+            Browse
           </Text>
-        </Text>
-        </Box>)}
+        </NavLink>
       </Box>
-      <ToggleColorTheme />
+      <Box className = 'navbar-right'>
+        { (!isAuthenticated && !isLoading)? (
+          <Text 
+            as='span'
+            className="app-link"
+            _hover={{
+              color: themeColor
+            }}
+            onClick={() => loginWithRedirect()}
+          > 
+            Log In
+          </Text>) : 
+          (
+          <>
+          { isLoading? '' : 
+          (
+          <>
+          <NavLink
+            to={'/orders'}
+            className='orders-page-profile-link'
+          >
+            <Text fontSize='sm'>
+              Orders
+            </Text>
+          </NavLink>
+          <NavLink
+            to={'/cart'}
+            className='cart-page-profile-link'
+          >
+            <Box 
+              display='flex'
+              _hover={{
+                color: themeColor
+              }}
+              className='profile-cart'
+            >      
+              <IoCartOutline 
+                className='react-icon' 
+              />
+              <Text className='profile-cart-number' fontSize='sm'>{numberOfItems? numberOfItems : '0'}</Text>
+            </Box>
+          </NavLink>
+          <Menu >
+          <MenuButton className='profile-avatar'>
+            <Avatar name={user.nickname} src={user.picture} size='sm' />
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              _hover={{
+                color: themeColor
+              }} 
+            >
+             Profile
+            </MenuItem>
+            <NavLink
+              to={'/users'}
+              className='users-page-link'
+            >
+              <MenuItem
+                _hover={{
+                  color: themeColor
+                }} 
+              >
+               Users
+              </MenuItem>
+            </NavLink>
+            <MenuItem
+              onClick={toggleColorMode} 
+              _hover={{
+                color: themeColor
+              }} 
+            >
+             <ToggleColorTheme />
+            </MenuItem>
+            <MenuItem
+              _hover={{
+                color: themeColor
+              }} 
+              onClick={() => logout()}
+            >
+              Log out
+            </MenuItem>
+          </MenuList>
+        </Menu>
+        <Text 
+            as='span'
+            className='profile-name'
+            fontSize='sm'
+          >
+            {user.nickname}
+          </Text>
+        </>
+          )}
+          </>
+        )}
+        
+      </Box>
     </Box>
   )
 }

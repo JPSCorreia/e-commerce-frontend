@@ -2,23 +2,19 @@
 
 import '../Style/App.css';
 import * as React from 'react';
-import { Text, Box, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, useColorMode } from '@chakra-ui/react'
+import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 
 
 
 function ToggleColorTheme() {
-  const { toggleColorMode } = useColorMode()
-  const hoverColor = useColorModeValue('blue.500', 'blue.200')
+  const { colorMode } = useColorMode()
 
   return(
-    <Box className='toggle-color-theme-button'>
-      <Text 
-        onClick={toggleColorMode} 
-        _hover={{
-            color: hoverColor
-        }}>
-        Theme
-      </Text>     
+    <Box className='toggle-color-theme-button'> 
+      {(colorMode === 'light')? 
+        <div>Toggle Theme <MoonIcon className='toggle-color-theme-icon'/> </div> : <div>Toggle Theme <SunIcon className='toggle-color-theme-icon'/> </div>
+      }
     </Box>
   )
 }

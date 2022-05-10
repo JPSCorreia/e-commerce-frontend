@@ -15,6 +15,12 @@ export const api = {
   // get list of all users.
   getUsers: () => { return axios.get(`${backendURL}/api/users`) },
 
+
+  // testing auth endpoints
+  loginAuth0: () => { return axios.get(`/auth/login`) },
+  
+
+
   // products
   // get list of all products.
   getProducts: () => { return axios.get(`${backendURL}/api/products`) },

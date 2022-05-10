@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { api } from '../Features/routes';
 import { setNumberOfItems } from '../Features/cartItemsSlice';
 import { setTotalPrice } from '../Features/cartItemsSlice';
+import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 
@@ -12,7 +13,8 @@ import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepp
 function CartItem(props) {
 
   // React/Redux State/Action Management.
-  const authenticatedEmail = useSelector((state) => state.isAuthenticated.email)
+  const { user } = useAuth0();
+  const authenticatedEmail = user.email
   const [quantity, setQuantity] = useState(props.product.quantity);
   const [hidden, setHidden] = useState(false);
   const id = props.product.id;
@@ -25,7 +27,6 @@ function CartItem(props) {
     const quant = document.getElementById(`number-input-${props.product.id}`).value;
     if (quantity -quant === 0) {
       setHidden(true)
-      // document.getElementById(`cart-item-${props.product.id}`).classList.add('hide-display')
       setQuantity(0)
       dispatch(setNumberOfItems(numberOfItems - quant))
       dispatch(setTotalPrice(totalPrice - props.product.price))
@@ -46,7 +47,6 @@ function CartItem(props) {
   const removeAllFromCart = (id) => {
     const quant = quantity
     if (quantity > 0) {
-      // document.getElementById(`cart-item-${props.product.id}`).classList.add('hide-display')
       setHidden(true)
       setQuantity(0)
       dispatch(setNumberOfItems(numberOfItems - quant))

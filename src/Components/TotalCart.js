@@ -6,11 +6,13 @@ import { api } from '../Features/routes';
 import { setTotalPrice } from '../Features/cartItemsSlice';
 import CheckoutButton from './CheckoutButton';
 import { Heading, Box } from '@chakra-ui/react'
+import { useAuth0 } from "@auth0/auth0-react";
 
 function TotalCart() {
 
   // React/Redux State/Action Management.
-  const authenticatedEmail = useSelector((state) => state.isAuthenticated.email)
+  const { user } = useAuth0();
+  const authenticatedEmail = user.email
   const dispatch = useDispatch();
   const totalPrice = useSelector((state) => state.cartItems.totalPrice)
   const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)

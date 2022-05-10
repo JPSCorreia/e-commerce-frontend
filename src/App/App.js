@@ -9,49 +9,39 @@ import Dashboard from '../Components/Dashboard'
 import { Routes, Route } from "react-router";
 import { Navigate } from "react-router";
 import NavBar from '../Components/NavBar';
-import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setEmail, setLogState, setUsername } from '../Features/isAuthenticatedSlice';
 import { api } from '../Features/routes';
-import { Box } from '@chakra-ui/react'
+import { Box, Spinner, useColorModeValue } from '@chakra-ui/react'
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 function App() {
 
   // React/Redux State/Action Management.
-  const isAuthenticated = useSelector((state) => state.isAuthenticated.value)
-  const dispatch = useDispatch();
+  const { isAuthenticated, isLoading, user } = useAuth0();
+  const spinnerColor = useColorModeValue('blue.500', 'blue.200');
+  const emptySpinnerColor = useColorModeValue('gray.200', 'gray.700');
 
   useEffect(() => {
-    api.verifySession().then(({data}) => { 
-      if (data) {
-        const newUserObj = {
-          "email": data.email,
-          "admin": false
+    if (!isLoading && isAuthenticated) {
+      const newUserObj = {
+        "email": user.email,
+        "admin": false
+      }
+      api.getUserByEmail(user.email).then((result) => {   
+        if (result.data.length < 1) {
+          api.addUser(newUserObj).then(() => {})
         }
-        dispatch(setEmail(data.email))
-        dispatch(setUsername(data.nickname))
-        if (!isAuthenticated) {
-          api.getUserByEmail(data.email).then((result) => {   
-            if (result.data.length < 1) {
-              api.addUser(newUserObj).then(() => {
-              })
-            }
-          })
-        }
-        dispatch(setLogState(true));
-        return;
-      } 
-      dispatch(setLogState(false));
-      dispatch(setUsername('unregistered visitor'))
-    })
-  })
-
+      })
+    }
+  });
 
   return (
     <Box className="App">
         <NavBar />
         <Routes>
+          { !isLoading? (
+            <>
           <Route exact path="/" element={ isAuthenticated?  <Dashboard /> : <Home /> }>
           </Route>
           <Route path="/dashboard" element={ isAuthenticated? <Dashboard /> : <Navigate to="/" /> }>
@@ -73,6 +63,24 @@ function App() {
             }
           >
           </Route>
+          </>) : 
+          <Route 
+            path="*" 
+            element={(
+              <div className='loading-spinner'>
+                <Spinner 
+                  size='xl'
+                  thickness='4px'
+                  speed='0.65s'
+                  label='loading'
+                  emptyColor={emptySpinnerColor}
+                  color={spinnerColor}
+                />
+              </div>
+            )}
+          >
+          </Route>
+          }
         </Routes>
     </Box>
   );

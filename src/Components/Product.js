@@ -1,22 +1,26 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../Features/routes';
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
+import { useAuth0 } from "@auth0/auth0-react";
+import { setNumberOfItems } from '../Features/cartItemsSlice';
+import { useDispatch } from 'react-redux';
 
 function Product(props) {
 
   // React/Redux State/Action Management.
-  const authenticatedEmail = useSelector((state) => state.isAuthenticated.email)
+  const { user } = useAuth0();
+  const dispatch = useDispatch();
+  const authenticatedEmail = user.email
   const id = props.product.id
   const [stock, setStock] = useState(props.product.stock);
 
   const addToCart = () => {
     //Look if item exists in cart already
     if (stock > 0) {
-       api.getCartByEmail({authenticatedEmail, id}).then((result) => {
+      api.getCartByEmail({authenticatedEmail, id}).then((result) => {
         const quant = document.getElementById(`number-input-${props.id}`).value;
         if (result.data.length < 1) {
           //Create new row if product doesn't already exist in cart
@@ -24,17 +28,24 @@ function Product(props) {
             setStock(stock-quant)
             api.removeStock({quant, id}).then(() => {
               setStock(stock-quant)
+              api.getItemTotal(authenticatedEmail).then((result) => {
+                dispatch(setNumberOfItems(result.data[0].sum))
+              })
             })
           })
         } else {
           //Add to existing row if product already exists in cart
           api.removeStockAddQuantity({quant, id, authenticatedEmail}).then(() => {
             setStock(stock-quant)
+            api.getItemTotal(authenticatedEmail).then((result) => {
+              dispatch(setNumberOfItems(result.data[0].sum))
+            })
           })
         }
       })
     }
   }
+
 
   return(
     <ListItem 
