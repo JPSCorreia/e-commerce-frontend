@@ -121,7 +121,7 @@ function NavBar() {
               _hover={{
                 color: themeColor
               }} 
-              onClick={() => logout()}
+              onClick={() => logout({ returnTo: window.location.origin })}
             >
               Log out
             </MenuItem>
