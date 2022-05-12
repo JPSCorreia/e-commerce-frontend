@@ -79,13 +79,24 @@ form {
   height: auto;
   margin: 2rem;
 }
+
 .product {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin: 1rem;
-  /* border: 1px solid #1976d2; */
+  width: 80%;
+  align-self: center;
+  border-radius: 3px;
+}
+
+.order {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
   width: 80%;
   align-self: center;
   border-radius: 3px;
@@ -106,6 +117,37 @@ form {
 
 }
 
+.profile {
+  display: flex;
+  flex-direction: column;
+  margin: 6rem auto;
+  width: 50%;
+  border-radius: 3px;
+
+  padding: 1rem;
+}
+
+.profile-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.profile-text {
+  margin: 0 !important;
+  margin-top: 0.5rem !important;
+  margin-left: 0.5rem !important;
+}
+
+.profile-text-row {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin: 0;
+}
+
 .product-description {
   display: flex;
   flex-direction: column;
@@ -116,9 +158,31 @@ form {
 
 .product-price {
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .product-stock {
+  margin-top: 1rem;
+}
+
+.product-quantity {
+  margin-bottom: 1rem;
+}
+
+.order-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+  margin: 2rem;
+}
+
+.order-status {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.order-price {
   margin-top: 1rem;
 }
 
@@ -207,7 +271,8 @@ form {
   padding-right: 0.25rem;
 }
 
-.profile-cart-number {
+.profile-page-avatar {
+  margin: 0 auto;
 }
 
 

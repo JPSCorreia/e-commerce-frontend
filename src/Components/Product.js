@@ -1,6 +1,6 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { api } from '../Features/routes';
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
@@ -13,12 +13,13 @@ function Product(props) {
   // React/Redux State/Action Management.
   const { user } = useAuth0();
   const dispatch = useDispatch();
-  const authenticatedEmail = user.email
+  
   const id = props.product.id
   const [stock, setStock] = useState(props.product.stock);
 
   const addToCart = () => {
     //Look if item exists in cart already
+    const authenticatedEmail = user.email
     if (stock > 0) {
       api.getCartByEmail({authenticatedEmail, id}).then((result) => {
         const quant = document.getElementById(`number-input-${props.id}`).value;

@@ -5,6 +5,8 @@ export const loadedComponentsSlice = createSlice({
   initialState: {
     productList: false,
     cartList: false,
+    orderList: false,
+    orderDetailedList: false,
   },
   reducers: {
     setProductListLoaded(state, action) {
@@ -13,9 +15,15 @@ export const loadedComponentsSlice = createSlice({
     setCartListLoaded(state, action) {
       state.cartList = action.payload;
     },
+    setOrderListLoaded(state, action) {
+      state.orderList = action.payload;
+    },
+    setOrderDetailedListLoaded(state, action) {
+      state.orderDetailedList = action.payload;
+    },
   },
   extraReducers: {}
 })
 
-export const { setProductListLoaded, setCartListLoaded } = loadedComponentsSlice.actions;
+export const { setProductListLoaded, setCartListLoaded, setOrderListLoaded, setOrderDetailedListLoaded } = loadedComponentsSlice.actions;
 export default loadedComponentsSlice.reducer;

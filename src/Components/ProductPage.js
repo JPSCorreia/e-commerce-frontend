@@ -6,8 +6,6 @@ import { Box } from '@chakra-ui/react'
 
 function ProductPage() {
 
-  
-
   return(
     <Box className='product-page'>
       <ProductList />

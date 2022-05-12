@@ -10,30 +10,23 @@ import { persistStore } from 'redux-persist'
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from './extendTheme.js';
-import { Auth0Provider } from "@auth0/auth0-react";
-
-const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-// const redirectUri = process.env.REACT_APP_REDIRECT_URI;
+import Auth0ProviderWithRedirectCallback from './Components/Auth0ProviderWithRedirectCallback.js';
 
 let persistor = persistStore(store);
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}> 
       <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <ChakraProvider theme={theme} resetCSS={true}>
-            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-            <Auth0Provider
-              domain={domain}
-              clientId={clientId}
-              redirectUri={window.location.origin}
-            >
-              <App />
-            </Auth0Provider>
-          </ChakraProvider>
-        </Router>
+        <ChakraProvider theme={theme} resetCSS={true}>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+            <Router>
+              <Auth0ProviderWithRedirectCallback>
+                <App />
+              </Auth0ProviderWithRedirectCallback>
+            </Router>
+        </ChakraProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

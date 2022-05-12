@@ -14,6 +14,8 @@ export const api = {
   addUser: (newUserObj) => { return axios.post(`${backendURL}/api/users/`, newUserObj) },
   // get list of all users.
   getUsers: () => { return axios.get(`${backendURL}/api/users`) },
+  // get register date.
+  getMonthAndYear: (email) => { return axios.get(`${backendURL}/api/users/get_date/${email}`) },
 
 
   // testing auth endpoints
@@ -54,6 +56,12 @@ export const api = {
   // orders
   // add new order
   addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
+  // get number of orders.
+  getNumberOfOrders: (email) => { return axios.get(`${backendURL}/api/orders/get_number/${email}`) },
+  // get list of all orders.
+  getAllOrders: () => { return axios.get(`${backendURL}/api/orders`) },
+  // get list of all order items by id.
+  getOrderById: (id) => { return axios.get(`${backendURL}/api/orders/${id}`) },
 
   // order_items
   // add cart_items to order_items

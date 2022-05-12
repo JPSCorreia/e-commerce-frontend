@@ -21,6 +21,12 @@ function NavBar() {
   const { toggleColorMode } = useColorMode()
   const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)
 
+  console.log(`isAuthenticated ${isAuthenticated}`)
+  console.log(`isLoading ${isLoading}`)
+  if (isLoading) {
+    return '';
+  }
+
   return(
     <Box 
       className='top-bar'       
@@ -28,7 +34,7 @@ function NavBar() {
     >
       
       <Box className='nav-bar' display='flex'>
-        <Image className='navbar-logo' src={`images/ecommerce.png`}/>
+        <Image className='navbar-logo' src={`/images/ecommerce.png`}/>
         <NavLink
           to={'/products'}
           className='products-page-link'
@@ -90,6 +96,10 @@ function NavBar() {
             <Avatar name={user.nickname} src={user.picture} size='sm' />
           </MenuButton>
           <MenuList>
+          <NavLink
+              to={'/profile'}
+              className='profile-page-link'
+            >
             <MenuItem
               _hover={{
                 color: themeColor
@@ -97,6 +107,7 @@ function NavBar() {
             >
              Profile
             </MenuItem>
+          </NavLink>
             <NavLink
               to={'/users'}
               className='users-page-link'

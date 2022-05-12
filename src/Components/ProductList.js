@@ -39,7 +39,7 @@ function ProductList() {
 
 
   return(
-    <Box className='ProductList'>
+    <Box className='product-list'>
       <Heading>Products</Heading>
       {/* {!productListLoaded && <Spinner size='xl'/>} */}
       <List>
