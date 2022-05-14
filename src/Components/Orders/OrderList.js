@@ -1,11 +1,12 @@
-import '../Style/App.css';
+import '../../Style/App.css';
 import * as React from 'react';
-import { Heading, Box, List } from '@chakra-ui/react'
+import { Box, List } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setOrderListLoaded } from '../Features/loadedComponentsSlice';
+import { setOrderListLoaded } from '../../Features/loadedComponentsSlice';
 import { useEffect, useState } from 'react';
-import { api } from '../Features/routes';
+import { api } from '../../Features/routes';
 import Order from './Order';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function OrderList() {
 
@@ -13,11 +14,13 @@ function OrderList() {
   const [orderListData, setOrderListData] = useState([]);
   const dispatch = useDispatch();
   const orderListLoaded = useSelector((state) => state.loadedComponents.orderList)
+  const { user } = useAuth0();
 
   useEffect(() => {
     const loadData = () => {
       // get all orders from the database and put them in an array
-      api.getAllOrders().then((result) => {
+      console.log(user.email)
+      api.getAllOrders(user.email).then((result) => {
         dispatch(setOrderListLoaded(true))
         const list = result.data?.map((order, index) => (
           <Order 
@@ -30,11 +33,10 @@ function OrderList() {
       })
     }
     loadData();
-  }, [dispatch, orderListLoaded]);
+  }, [dispatch, orderListLoaded, user.email]);
 
   return(
     <Box className='order-list'>
-      <Heading>Orders</Heading>
       <List>
        {orderListLoaded && orderListData}
       </List>

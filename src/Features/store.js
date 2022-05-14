@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage'
 import productQuantitySliceReducer from "./productQuantitySlice";
 import cartItemsSliceReducer from "./cartItemsSlice";
 import loadedComponentsReducer from "./loadedComponentsSlice";
+import productDataSliceReducer from "./productDataSlice";
 
 const persistConfig = {
   key:'main-root',
@@ -15,6 +16,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   productQuantity: productQuantitySliceReducer,
+  productData: productDataSliceReducer,
   cartItems: cartItemsSliceReducer,
   loadedComponents: loadedComponentsReducer,
 })

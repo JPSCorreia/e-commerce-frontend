@@ -1,6 +1,6 @@
-import '../Style/App.css';
+import '../../Style/App.css';
 import * as React from 'react';
-import { api } from '../Features/routes';
+import { api } from '../../Features/routes';
 import { Button, Box, useDisclosure } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import {
@@ -39,7 +39,7 @@ function CheckoutButton() {
       finally send a DELETE request to delete all cart_items from user_email = logged user
 
     */
-      api.getCartProductsByEmail(authenticatedEmail).then((result) => {
+      api.getCartProductsByEmail2(authenticatedEmail).then((result) => {
         const cartList = result.data
         api.addOrder({authenticatedEmail, totalPrice}).then((result) => { 
           const orderId = result.data;
@@ -61,8 +61,13 @@ function CheckoutButton() {
   }
 
   return(
-    <Box className='checkout-button'>
-      <Button colorScheme='blue' onClick={onOpen}>
+    <Box 
+      className='checkout-button'
+    >
+      <Button 
+        colorScheme='blue' 
+        onClick={onOpen}
+      >
         Checkout
       </Button>
       <AlertDialog
@@ -72,17 +77,27 @@ function CheckoutButton() {
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogHeader 
+              fontSize='lg' 
+              fontWeight='bold'
+            >
               Complete Purchase
             </AlertDialogHeader>
             <AlertDialogBody>
               Are you sure? You can't undo this action afterwards.
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button 
+                ref={cancelRef} 
+                onClick={onClose}
+              >
                 Cancel
               </Button>
-              <Button colorScheme='blue' onClick={checkoutNow} ml={3}>
+              <Button 
+                colorScheme='blue' 
+                onClick={checkoutNow} 
+                ml={3}
+              >
                 Purchase
               </Button>
             </AlertDialogFooter>

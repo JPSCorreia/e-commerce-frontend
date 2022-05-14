@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 const backendURL = process.env.REACT_APP_IN_DEVELOPMENT? process.env.REACT_APP_BACKEND_URL : process.env.REACT_APP_PUBLIC_BACKEND_URL 
 
 
@@ -23,6 +25,19 @@ export const api = {
   
 
 
+
+  getCartProductsByEmail: createAsyncThunk(
+    'productData/getCartProductsByEmail',
+    async (authenticatedEmail) => {
+      const response = await axios.get(`${backendURL}/api/cart_items/cart_products/${authenticatedEmail}`)
+      return response
+    }
+  ),
+
+
+
+
+
   // products
   // get list of all products.
   getProducts: () => { return axios.get(`${backendURL}/api/products`) },
@@ -39,7 +54,7 @@ export const api = {
   // get cart item by email and id.
   getCartByEmail: ({authenticatedEmail, id}) => { return axios.get(`${backendURL}/api/cart_items/get_cart/${authenticatedEmail}/${id}`) },
   // get cart products by email.
-  getCartProductsByEmail: (authenticatedEmail) => { return axios.get(`${backendURL}/api/cart_items/cart_products/${authenticatedEmail}`) },
+  getCartProductsByEmail2: (authenticatedEmail) => { return axios.get(`${backendURL}/api/cart_items/cart_products/${authenticatedEmail}`) },
   // remove from stock and add quantity to that item.
   removeStockAddQuantity: ({quant, id, authenticatedEmail}) => { return axios.put(`${backendURL}/api/cart_items`, {quantity: quant, products_id: id, user_email: authenticatedEmail}) },
   // remove from quantity and add stock to that item.
@@ -59,13 +74,16 @@ export const api = {
   // get number of orders.
   getNumberOfOrders: (email) => { return axios.get(`${backendURL}/api/orders/get_number/${email}`) },
   // get list of all orders.
-  getAllOrders: () => { return axios.get(`${backendURL}/api/orders`) },
+  getAllOrders: (email) => { return axios.get(`${backendURL}/api/orders/get_all/${email}`) },
   // get list of all order items by id.
   getOrderById: (id) => { return axios.get(`${backendURL}/api/orders/${id}`) },
+  // get list of all order items by id.
+  getAllOrderItems: (id) => { return axios.get(`${backendURL}/api/orders/order_products/${id}`) },
 
   // order_items
   // add cart_items to order_items
   addOrderItems: (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems )},
 
 }
+
 

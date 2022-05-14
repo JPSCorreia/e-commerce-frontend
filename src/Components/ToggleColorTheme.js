@@ -11,9 +11,28 @@ function ToggleColorTheme() {
   const { colorMode } = useColorMode()
 
   return(
-    <Box className='toggle-color-theme-button'> 
+    <Box 
+      className='toggle-color-theme-button'
+      cursor='pointer'
+      marginRight='0.25rem'
+    > 
       {(colorMode === 'light')? 
-        <div>Toggle Theme <MoonIcon className='toggle-color-theme-icon'/> </div> : <div>Toggle Theme <SunIcon className='toggle-color-theme-icon'/> </div>
+        <div>
+          Toggle Theme 
+          <MoonIcon 
+            className='toggle-color-theme-icon'
+            marginLeft='0.5rem'
+            marginBottom='0.25rem'
+          /> 
+        </div> : 
+        <div>
+          Toggle Theme 
+          <SunIcon 
+            className='toggle-color-theme-icon'
+            marginLeft='0.5rem'
+            marginBottom='0.25rem'
+          /> 
+        </div>
       }
     </Box>
   )

@@ -1,4 +1,4 @@
-import '../Style/App.css';
+import '../../Style/App.css';
 import * as React from 'react';
 import ProductList from './ProductList';
 import { Box } from '@chakra-ui/react'

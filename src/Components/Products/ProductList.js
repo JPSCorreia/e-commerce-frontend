@@ -1,10 +1,10 @@
-import '../Style/App.css';
+import '../../Style/App.css';
 import * as React from 'react';
 import Product from './Product';
 import { useEffect, useState } from 'react';
-import { api } from '../Features/routes';
+import { api } from '../../Features/routes';
 import { useDispatch, useSelector } from 'react-redux';
-import { setProductListLoaded } from '../Features/loadedComponentsSlice';
+import { setProductListLoaded } from '../../Features/loadedComponentsSlice';
 
 import { Heading, Box, List } from '@chakra-ui/react'
 
@@ -39,9 +39,12 @@ function ProductList() {
 
 
   return(
-    <Box className='product-list'>
-      <Heading>Products</Heading>
-      {/* {!productListLoaded && <Spinner size='xl'/>} */}
+    <Box 
+      className='product-list'
+    >
+      <Heading>
+        Products
+      </Heading>
       <List>
        {productListLoaded && productListData}
       </List>

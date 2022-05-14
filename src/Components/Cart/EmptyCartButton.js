@@ -1,10 +1,11 @@
-import '../Style/App.css';
+import '../../Style/App.css';
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { api } from '../Features/routes';
+import { api } from '../../Features/routes';
 import { Button, Box } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 
+//TODO: finish this component
 function EmptyCartButton() {
 
   // React/Redux State/Action Management.
@@ -17,8 +18,12 @@ function EmptyCartButton() {
   }
 
   return(
-    <Box className='empty-cart-button'>
-      <Button onClick={() => emptyCartNow()}>
+    <Box 
+      className='empty-cart-button'
+    >
+      <Button 
+        onClick={() => emptyCartNow()}
+      >
         Empty Cart
       </Button>
     </Box>

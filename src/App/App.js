@@ -2,14 +2,14 @@ import '../Style/App.css';
 import * as React from 'react';
 import Home from '../Components/Home'
 import UserList from '../Components/UserList'
-import ProductPage from '../Components/ProductPage'
-import CartPage from '../Components/CartPage'
-import OrdersPage from '../Components/OrdersPage'
+import ProductPage from '../Components/Products/ProductPage'
+import ProductItem from '../Components/Products/ProductItem'
+import CartPage from '../Components/Cart/CartPage'
+import OrdersPage from '../Components/Orders/OrdersPage'
 import { Routes, Route } from "react-router";
-import { Navigate } from "react-router";
 import NavBar from '../Components/NavBar';
 import Profile from '../Components/Profile';
-import OrderDetailed from '../Components/OrderDetailed';
+import OrderDetailed from '../Components/Orders/OrderDetailed';
 import ProtectedRoute from '../Components/ProtectedRoute';
 import Loader from '../Components/Loader';
 import { useEffect } from 'react';
@@ -49,6 +49,7 @@ function App() {
           <Route exact path="/" element={ <Home /> }/>
           <Route path="/users" element={ <ProtectedRoute component={UserList} /> }/>
           <Route path="/products" element={ <ProductPage /> }/>
+          <Route path="/products/:id" element={ <ProductItem /> }/>
           <Route path="/cart" element={ <ProtectedRoute component={CartPage} /> }/>
           <Route path="/orders" element={ <ProtectedRoute component={OrdersPage} /> }/>
           <Route path="/profile" element={ <ProtectedRoute component={Profile} /> }/>

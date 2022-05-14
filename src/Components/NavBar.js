@@ -21,41 +21,60 @@ function NavBar() {
   const { toggleColorMode } = useColorMode()
   const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)
 
-  console.log(`isAuthenticated ${isAuthenticated}`)
-  console.log(`isLoading ${isLoading}`)
   if (isLoading) {
     return '';
   }
 
   return(
     <Box 
-      className='top-bar'       
+      className='top-bar' 
+      display='flex'
+      fontSize='1.25rem'
+      padding='0.25rem 0'
+      justifyContent='space-between'
+      alignItems='center'
+      borderBottom='1px solid'      
       borderColor={themeColor}
     >
-      
-      <Box className='nav-bar' display='flex'>
-        <Image className='navbar-logo' src={`/images/ecommerce.png`}/>
-        <NavLink
-          to={'/products'}
-          className='products-page-link'
+      <Box 
+        className='nav-bar' 
+        display='flex'
+      >
+        <Image 
+          className='navbar-logo' 
+          src={`/images/ecommerce.png`}
+          width='32px'
+        />
+        <Text 
+          as='span'
+          margin='auto 1rem'
+          textDecoration='none'
+          _hover={{
+            color: themeColor,
+            transition: '0.2s',
+          }}
         >
-          <Text 
-            as='span'
-            _hover={{
-              color: themeColor
-            }}
+          <NavLink
+            to={'/products'}
+            className='products-page-link'
           >
             Browse
-          </Text>
-        </NavLink>
+          </NavLink>
+        </Text>
       </Box>
-      <Box className = 'navbar-right'>
-        { (!isAuthenticated && !isLoading)? (
+      <Box 
+        className = 'navbar-right'
+        display='flex'
+      >
+        {(!isAuthenticated && !isLoading)? (
           <Text 
             as='span'
+            margin='auto 0.5rem'
+            textDecoration='none'
             className="app-link"
             _hover={{
-              color: themeColor
+              color: themeColor,
+              transition: '0.2s',
             }}
             onClick={() => loginWithRedirect()}
           > 
@@ -66,14 +85,21 @@ function NavBar() {
           { isLoading? '' : 
           (
           <>
-          <NavLink
-            to={'/orders'}
-            className='orders-page-profile-link'
+          <Text 
+            fontSize='sm'
+            _hover={{
+              color: themeColor,
+              transition: '0.2s'
+            }}
+            margin='auto 0.5rem'
           >
-            <Text fontSize='sm'>
+            <NavLink
+              to={'/orders'}
+              className='orders-page-profile-link'
+            >
               Orders
-            </Text>
-          </NavLink>
+            </NavLink>
+          </Text>
           <NavLink
             to={'/cart'}
             className='cart-page-profile-link'
@@ -81,19 +107,37 @@ function NavBar() {
             <Box 
               display='flex'
               _hover={{
-                color: themeColor
+                color: themeColor,
+                transition: '0.2s'
               }}
               className='profile-cart'
+              marginRight='0.4rem'
+              cursor='pointer'
+              alignItems='center'
+              justifyContent='center'
             >      
               <IoCartOutline 
                 className='react-icon' 
               />
-              <Text className='profile-cart-number' fontSize='sm'>{numberOfItems? numberOfItems : '0'}</Text>
+              <Text 
+                className='profile-cart-number' 
+                fontSize='sm'
+              >
+                {numberOfItems? numberOfItems : '0'}
+              </Text>
             </Box>
           </NavLink>
           <Menu >
-          <MenuButton className='profile-avatar'>
-            <Avatar name={user.nickname} src={user.picture} size='sm' />
+          <MenuButton 
+            className='profile-avatar'
+            marginRight='0'
+            padding='0'
+          >
+            <Avatar 
+              name={user.nickname} 
+              src={user.picture} 
+              size='sm' 
+            />
           </MenuButton>
           <MenuList>
           <NavLink
@@ -140,8 +184,12 @@ function NavBar() {
         </Menu>
         <Text 
             as='span'
+            margin='auto 0.5rem'
+            textDecoration='none'
             className='profile-name'
             fontSize='sm'
+            paddingLeft='0.25rem'
+            paddingRight='0.25rem'
           >
             {user.nickname}
           </Text>

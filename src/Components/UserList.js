@@ -24,6 +24,18 @@ function UserList() {
             border='1px solid'
             borderColor={borderColor}
             className='user'
+
+            display='flex'
+            flexDirection='row'
+            justifyContent='center'
+            alignItems='center'
+            width='50%'
+            alignSelf='center'
+            borderRadius='3px'
+            margin='2rem'
+            padding='2rem'
+
+
           >
             <Avatar src={user.image_link} mr="0.5rem"/>
             <Text> {user.email} - Admin: {user.admin? 'true' : 'false'} {user.last_name}</Text>      

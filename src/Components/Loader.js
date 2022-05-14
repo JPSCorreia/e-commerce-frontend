@@ -1,6 +1,6 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { Spinner, useColorModeValue } from '@chakra-ui/react'
+import { Box, Spinner, useColorModeValue } from '@chakra-ui/react'
 
 function Loader() {
 
@@ -8,7 +8,14 @@ function Loader() {
   const emptySpinnerColor = useColorModeValue('gray.200', 'gray.700');
 
   return(
-    <div className='loading-spinner'>
+    <Box 
+      className='loading-spinner'
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      textAlign='center'
+      minHeight='90vh'
+    >
       <Spinner 
         size='xl'
         thickness='4px'
@@ -17,7 +24,7 @@ function Loader() {
         emptyColor={emptySpinnerColor}
         color={spinnerColor}
       />
-    </div>
+    </Box>
   )
 }
 
