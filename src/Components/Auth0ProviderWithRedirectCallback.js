@@ -21,7 +21,7 @@ function Auth0ProviderWithRedirectCallback ({ children }) {
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
       audience={audience}
-      scope={scope}
+      // scope={scope}
     >
       {children}
     </Auth0Provider>
