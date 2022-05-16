@@ -20,8 +20,8 @@ function Auth0ProviderWithRedirectCallback ({ children }) {
       clientId={clientId}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
-      // audience={audience}
-      scope={scope}
+      audience={audience}
+      // scope={scope}
     >
       {children}
     </Auth0Provider>
