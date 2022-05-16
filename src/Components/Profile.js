@@ -29,7 +29,9 @@ function Profile() {
             // setRegisterDate([result.data.year, result.data.month])
             setRegisterYear(result.data.year)
             setRegisterMonth(result.data.month)
-            
+            api.getNumberOfOrders(user.email, token).then((result) => {   
+              setNumberOfOrders(result.data.count)
+            })
           }) 
       }
       getData();
@@ -37,14 +39,6 @@ function Profile() {
   }, [getAccessTokenSilently, isAuthenticated, isLoading, user.email]);
 
 
-
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      api.getNumberOfOrders(user.email).then((result) => {   
-        setNumberOfOrders(result.data.count)
-      })
-    }
-  }, [isAuthenticated, isLoading, user.email]);
 
 
 
