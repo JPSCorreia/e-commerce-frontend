@@ -1,7 +1,7 @@
 import '../../Style/App.css';
 import * as React from 'react';
 import CartItem from './CartItem.js';
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
 import { setNumberOfItems } from '../../Features/cartItemsSlice';
@@ -13,36 +13,43 @@ import { useAuth0 } from "@auth0/auth0-react";
 function CartList() {
 
   // React/Redux State/Action Management.
-  const { user } = useAuth0();
-  const authenticatedEmail = user.email
+  const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
-  const productData = useSelector((state) => state.productData.data)
-  const productDataIsLoading = useSelector((state) => state.productData.isLoading)
+  const cartData = useSelector((state) => state.cartData.data)
+  const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/" 
 
   
-  useLayoutEffect(() => {
-    api.getItemTotal(authenticatedEmail).then((result) => {
-      dispatch(setNumberOfItems(result.data[0].sum))
-      dispatch(api.getCartProductsByEmail(authenticatedEmail))
-      dispatch(setCartListLoaded(true)) 
-    })
-  }, [dispatch, authenticatedEmail])
+  useEffect(() => {
+    const getData = async () => {
+      const token = await getAccessTokenSilently({        
+        audience: audience,
+        scope: 'openid'
+      })
+      const orderObj = {
+        token: token,
+        email: user.email
+      }
+      api.getItemTotal(user.email).then((result) => {
+        dispatch(setNumberOfItems(result.data[0].sum))
+        dispatch(api.getCartProductsByEmail(orderObj))
+        dispatch(setCartListLoaded(true)) 
+      })
+    }
+    getData();
+  }, [dispatch, getAccessTokenSilently, user.email])
 
-  if (productDataIsLoading) return '';
 
   return(
-    <Box 
-      className='cart-list'
-    >
-        <List>
-          {productData.data?.map((product, index) => (
-            <CartItem 
-              product={product}
-              key={index}
-              id={`cart-product-${product.id}`}
-            />
-          ))}
-        </List>
+    <Box className='cart-list'>
+      <List>
+        {cartData.data?.map((product, index) => (
+          <CartItem 
+            product={product}
+            key={index}
+            id={`cart-product-${product.id}`}
+          />
+        ))}
+      </List>
     </Box>
   )
 }

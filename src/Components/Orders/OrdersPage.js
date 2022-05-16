@@ -9,7 +9,6 @@ function OrdersPage() {
     <Box className='order-page'>
       <Heading>Orders</Heading>
       <OrderList />
-      
     </Box>
   )
 }

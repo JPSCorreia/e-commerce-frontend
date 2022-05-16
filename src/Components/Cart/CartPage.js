@@ -5,7 +5,6 @@ import ItemTotal from './ItemTotal';
 import CartList from './CartList';
 import { Box } from '@chakra-ui/react'
 
-
 function CartPage() {
 
   return(

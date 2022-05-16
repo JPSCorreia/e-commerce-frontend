@@ -4,18 +4,17 @@ import { Box, Text, Avatar, useColorModeValue } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from 'react';
 import { api } from '../Features/routes';
+import Loader from '../Components/Loader';
 
 function Profile() {
-
-   const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/" 
-  // const scope = "read:current_user";
 
   const { isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();
   const [registerYear, setRegisterYear] = useState('');
   const [registerMonth, setRegisterMonth] = useState('');
   const [numberOfOrders, setNumberOfOrders] = useState('');
-
-  // const [registerDate, setRegisterDate] = useState(['',''])
+  const [loading, setLoading] = useState(true);
+  const themeColor = useColorModeValue('blue.500', 'blue.200')
+  const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/" 
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -24,13 +23,13 @@ function Profile() {
           audience: audience,
           scope: 'openid'
         })
-        console.log(token)
-          api.protectedGetMonthAndYear(user.email, token).then((result) => {  
+          api.getMonthAndYear(user.email, token).then((result) => {  
             // setRegisterDate([result.data.year, result.data.month])
             setRegisterYear(result.data.year)
             setRegisterMonth(result.data.month)
             api.getNumberOfOrders(user.email, token).then((result) => {   
               setNumberOfOrders(result.data.count)
+              setLoading(false)
             })
           }) 
       }
@@ -39,16 +38,16 @@ function Profile() {
   }, [getAccessTokenSilently, isAuthenticated, isLoading, user.email]);
 
 
-
+  if (loading) {
+    return <Loader />
+  }
 
 
   return(
     <Box 
       className='profile'
       border='1px solid'
-      borderColor={
-        useColorModeValue('blue.500', 'blue.200')
-      }
+      borderColor={themeColor}
       borderRadius='3px'
       display='flex'
       flexDirection='column'

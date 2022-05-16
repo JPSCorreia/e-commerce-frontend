@@ -17,70 +17,33 @@ export const api = {
   // get list of all users.
   getUsers: () => { return axios.get(`${backendURL}/api/users`) },
   // get register date.
-  getMonthAndYear: (email) => { return axios.get(`${backendURL}/api/users/get_date/${email}`) },
-
-
-
-  // protectedRoute: (route, arg, token) => {
-  //   let data = { message: '' }
-  //   try { 
-  //     const response = axios.get(`${backendURL}/api/users/get_date/${arg}`, { headers: {Authorization: `Bearer ${token}` }}).then(() => {
-  //       if (!response.ok) throw response
-  //       data = response
-  //     })
-  //   } catch (error) {
-  //     throw error
-  //   } finally {
-  //     return data
-  //   }
-  // },
-
-  protectedGetMonthAndYear: async (email, token) => {
+  getMonthAndYear: async (email, token) => {
     return axios.get(`${backendURL}/api/users/get_date/${email}`, { headers: {Authorization: `Bearer ${token}` }})
   },
+
   // get number of orders.
-  getNumberOfOrders: async (email, token) => { return axios.get(`${backendURL}/api/orders/get_number/${email}`, { headers: {Authorization: `Bearer ${token}` }} )
+  getNumberOfOrders: async (email, token) => { 
+    return axios.get(`${backendURL}/api/orders/get_number/${email}`, { headers: {Authorization: `Bearer ${token}` }} )
   },
 
 
 
-  // export async function getProtectedMessage(token) {
-  //   let data = { message: '' }
-  //   try {
-  //     const response = await fetch(`${SERVER_URI}/messages/protected`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     })
-  //     if (!response.ok) throw response
-  //     data = await response.json()
-  //   } catch (e) {
-  //     throw e
-  //   } finally {
-  //     return data.message
-  //   }
-  //  }
 
 
 
 
-
-
-
-
-  // testing auth endpoints
-  loginAuth0: () => { return axios.get(`/auth/login`) },
-  
-
-
-
+  // get cart products by email.
   getCartProductsByEmail: createAsyncThunk(
-    'productData/getCartProductsByEmail',
-    async (authenticatedEmail) => {
-      const response = await axios.get(`${backendURL}/api/cart_items/cart_products/${authenticatedEmail}`)
+    'cartData/getCartProductsByEmail',
+    async (obj) => {
+      const response = await axios.get(`${backendURL}/api/cart_items/cart_products/${obj.email}`, { headers: {Authorization: `Bearer ${obj.token}` }})
       return response
     }
   ),
+
+
+
+        
 
 
 
@@ -88,7 +51,12 @@ export const api = {
 
   // products
   // get list of all products.
-  getProducts: () => { return axios.get(`${backendURL}/api/products`) },
+  getProducts: createAsyncThunk(
+    'productData/getProducts',
+    async () => { 
+      return axios.get(`${backendURL}/api/products`) 
+    }
+  ),
   // get one product by id.
   getProduct: (id) => { return axios.get(`${backendURL}/api/products/${id}`) },
   // add new product.
@@ -120,12 +88,27 @@ export const api = {
   // add new order
   addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
 
+
   // get list of all orders.
-  getAllOrders: (email) => { return axios.get(`${backendURL}/api/orders/get_all/${email}`) },
+  getAllOrders: createAsyncThunk(
+    'orderData/getAllOrders',
+    async (orderObj) => { 
+      const response = axios.get(`${backendURL}/api/orders/get_all/${orderObj.email}`, { headers: {Authorization: `Bearer ${orderObj.token}` }}) 
+      return response
+    }
+  ),
+  // get list of all order items by id.
+  getAllOrderItems: createAsyncThunk(
+    'orderData/getAllOrderItems',
+    async (orderObj) => { 
+      const response = axios.get(`${backendURL}/api/orders/order_products/${orderObj.id}`, { headers: {Authorization: `Bearer ${orderObj.token}` }}) 
+      return response
+    }
+  ),
+
   // get list of all order items by id.
   getOrderById: (id) => { return axios.get(`${backendURL}/api/orders/${id}`) },
-  // get list of all order items by id.
-  getAllOrderItems: (id) => { return axios.get(`${backendURL}/api/orders/order_products/${id}`) },
+
 
   // order_items
   // add cart_items to order_items

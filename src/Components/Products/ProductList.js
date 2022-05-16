@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../../Features/routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProductListLoaded } from '../../Features/loadedComponentsSlice';
-
+import { useAuth0 } from "@auth0/auth0-react";
 import { Heading, Box, List } from '@chakra-ui/react'
 
 
@@ -13,28 +13,19 @@ import { Heading, Box, List } from '@chakra-ui/react'
 function ProductList() {
 
   // React/Redux State/Action Management.
-  const [productListData, setProductListData] = useState([]);
   const dispatch = useDispatch();
-  const productListLoaded = useSelector((state) => state.loadedComponents.productList)
+  const { getAccessTokenSilently } = useAuth0();
+  const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/" 
+  const productData = useSelector((state) => state.productData.data)
 
 
   useEffect(() => {
-    const loadData = () => {
-      // get all products from the database and put them in an array
-      api.getProducts().then((result) => {
-        dispatch(setProductListLoaded(true))
-        const list = result.data?.map((product, index) => (
-          <Product 
-            product={product}
-            key={index}
-            id={`product-${index+1}`}
-          />
-        ))
-        setProductListData(list);
-      })
+    const getData = async () => {
+      dispatch(api.getProducts()) 
+      dispatch(setProductListLoaded(true))
     }
-    loadData();
-  }, [dispatch, productListLoaded]);
+    getData();
+  }, [dispatch, getAccessTokenSilently]);
 
 
 
@@ -46,7 +37,13 @@ function ProductList() {
         Products
       </Heading>
       <List>
-       {productListLoaded && productListData}
+      {productData.data?.map((product, index) => (
+          <Product 
+          product={product}
+          key={index}
+          id={`product-${index+1}`}
+        />
+      ))}
       </List>
     </Box>
   )

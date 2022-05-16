@@ -7,39 +7,44 @@ import { useEffect, useState } from 'react';
 import { api } from '../../Features/routes';
 import OrderItem from './OrderItem';
 import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function OrderDetailed() {
 
   // React/Redux State/Action Management.
-  const [orderDetailedListData, setOrderDetailedListData] = useState([]);
   const dispatch = useDispatch();
-  const orderDetailedListLoaded = useSelector((state) => state.loadedComponents.orderDetailedList)
+  const { getAccessTokenSilently } = useAuth0();
   const { id }  = useParams();
+  const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/"
+  const orderDetailedData = useSelector((state) => state.orderData.itemData)
 
   useEffect(() => {
-    const loadData = () => {
-      // get all orders from the database and put them in an array
-      api.getAllOrderItems(id).then((result) => {
-        dispatch(setOrderDetailedListLoaded(true))
-        const list = result.data?.map((orderItem, index) => (
-          <OrderItem
-            orderItem={orderItem}
-            key={index}
-            id={`order-item-${index+1}`}
-          />
-        ))
-        setOrderDetailedListData(list);
+    const getData = async () => {
+      const token = await getAccessTokenSilently({        
+        audience: audience,
+        scope: 'openid'
       })
+      const orderObj = {
+        token: token,
+        id: id
+      }
+      // get all orders from the database and put them in an array
+      dispatch(api.getAllOrderItems(orderObj))
     }
-    loadData();
-  }, [dispatch, orderDetailedListLoaded, id]);
+    getData();
+  }, [dispatch, id, getAccessTokenSilently]);
 
   return(
-    
     <Box className='order-detailed-list'>
       <Heading>Order #{id} </Heading>
       <List>
-       {orderDetailedListLoaded && orderDetailedListData}
+      {orderDetailedData?.data?.map((orderItem, index) => (
+        <OrderItem
+          orderItem={orderItem}
+          key={index}
+          id={`order-item-${index+1}`}
+        />
+      ))}
       </List>
     </Box>
   )

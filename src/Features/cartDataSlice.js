@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { api } from '../Features/routes';
 
-export const productDataSlice = createSlice({
-  name: 'productData',
+export const cartDataSlice = createSlice({
+  name: 'cartData',
   initialState: {
     data: [],
     isLoading: true,
@@ -10,19 +10,19 @@ export const productDataSlice = createSlice({
   reducers: {
   },
   extraReducers: {
-    [api.getProducts.pending]: (state, action) => {
+    [api.getCartProductsByEmail.pending]: (state, action) => {
       state.isLoading = true;
     },
 
-    [api.getProducts.fulfilled]: (state, action) => {
+    [api.getCartProductsByEmail.fulfilled]: (state, action) => {
       state.data = action.payload;
       state.isLoading = false;
     },
 
-    [api.getProducts.rejected]: (state, action) => {
+    [api.getCartProductsByEmail.rejected]: (state, action) => {
       state.isLoading = true;
     },
   }
 })
 
-export default productDataSlice.reducer;
+export default cartDataSlice.reducer;
