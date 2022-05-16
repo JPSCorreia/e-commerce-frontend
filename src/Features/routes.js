@@ -20,6 +20,52 @@ export const api = {
   getMonthAndYear: (email) => { return axios.get(`${backendURL}/api/users/get_date/${email}`) },
 
 
+
+  // protectedRoute: (route, arg, token) => {
+  //   let data = { message: '' }
+  //   try { 
+  //     const response = axios.get(`${backendURL}/api/users/get_date/${arg}`, { headers: {Authorization: `Bearer ${token}` }}).then(() => {
+  //       if (!response.ok) throw response
+  //       data = response
+  //     })
+  //   } catch (error) {
+  //     throw error
+  //   } finally {
+  //     return data
+  //   }
+  // },
+
+  protectedGetMonthAndYear: async (email, token) => {
+    return axios.get(`${backendURL}/api/users/get_date/${email}`, { headers: {Authorization: `Bearer ${token}` }})
+  },
+
+
+
+
+  // export async function getProtectedMessage(token) {
+  //   let data = { message: '' }
+  //   try {
+  //     const response = await fetch(`${SERVER_URI}/messages/protected`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     })
+  //     if (!response.ok) throw response
+  //     data = await response.json()
+  //   } catch (e) {
+  //     throw e
+  //   } finally {
+  //     return data.message
+  //   }
+  //  }
+
+
+
+
+
+
+
+
   // testing auth endpoints
   loginAuth0: () => { return axios.get(`/auth/login`) },
   

@@ -29,7 +29,6 @@ function ProductItem() {
     });
   }, [id, product.stock])
 
-  console.log(product)  
   
   const addToCart = () => {
     //Look if item exists in cart already

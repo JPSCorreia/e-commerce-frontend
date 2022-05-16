@@ -18,7 +18,7 @@ function CartList() {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.productData.data)
   const productDataIsLoading = useSelector((state) => state.productData.isLoading)
-  console.log('render')
+
   
   useLayoutEffect(() => {
     api.getItemTotal(authenticatedEmail).then((result) => {

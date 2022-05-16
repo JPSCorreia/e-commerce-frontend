@@ -15,6 +15,7 @@ import { IoCartOutline } from 'react-icons/io5';
 
 function NavBar() {
 
+
   // Redux State/Action Management.
   const { isAuthenticated, isLoading, loginWithRedirect, logout, user } = useAuth0();
   const themeColor = useColorModeValue('blue.500', 'blue.200')

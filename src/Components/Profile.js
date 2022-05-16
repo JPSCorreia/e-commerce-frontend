@@ -7,22 +7,46 @@ import { api } from '../Features/routes';
 
 function Profile() {
 
-  const { isAuthenticated, isLoading, user } = useAuth0();
+   const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/" 
+  // const scope = "read:current_user";
+
+  const { isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();
   const [registerYear, setRegisterYear] = useState('');
   const [registerMonth, setRegisterMonth] = useState('');
   const [numberOfOrders, setNumberOfOrders] = useState('');
 
+  // const [registerDate, setRegisterDate] = useState(['',''])
+
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      api.getMonthAndYear(user.email).then((result) => {   
-          setRegisterYear(result.data.year)
-          setRegisterMonth(result.data.month)
-      })
+      const getData = async () => {
+        const token = await getAccessTokenSilently({
+          audience: audience,
+          scope: 'openid'
+        })
+        console.log(token)
+          api.protectedGetMonthAndYear(user.email, token).then((result) => {  
+            // setRegisterDate([result.data.year, result.data.month])
+            setRegisterYear(result.data.year)
+            setRegisterMonth(result.data.month)
+            
+          }) 
+      }
+      getData();
+    }
+  }, [getAccessTokenSilently, isAuthenticated, isLoading, user.email]);
+
+
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
       api.getNumberOfOrders(user.email).then((result) => {   
         setNumberOfOrders(result.data.count)
-    })
+      })
     }
-  });
+  }, [isAuthenticated, isLoading, user.email]);
+
+
 
   return(
     <Box 
