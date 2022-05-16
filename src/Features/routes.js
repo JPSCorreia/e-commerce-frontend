@@ -118,7 +118,7 @@ export const api = {
   // add new order
   addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
   // get number of orders.
-  getNumberOfOrders: (email) => { return axios.get(`${backendURL}/api/orders/get_number/${email}`) },
+  getNumberOfOrders: async (email, token) => { return axios.get(`${backendURL}/api/orders/get_number/${email}`, { headers: {Authorization: `Bearer ${token}` }} )},
   // get list of all orders.
   getAllOrders: (email) => { return axios.get(`${backendURL}/api/orders/get_all/${email}`) },
   // get list of all order items by id.
