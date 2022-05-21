@@ -45,12 +45,15 @@ function CartItem(props) {
 
 
   const removeAllFromCart = async () => {
-    const index = cartData.findIndex((element) => (element.id === props.product.id))
+    
+    const index = await cartData.findIndex((element) => (element.id === props.product.id))
+
+    await dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
+
     await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - props.product.quantity))
     await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price)*props.product.quantity)))
-    await dispatch(api.cart.removeQuantity({ quantity: props.product.quantity, products_id: Number(props.product.id), user_email: user.email }))
-    await dispatch(api.products.addStock({id: props.product.id, quantity: props.product.quantity}))
-    await dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
+    dispatch(api.products.addStock({id: props.product.id, quantity: props.product.quantity}))
+    
   }
 
   return(
