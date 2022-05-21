@@ -49,6 +49,7 @@ function App() {
   //   return <Loader />;
   // }
 
+  
   return (
     <Box className="App">
         <NavBar />

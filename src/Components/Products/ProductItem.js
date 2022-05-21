@@ -48,10 +48,10 @@ function ProductItem() {
       // create a new row if product doesn't already exist
       if ( cartData.length < 1  || !(cartData.find(element => element.id === Number(id))?.id === Number(id)) ) {
         await dispatch(api.cart.addProductToCart({user_email: user.email, products_id: Number(id), quantity: quantity }))
-        await dispatch(api.products.removeStock({id, quantity: quantity}))
+        dispatch(api.products.removeStock({id, quantity: quantity}))
       // update row if product already exists
       } else { 
-        await dispatch(api.products.removeStock({id, quantity: quantity}))
+         dispatch(api.products.removeStock({id, quantity: quantity}))
         await dispatch(api.cart.addQuantity({ quantity: quantity, products_id: Number(id), user_email: user.email }))
       }
 
