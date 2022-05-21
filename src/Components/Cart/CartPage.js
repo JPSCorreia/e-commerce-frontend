@@ -32,9 +32,9 @@ function CartPage() {
     
   }, [])
 
-  // if (cartDataIsLoading || numberOfCartItemsIsLoading || totalPriceIsLoading ) {
-  //   return <Loader />;
-  // }
+  if (cartDataIsLoading || numberOfCartItemsIsLoading || totalPriceIsLoading ) {
+    return <Loader />;
+  }
 
   return(
     <Box 
@@ -46,7 +46,7 @@ function CartPage() {
     >
       <ItemTotal />
       <CartList /> 
-       <TotalCart />
+      <TotalCart />
     </Box>
   )
 }

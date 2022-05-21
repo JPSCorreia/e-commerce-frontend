@@ -1,12 +1,11 @@
 import '../../Style/App.css';
 import * as React from 'react';
-import { useState } from 'react';
+// import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
-import { useEffect } from 'react';
 
 function CartItem(props) {
 
