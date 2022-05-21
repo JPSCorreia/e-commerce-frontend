@@ -3,64 +3,60 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
-import { setNumberOfItems } from '../../Features/cartItemsSlice';
-import { setTotalPrice } from '../../Features/cartItemsSlice';
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
-
+import { useEffect } from 'react';
 
 function CartItem(props) {
 
   // React/Redux State/Action Management.
-  const { user } = useAuth0();
-  const authenticatedEmail = user.email
-  const [quantity, setQuantity] = useState(props.product.quantity);
-  const [hidden, setHidden] = useState(false);
-  const id = props.product.id;
+  const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
-  const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)
-  const totalPrice = useSelector((state) => state.cartItems.totalPrice)
+  const numberOfCartItems = useSelector((state) => state.cartData.numberOfCartItems)
+  const totalPrice = useSelector((state) => state.cartData.totalPrice)
   const borderColor = useColorModeValue('blue.500', 'blue.200');
+  const cartData = useSelector((state) => state.cartData.cartProductsData)
+  const cartDataIsLoading = useSelector((state) => state.cartData.dataIsLoading)
 
-  const removeFromCart = (id) => {
-    const quant = document.getElementById(`number-input-${props.product.id}`).value;
-    if (quantity -quant === 0) {
-      setHidden(true)
-      setQuantity(0)
-      dispatch(setNumberOfItems(numberOfItems - quant))
-      dispatch(setTotalPrice(totalPrice - props.product.price))
-      api.removeQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
-        api.deleteFromCart(id).then(() => {
-        })
-      })
+  const removeFromCart = async () => {
+    const quantityNumberInput = document.getElementById(`number-input-${props.product.id}`).value;
+    const token = await getAccessTokenSilently({        
+      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      scope: 'openid'
+    })
+    const index = cartData.findIndex((element) => (element.id === props.product.id))
+
+    if (props.product.quantity - quantityNumberInput === 0) {
+      dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
+      dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
+      dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
+      dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
+      dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
+      dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
     }
-    if (quantity - quant > 0) {
-      setQuantity(quantity-quant)
-      dispatch(setNumberOfItems(numberOfItems - quant))
-      dispatch(setTotalPrice(totalPrice - props.product.price))
-      api.removeQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
-      })
+    if (props.product.quantity - quantityNumberInput > 0) {
+      dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
+      dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
+      dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
+      dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
+      dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
     }
   }
 
-  const removeAllFromCart = (id) => {
-    const quant = quantity
-    if (quantity > 0) {
-      setHidden(true)
-      setQuantity(0)
-      dispatch(setNumberOfItems(numberOfItems - quant))
-      dispatch(setTotalPrice(totalPrice - (props.product.price)*quant))
-      api.removeQuantityAddStock({quant, id, authenticatedEmail}).then(() => {
-        api.deleteFromCart(id).then(() => {
-        })
-      })
-    }
+
+  const removeAllFromCart = async () => {
+    const index = cartData.findIndex((element) => (element.id === props.product.id))
+    dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - props.product.quantity))
+    dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price)*props.product.quantity)))
+    dispatch(api.cart.removeQuantity({ quantity: props.product.quantity, products_id: Number(props.product.id), user_email: user.email }))
+    dispatch(api.products.addStock({id: props.product.id, quantity: props.product.quantity}))
+    dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
   }
 
   return(
     <>
-      { !hidden && 
+      { !cartDataIsLoading  && 
         <ListItem 
           className='product'
           id={`cart-item-${props.product.id}`}
@@ -91,13 +87,13 @@ function CartItem(props) {
             marginTop='1rem'
             marginBottom='1rem'
           >
-            Total Price: {(props.product.price * quantity)}€
+            Total Price: {(props.product.price * props.product.quantity)}€
           </Box>
           <Box 
             className='product-quantity'
             marginBottom='1rem'
           >
-            Quantity: {quantity}
+            Quantity: {props.product.quantity}
           </Box>
           <NumberInput 
             id={'number-input-'+props.product.id} 
@@ -113,13 +109,13 @@ function CartItem(props) {
           </NumberInput>
           <Button 
             colorScheme='blue' 
-            onClick={() => removeFromCart(id)}
+            onClick={() => removeFromCart()}
           >
             Remove from Cart
           </Button>
           <Button 
             colorScheme='blue' 
-            onClick={() => removeAllFromCart(id)}
+            onClick={() => removeAllFromCart()}
           >
             Remove All from Cart
           </Button>

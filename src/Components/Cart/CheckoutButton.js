@@ -2,7 +2,7 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { api } from '../../Features/routes';
 import { Button, Box, useDisclosure } from '@chakra-ui/react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -12,52 +12,61 @@ import {
   AlertDialogOverlay,
 } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
-
+import { useToast } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
 
 function CheckoutButton() {
 
   // React/Redux State/Action Management.
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const authenticatedEmail = user.email
-  const totalPrice = useSelector((state) => state.cartItems.totalPrice)
+  const totalPrice = useSelector((state) => state.cartData.totalPrice)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
-
+  const toast = useToast()
+  const dispatch = useDispatch();
+  const cartData = useSelector((state) => state.cartData.data)
+  let navigate = useNavigate();
 
   const checkoutNow = () => {
 
-    /* 
-      make a GET request to get all cart items from user_email = logged user
-      and save them to an array.
+    const getData = async () => {
+      const token = await getAccessTokenSilently({        
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        scope: 'openid'
+      })
+      const orderObj = {
+        token: token,
+        email: user.email
+      }
+      console.log('1')
+      dispatch(api.cart.getCartProductsByEmail(orderObj))
+      api.addOrder({authenticatedEmail, totalPrice}).then((result) => { 
+        const orderId = result.data;
+        const orderItems = []
+        cartData.data.forEach((item) => {
+          orderItems.push([item.id, orderId, item.quantity])            
+        })
+        api.addOrderItems(orderItems).then((result) => {
+          console.log(result)
+          api.deleteAllFromCart(authenticatedEmail).then(() => {
 
-      after that send 2 POST requests: 
-      one to create a new Order returning the id from that order 
-      
-      one to create all the order_items sending the id from the new order and
-      the saved array from the get request in a POST to create all order_items
-
-      finally send a DELETE request to delete all cart_items from user_email = logged user
-
-    */
-      api.getCartProductsByEmail2(authenticatedEmail).then((result) => {
-        const cartList = result.data
-        api.addOrder({authenticatedEmail, totalPrice}).then((result) => { 
-          const orderId = result.data;
-          const orderItems = []
-          cartList.forEach((item) => {
-            orderItems.push([item.id, orderId, item.quantity])            
+            // set cart items to 0 and navigate to order placed
+            dispatch(api.cart.setNumberOfCartItems(0))
+            navigate('/order-placed')
+            // toast({
+            //   title: 'Order Placed',
+            //   description: "Your order was placed successful",
+            //   status: 'success',
+            //   duration: 9000,
+            //   isClosable: true,
+            // })
+            // window.location.reload(false);
           })
-          api.addOrderItems(orderItems).then((result) => {
-            api.deleteAllFromCart(authenticatedEmail).then(() => {
-              //TODO: change to show order page later
-              window.location.reload(false);
-            })
-          })
-
         })
       })
-      
-
+    }
+    getData();
   }
 
   return(

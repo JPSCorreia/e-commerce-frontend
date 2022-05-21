@@ -2,16 +2,23 @@ import '../Style/App.css';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Text, useColorModeValue, Avatar, useColorMode, Image } from '@chakra-ui/react'
-import ToggleColorTheme from './ToggleColorTheme';
+import { Box, Text, useColorModeValue, Avatar, useColorMode, Image, Icon } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  MenuDivider,
+  MenuGroup
 } from '@chakra-ui/react'
 import { IoCartOutline } from 'react-icons/io5';
+import { MdLogout } from "react-icons/md";
+import { SunIcon, MoonIcon } from '@chakra-ui/icons'
+import { BsPersonCircle } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
+import { useEffect } from 'react';
+
 
 function NavBar() {
 
@@ -20,11 +27,10 @@ function NavBar() {
   const { isAuthenticated, isLoading, loginWithRedirect, logout, user } = useAuth0();
   const themeColor = useColorModeValue('blue.500', 'blue.200')
   const { toggleColorMode } = useColorMode()
-  const numberOfItems = useSelector((state) => state.cartItems.numberOfItems)
+  const numberOfCartItems = useSelector((state) => state.cartData.numberOfCartItems)
+  const { colorMode } = useColorMode()
 
-  if (isLoading) {
-    return '';
-  }
+
 
   return(
     <Box 
@@ -43,8 +49,9 @@ function NavBar() {
       >
         <Image 
           className='navbar-logo' 
-          src={`/images/ecommerce.png`}
-          width='32px'
+          src={`/images/emporium.png`}
+          width='64px'
+          marginLeft='1rem'
         />
         <Text 
           as='span'
@@ -117,21 +124,23 @@ function NavBar() {
               alignItems='center'
               justifyContent='center'
             >      
-              <IoCartOutline 
+              <Icon
+                as={IoCartOutline} 
                 className='react-icon' 
+                margin='auto 0'
               />
               <Text 
                 className='profile-cart-number' 
                 fontSize='sm'
               >
-                {numberOfItems? numberOfItems : '0'}
+                {numberOfCartItems}
               </Text>
             </Box>
           </NavLink>
-          <Menu >
+          <Menu>
           <MenuButton 
             className='profile-avatar'
-            marginRight='0'
+            marginRight='1rem'
             padding='0'
           >
             <Avatar 
@@ -140,7 +149,28 @@ function NavBar() {
               size='sm' 
             />
           </MenuButton>
-          <MenuList>
+          <MenuList
+          
+          >
+          <MenuGroup 
+            title='Signed in as'
+            margin='0'
+            marginLeft='0.8rem'
+            textAlign='left'
+            fontSize='xs'
+          >
+            <Text 
+              className='profile-name'
+              fontSize='2l'
+              marginLeft='0.8rem'
+              textAlign='left'
+              fontWeight='extrabold'
+            >
+              {user.nickname}
+
+            </Text>
+          </MenuGroup>
+          <MenuDivider />
           <NavLink
               to={'/profile'}
               className='profile-page-link'
@@ -149,6 +179,8 @@ function NavBar() {
               _hover={{
                 color: themeColor
               }} 
+              fontSize='md'
+              icon={<BsPersonCircle />}
             >
              Profile
             </MenuItem>
@@ -161,6 +193,8 @@ function NavBar() {
                 _hover={{
                   color: themeColor
                 }} 
+                fontSize='md'
+                icon={<FaUsers />}
               >
                Users
               </MenuItem>
@@ -170,30 +204,25 @@ function NavBar() {
               _hover={{
                 color: themeColor
               }} 
+              fontSize='md'
+              icon={(colorMode === 'light')? <MoonIcon /> : <SunIcon />}
             >
-             <ToggleColorTheme />
+              Toggle Theme 
             </MenuItem>
             <MenuItem
               _hover={{
                 color: themeColor
               }} 
               onClick={() => logout({ returnTo: window.location.origin })}
+              fontSize='md'
+              icon={<MdLogout />}
             >
-              Log out
+              Sign out
             </MenuItem>
+            
           </MenuList>
         </Menu>
-        <Text 
-            as='span'
-            margin='auto 0.5rem'
-            textDecoration='none'
-            className='profile-name'
-            fontSize='sm'
-            paddingLeft='0.25rem'
-            paddingRight='0.25rem'
-          >
-            {user.nickname}
-          </Text>
+
         </>
           )}
           </>

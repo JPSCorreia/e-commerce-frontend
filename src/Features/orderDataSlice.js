@@ -4,37 +4,39 @@ import { api } from '../Features/routes';
 export const orderDataSlice = createSlice({
   name: 'orderData',
   initialState: {
-    data: [],
-    isLoading: true,
-    itemData: [],
+    allOrdersData: [],
+    allOrdersDataIsLoading: true,
+    allOrderItemsData: [],
+    allOrderItemsDataIsLoading: true,
   },
   reducers: {
   },
   extraReducers: {
-    [api.getAllOrders.pending]: (state, action) => {
-      state.isLoading = true;
+
+    [api.orders.getAllOrders.pending]: (state, action) => {
+      state.allOrdersDataIsLoading = true;
+    },
+    [api.orders.getAllOrders.fulfilled]: (state, action) => {
+      state.allOrdersData = action.payload;
+      state.allOrdersDataIsLoading = false;
+    },
+    [api.orders.getAllOrders.rejected]: (state, action) => {
+      state.allOrdersDataIsLoading = true;
     },
 
-    [api.getAllOrders.fulfilled]: (state, action) => {
-      state.data = action.payload;
-      state.isLoading = false;
+
+    [api.orders.getAllOrderItems.pending]: (state, action) => {
+      state.allOrderItemsDataIsLoading = true;
+    },
+    [api.orders.getAllOrderItems.fulfilled]: (state, action) => {
+      state.allOrderItemsData = action.payload;
+      state.allOrderItemsDataIsLoading = false;
+    },
+    [api.orders.getAllOrderItems.rejected]: (state, action) => {
+      state.allOrderItemsDataIsLoading = true;
     },
 
-    [api.getAllOrders.rejected]: (state, action) => {
-      state.isLoading = true;
-    },
-    [api.getAllOrderItems.pending]: (state, action) => {
-      state.isLoading = true;
-    },
 
-    [api.getAllOrderItems.fulfilled]: (state, action) => {
-      state.itemData = action.payload;
-      state.isLoading = false;
-    },
-
-    [api.getAllOrderItems.rejected]: (state, action) => {
-      state.isLoading = true;
-    },
   }
 })
 

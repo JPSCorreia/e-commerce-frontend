@@ -7,8 +7,6 @@ function Product(props) {
 
   const borderColor = useColorModeValue('blue.500', 'blue.200');
 
-
-
   return(
     <ListItem 
       className='product'
@@ -59,7 +57,7 @@ function Product(props) {
       <Image
         className='product-image-preview'
         alt={`${props.product.image_link}`}
-        src={`images/${props.product.image_link}.jpg`}
+        src={`/images/${props.product.image_link}.jpg`}
         display='inline-block'
         maxWidth='230px'
         maxHeight='95px'

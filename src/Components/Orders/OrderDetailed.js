@@ -2,7 +2,6 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { Box, List, Heading } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setOrderDetailedListLoaded } from '../../Features/loadedComponentsSlice';
 import { useEffect, useState } from 'react';
 import { api } from '../../Features/routes';
 import OrderItem from './OrderItem';
@@ -15,13 +14,12 @@ function OrderDetailed() {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const { id }  = useParams();
-  const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/"
-  const orderDetailedData = useSelector((state) => state.orderData.itemData)
+  const orderDetailedData = useSelector((state) => state.orderData.allOrderItemsData)
 
   useEffect(() => {
     const getData = async () => {
       const token = await getAccessTokenSilently({        
-        audience: audience,
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         scope: 'openid'
       })
       const orderObj = {
@@ -29,7 +27,7 @@ function OrderDetailed() {
         id: id
       }
       // get all orders from the database and put them in an array
-      dispatch(api.getAllOrderItems(orderObj))
+      dispatch(api.orders.getAllOrderItems(orderObj))
     }
     getData();
   }, [dispatch, id, getAccessTokenSilently]);

@@ -14,13 +14,12 @@ function Profile() {
   const [numberOfOrders, setNumberOfOrders] = useState('');
   const [loading, setLoading] = useState(true);
   const themeColor = useColorModeValue('blue.500', 'blue.200')
-  const audience = "https://dev-ymfo-vr1.eu.auth0.com/api/v2/" 
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
       const getData = async () => {
         const token = await getAccessTokenSilently({
-          audience: audience,
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           scope: 'openid'
         })
           api.getMonthAndYear(user.email, token).then((result) => {  

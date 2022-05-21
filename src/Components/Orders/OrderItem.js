@@ -14,9 +14,14 @@ function OrderItem(props) {
       id={props.id}
       className='order-item'
       border='1px solid'
+      display='flex'
+      justifyContent='space-between'
+      width='80%'
+      margin='1rem auto'
       borderColor={
         useColorModeValue('blue.500', 'blue.200')
       }
+      borderRadius='3px'
     >
       <Box 
         className='product-description'
