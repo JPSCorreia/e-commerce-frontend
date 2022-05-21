@@ -58,7 +58,7 @@ function ProductItem() {
       // update number of items in cart and navigate to products page while showing toast
       await dispatch(api.cart.getNumberOfCartItems({token, email: user.email}))
       dispatch(api.cart.setAddToCartToastDisplayed(false))
-      navigate('/products', {state: { product, quantity, displayed: false } } )
+      navigate('/products', {state: { product, quantity } } )
     }
   }
 
