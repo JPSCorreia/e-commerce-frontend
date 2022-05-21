@@ -11,7 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 function ProductItem() {
 
   // React/Redux State/Action Management.
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const { id } = useParams();
@@ -20,7 +20,6 @@ function ProductItem() {
   const product = useSelector((state) => state.productData.data.data[idIndex] || [])
   const cartData = useSelector((state) => state.cartData.cartProductsData)
   const numberOfCartItemsIsLoading = useSelector((state) => state.cartData.numberOfCartItemsIsLoading)
-
 
   useEffect(() => {
     const getData = async () => {
@@ -31,7 +30,7 @@ function ProductItem() {
       dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
       
     }
-    getData();
+    if (isAuthenticated) getData();
 
   }, [])
 
