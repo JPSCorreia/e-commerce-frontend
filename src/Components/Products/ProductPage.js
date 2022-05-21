@@ -15,7 +15,6 @@ function ProductPage() {
   const toast = useToast()
   const addToCartToastDisplayed = useSelector((state) => state.cartData.addToCartToastDisplayed)
   const dispatch = useDispatch();
-  const dataIsLoading = useSelector((state) => state.productData.dataIsLoading)
 
   useEffect(() => {
 
