@@ -25,8 +25,8 @@ function CartPage() {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         scope: 'openid'
       })
-      dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
-      dispatch(api.cart.getTotalPrice({user_email: user.email}))
+      await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
+      await dispatch(api.cart.getTotalPrice({user_email: user.email}))
     }
     getData();
     

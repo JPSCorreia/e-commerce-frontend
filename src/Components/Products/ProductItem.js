@@ -27,7 +27,7 @@ function ProductItem() {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         scope: 'openid'
       })
-      dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
+      await dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
       
     }
     getData();
@@ -47,17 +47,17 @@ function ProductItem() {
 
       // create a new row if product doesn't already exist
       if ( cartData.length < 1  || !(cartData.find(element => element.id === Number(id))?.id === Number(id)) ) {
-        dispatch(api.cart.addProductToCart({user_email: user.email, products_id: Number(id), quantity: quantity }))
-        dispatch(api.products.removeStock({id, quantity: quantity}))
+        await dispatch(api.cart.addProductToCart({user_email: user.email, products_id: Number(id), quantity: quantity }))
+        await dispatch(api.products.removeStock({id, quantity: quantity}))
       // update row if product already exists
       } else { 
-        dispatch(api.products.removeStock({id, quantity: quantity}))
-        dispatch(api.cart.addQuantity({ quantity: quantity, products_id: Number(id), user_email: user.email }))
+        await dispatch(api.products.removeStock({id, quantity: quantity}))
+        await dispatch(api.cart.addQuantity({ quantity: quantity, products_id: Number(id), user_email: user.email }))
       }
 
       // update number of items in cart and navigate to products page while showing toast
       await dispatch(api.cart.getNumberOfCartItems({token, email: user.email}))
-      dispatch(api.cart.setAddToCartToastDisplayed(false))
+      await dispatch(api.cart.setAddToCartToastDisplayed(false))
       navigate('/products', {state: { product, quantity } } )
     }
   }

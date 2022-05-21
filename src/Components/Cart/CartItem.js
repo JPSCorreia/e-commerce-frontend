@@ -27,30 +27,30 @@ function CartItem(props) {
     const index = cartData.findIndex((element) => (element.id === props.product.id))
 
     if (props.product.quantity - quantityNumberInput === 0) {
-      dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
-      dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
-      dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
-      dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
-      dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
-      dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
+      await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
+      await dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
+      await dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
+      await dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
+      await dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
+      await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
     }
     if (props.product.quantity - quantityNumberInput > 0) {
-      dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
-      dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
-      dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
-      dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
-      dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
+      await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
+      await dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
+      await dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
+      await dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
+      await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
     }
   }
 
 
   const removeAllFromCart = async () => {
     const index = cartData.findIndex((element) => (element.id === props.product.id))
-    dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - props.product.quantity))
-    dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price)*props.product.quantity)))
-    dispatch(api.cart.removeQuantity({ quantity: props.product.quantity, products_id: Number(props.product.id), user_email: user.email }))
-    dispatch(api.products.addStock({id: props.product.id, quantity: props.product.quantity}))
-    dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
+    await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - props.product.quantity))
+    await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price)*props.product.quantity)))
+    await dispatch(api.cart.removeQuantity({ quantity: props.product.quantity, products_id: Number(props.product.id), user_email: user.email }))
+    await dispatch(api.products.addStock({id: props.product.id, quantity: props.product.quantity}))
+    await dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
   }
 
   return(
