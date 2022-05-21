@@ -42,7 +42,7 @@ function App() {
         }
       })
     }
-  }, [isAuthenticated, isLoading, user.email, user.picture]);
+  }, [isAuthenticated, isLoading]);
 
   // || numberOfCartItemsIsLoading || totalPriceIsLoading || 
   // if (isLoading || dataIsLoading || addToCartToastDisplayedIsLoading || numberOfCartItemsIsLoading ) {
