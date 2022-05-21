@@ -30,7 +30,7 @@ function ProductItem() {
       dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
       
     }
-    if (isAuthenticated) getData();
+    getData();
 
   }, [])
 
