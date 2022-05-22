@@ -2,7 +2,7 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { Box, List } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { api } from '../../Features/routes';
 import Order from './Order';
 import { useAuth0 } from "@auth0/auth0-react";
@@ -16,10 +16,11 @@ function OrderList() {
 
   useEffect(() => {
     const getData = async () => {
-      const token = await getAccessTokenSilently({        
-        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-        scope: 'openid'
-      })
+      const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+      await getAccessTokenSilently({
+       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+       scope: 'openid'
+     })
       const orderObj = {
         token: token,
         email: user.email
@@ -32,7 +33,7 @@ function OrderList() {
   return(
     <Box className='order-list'>
       <List>
-        {orderData.data?.map((order, index) => (
+        {orderData?.map((order, index) => (
           <Order 
             order={order}
             key={index}

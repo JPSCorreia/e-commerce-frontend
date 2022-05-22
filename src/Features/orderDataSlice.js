@@ -8,10 +8,23 @@ export const orderDataSlice = createSlice({
     allOrdersDataIsLoading: true,
     allOrderItemsData: [],
     allOrderItemsDataIsLoading: true,
+    addOrderToastDisplayed: false,
+    addOrderToastDisplayedIsLoading: true
   },
   reducers: {
   },
   extraReducers: {
+
+    [api.orders.setAddOrderToastDisplayed.pending]: (state, action) => {
+      state.addOrderToastDisplayedIsLoading = true;
+    },
+    [api.orders.setAddOrderToastDisplayed.fulfilled]: (state, action) => {
+      state.addOrderToastDisplayed = action.payload;
+      state.addOrderToastDisplayedIsLoading = false;
+    },
+    [api.orders.setAddOrderToastDisplayed.rejected]: (state, action) => {
+      state.addOrderToastDisplayedIsLoading = true;
+    },
 
     [api.orders.getAllOrders.pending]: (state, action) => {
       state.allOrdersDataIsLoading = true;

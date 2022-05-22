@@ -42,16 +42,16 @@ export const cartDataSlice = createSlice({
     },
 
 
-    [api.cart.deleteFromCart.pending]: (state, action) => {
-      state.cartProductsDataIsLoading = true;
-    },
-    [api.cart.deleteFromCart.fulfilled]: (state, action) => {
-      state.cartProductsData = state.cartProductsData.splice(action.payload.index, 1)
-      state.cartProductsDataIsLoading = false;
-    },
-    [api.cart.deleteFromCart.rejected]: (state, action) => {
-      state.cartProductsDataIsLoading = true;
-    },
+    // [api.cart.deleteFromCart.pending]: (state, action) => {
+    //   state.cartProductsDataIsLoading = true;
+    // },
+    // [api.cart.deleteFromCart.fulfilled]: (state, action) => {
+    //   state.cartProductsData = state.cartProductsData.splice(action.payload.index, 1)
+    //   state.cartProductsDataIsLoading = false;
+    // },
+    // [api.cart.deleteFromCart.rejected]: (state, action) => {
+    //   state.cartProductsDataIsLoading = true;
+    // },
 
 
 

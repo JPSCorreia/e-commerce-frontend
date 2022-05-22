@@ -1,9 +1,28 @@
 import '../../Style/App.css';
 import * as React from 'react';
 import { Box, ListItem, useColorModeValue, Button } from '@chakra-ui/react'
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { api } from '../../Features/routes';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Order(props) {
+  
+  const { getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const onClick = async () => {
+
+    const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+    await getAccessTokenSilently({
+     audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+     scope: 'openid'
+   })
+    console.log(props.order.id)
+    const order = await dispatch(api.orders.getAllOrderItems({token, id: props.order.id})).unwrap()
+    navigate(`${props.order.id}`, {state: order})
+  }
 
   return(
     <ListItem 
@@ -48,17 +67,13 @@ function Order(props) {
         >
           Status: {props.order.status}
         </Box>
-        <NavLink
-          to={`${props.order.id}`}
-          className='products-page-link'
-        >
           <Button 
             className='order-details-button' 
             colorScheme='blue'
+            onClick={() => onClick()}
           >
             Details
           </Button>
-        </NavLink>
       </Box>
     </ListItem>
   )

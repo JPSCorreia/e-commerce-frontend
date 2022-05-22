@@ -9,7 +9,6 @@ function ItemTotal() {
   // React/Redux State/Action Management.
   const numberOfCartItems = useSelector((state) => state.cartData.numberOfCartItems)
 
-
   return(
     <>        
       <Box 

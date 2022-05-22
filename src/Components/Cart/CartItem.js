@@ -1,6 +1,5 @@
 import '../../Style/App.css';
 import * as React from 'react';
-// import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
@@ -16,14 +15,14 @@ function CartItem(props) {
   const totalPrice = useSelector((state) => state.cartData.totalPrice)
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const cartData = useSelector((state) => state.cartData.cartProductsData)
-  const cartDataIsLoading = useSelector((state) => state.cartData.dataIsLoading)
 
   const removeFromCart = async () => {
     const quantityNumberInput = document.getElementById(`number-input-${props.product.id}`).value;
-    const token = await getAccessTokenSilently({        
-      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-      scope: 'openid'
-    })
+    const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+    await getAccessTokenSilently({
+     audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+     scope: 'openid'
+   })
     const index = cartData.findIndex((element) => (element.id === props.product.id))
 
     if (props.product.quantity - quantityNumberInput === 0) {
@@ -46,13 +45,19 @@ function CartItem(props) {
 
   const removeAllFromCart = async () => {
     
+    const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+    await getAccessTokenSilently({
+     audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+     scope: 'openid'
+   })
+    
     const index = cartData.findIndex((element) => (element.id === props.product.id))
     dispatch(api.products.addStock({id: props.product.id, quantity: props.product.quantity}))
     
     await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - props.product.quantity))
     await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price)*props.product.quantity)))
     await dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
-    
+    await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
   }
 
   return(

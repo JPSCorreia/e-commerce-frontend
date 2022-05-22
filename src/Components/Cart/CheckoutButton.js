@@ -12,59 +12,55 @@ import {
   AlertDialogOverlay,
 } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
-import { useToast } from '@chakra-ui/react'
+// import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 
 function CheckoutButton() {
 
   // React/Redux State/Action Management.
   const { user, getAccessTokenSilently } = useAuth0();
-  const authenticatedEmail = user.email
+
   const totalPrice = useSelector((state) => state.cartData.totalPrice)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
-  const toast = useToast()
+  // const toast = useToast()
   const dispatch = useDispatch();
-  const cartData = useSelector((state) => state.cartData.data)
+  const cartData = useSelector((state) => state.cartData.cartProductsData)
   let navigate = useNavigate();
 
   const checkoutNow = () => {
 
     const getData = async () => {
-      const token = await getAccessTokenSilently({        
-        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-        scope: 'openid'
+      const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+      await getAccessTokenSilently({
+       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+       scope: 'openid'
+     })
+      await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
+      const orderId = await dispatch(api.orders.addOrder({user_email: user.email, total_price: totalPrice})).unwrap()
+      const orderItems = []
+      cartData.forEach((item) => {
+        orderItems.push([item.id, orderId, item.quantity])            
       })
-      const orderObj = {
-        token: token,
-        email: user.email
-      }
-      console.log('1')
-      dispatch(api.cart.getCartProductsByEmail(orderObj))
-      api.addOrder({authenticatedEmail, totalPrice}).then((result) => { 
-        const orderId = result.data;
-        const orderItems = []
-        cartData.data.forEach((item) => {
-          orderItems.push([item.id, orderId, item.quantity])            
-        })
-        api.addOrderItems(orderItems).then((result) => {
-          console.log(result)
-          api.deleteAllFromCart(authenticatedEmail).then(() => {
 
-            // set cart items to 0 and navigate to order placed
-            dispatch(api.cart.setNumberOfCartItems(0))
-            navigate('/order-placed')
-            // toast({
-            //   title: 'Order Placed',
-            //   description: "Your order was placed successful",
-            //   status: 'success',
-            //   duration: 9000,
-            //   isClosable: true,
-            // })
-            // window.location.reload(false);
-          })
-        })
-      })
+      await dispatch(api.orders.addOrderItems(orderItems))
+      await dispatch(api.orders.deleteAllFromCart(user.email))
+      
+      // set cart items to 0 and navigate to order placed
+      await dispatch(api.cart.setNumberOfCartItems(0))
+      await dispatch(api.orders.setAddOrderToastDisplayed(false))
+
+      navigate('/order-placed', {state: '1' })
+      
+      // toast({
+      //   title: 'Order Placed',
+      //   description: "Your order was placed successful",
+      //   status: 'success',
+      //   duration: 9000,
+      //   isClosable: true,
+      // })
+      // window.location.reload(false);
+     
     }
     getData();
   }

@@ -168,7 +168,7 @@ export const api = {
       }
     ),
 
-    // set price total in cart
+    // set add to cart toast display
     setAddToCartToastDisplayed: createAsyncThunk(
       'cartData/setAddToCartToastDisplayed',
       async (state) => { 
@@ -183,7 +183,7 @@ export const api = {
       'cartData/deleteFromCart',
       async (obj) => {
         
-        const response = await axios.delete(`${backendURL}/api/cart_items/${obj.user_email}/${obj.products_id}`)
+        const response = await axios.delete(`${backendURL}/api/cart_items/delete_item/${obj.user_email}/${obj.products_id}`)
         console.log({ ...response.data[0], index: obj.index })
         return { ...response.data[0], index: obj.index }
       }
@@ -202,7 +202,7 @@ export const api = {
       'orderData/getAllOrders',
       async (orderObj) => { 
         const response = await axios.get(`${backendURL}/api/orders/get_all/${orderObj.email}`, { headers: {Authorization: `Bearer ${orderObj.token}` }}) 
-        return response
+        return response.data
       }
     ),
     // get list of all order items by id.
@@ -210,15 +210,44 @@ export const api = {
       'orderData/getAllOrderItems',
       async (orderObj) => { 
         const response = await axios.get(`${backendURL}/api/orders/order_products/${orderObj.id}`, { headers: {Authorization: `Bearer ${orderObj.token}` }}) 
-        return response
+        return response.data
+      }
+    ),
+    addOrder: createAsyncThunk(
+      'orderData/addOrder',
+      async (orderObj) => {
+        const response = await axios.post(`${backendURL}/api/orders`, { user_email: orderObj.user_email, total: orderObj.total_price, status: 'Ordered'}) // fix headers and data
+        return response.data
+      }
+    ),
+    
+    addOrderItems: createAsyncThunk(
+      'orderData/addOrderItems',
+      async (orderItems) => {
+        await axios.post(`${backendURL}/api/order_items`, orderItems)
       }
     ),
 
+    deleteAllFromCart: createAsyncThunk(
+      'orderData/deleteAllFromCart',
+      async (email) => {
+        await axios.delete(`${backendURL}/api/cart_items/delete_cart/${email}`) 
+      }
+    ),
+
+    // set order placed toast display
+    setAddOrderToastDisplayed: createAsyncThunk(
+      'orderData/setAddOrderToastDisplayed',
+      async (state) => { 
+        return state
+      }
+    ),
+    
+
+
+    
+      // (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems) },
   },
-
-
-        
-
 
 
 
@@ -251,7 +280,10 @@ export const api = {
 
   // orders
   // add new order
-  addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
+  // addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
+
+
+  
 
 
 
@@ -262,7 +294,7 @@ export const api = {
 
   // order_items
   // add cart_items to order_items
-  addOrderItems: (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems )},
+  // addOrderItems: (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems )},
 
 
 

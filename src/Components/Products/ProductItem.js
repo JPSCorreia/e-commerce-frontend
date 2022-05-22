@@ -11,7 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 function ProductItem() {
 
   // React/Redux State/Action Management.
-  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const { id } = useParams();
@@ -19,20 +19,21 @@ function ProductItem() {
   let navigate = useNavigate();
   const product = useSelector((state) => state.productData.data.data[idIndex] || [])
   const cartData = useSelector((state) => state.cartData.cartProductsData)
-  const numberOfCartItemsIsLoading = useSelector((state) => state.cartData.numberOfCartItemsIsLoading)
+
 
   useEffect(() => {
     const getData = async () => {
-      const token = await getAccessTokenSilently({        
-        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-        scope: 'openid'
-      })
+      const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+      await getAccessTokenSilently({
+       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+       scope: 'openid'
+     })
       await dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
       
     }
     getData();
 
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const addToCart = async () => {

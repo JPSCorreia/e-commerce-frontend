@@ -17,11 +17,9 @@ import { MdLogout } from "react-icons/md";
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { BsPersonCircle } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
-import { useEffect } from 'react';
 
 
 function NavBar() {
-
 
   // Redux State/Action Management.
   const { isAuthenticated, isLoading, loginWithRedirect, logout, user } = useAuth0();

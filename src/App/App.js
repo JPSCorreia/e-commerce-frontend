@@ -12,24 +12,18 @@ import Profile from '../Components/Profile';
 import OrderDetailed from '../Components/Orders/OrderDetailed';
 import OrderPlaced from '../Components/Orders/OrderPlaced';
 import ProtectedRoute from '../Components/ProtectedRoute';
-import Loader from '../Components/Loader';
 import { useEffect } from 'react';
 import { api } from '../Features/routes';
 import { Box } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSelector } from 'react-redux';
 
 function App() {
 
   // React/Redux State/Action Management.
   const { isAuthenticated, isLoading, user } = useAuth0();
-  const dataIsLoading = useSelector((state) => state.cartData.dataIsLoading)
-  const addToCartToastDisplayedIsLoading = useSelector((state) => state.cartData.addToCartToastDisplayedIsLoading)
-  // const totalPriceIsLoading = useSelector((state) => state.cartData.totalPriceIsLoading)
-  const numberOfCartItemsIsLoading = useSelector((state) => state.cartData.numberOfCartItemsIsLoading)
-
 
   useEffect(() => {
+    const getData = () => {
     if (!isLoading && isAuthenticated) {
       const newUserObj = {
         "email": user.email,
@@ -41,15 +35,11 @@ function App() {
           api.addUser(newUserObj).then(() => {})
         }
       })
-    }
-  }, [isAuthenticated, isLoading]);
+    }}
+    getData();
+  }, [isAuthenticated, isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // || numberOfCartItemsIsLoading || totalPriceIsLoading || 
-  // if (isLoading || dataIsLoading || addToCartToastDisplayedIsLoading || numberOfCartItemsIsLoading ) {
-  //   return <Loader />;
-  // }
 
-  
   return (
     <Box className="App">
         <NavBar />

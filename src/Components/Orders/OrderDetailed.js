@@ -7,36 +7,51 @@ import { api } from '../../Features/routes';
 import OrderItem from './OrderItem';
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import Loader from '../Loader';
+import { useLocation } from 'react-router-dom';
 
-function OrderDetailed() {
 
-  // React/Redux State/Action Management.
-  const dispatch = useDispatch();
+function OrderDetailed(props) {
   const { getAccessTokenSilently } = useAuth0();
-  const { id }  = useParams();
-  const orderDetailedData = useSelector((state) => state.orderData.allOrderItemsData)
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const allOrderItemsData = useSelector((state) => state.orderData.allOrderItemsData)
+  const order = location.state? location.state : allOrderItemsData
+  const orderDetailedDataIsLoading = useSelector((state) => state.orderData.allOrderItemsDataIsLoading)
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
-      const token = await getAccessTokenSilently({        
-        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-        scope: 'openid'
-      })
+      const token = process.env.REACT_APP_IN_DEVELOPMENT ? 'dev token' :
+        await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+          scope: 'openid'
+        })
       const orderObj = {
         token: token,
         id: id
       }
       // get all orders from the database and put them in an array
-      dispatch(api.orders.getAllOrderItems(orderObj))
+      await dispatch(api.orders.getAllOrderItems(orderObj))
+      setLoaded(true)
     }
-    getData();
-  }, [dispatch, id, getAccessTokenSilently]);
+    if (!location.state) {
+      getData();
+    }
+    if (location.state) {
+      setLoaded(true)
+    }
+  }, []);
+
+  // console.log(orderDetailedData)
+  if (!loaded) return <Loader />
 
   return(
     <Box className='order-detailed-list'>
       <Heading>Order #{id} </Heading>
       <List>
-      {orderDetailedData?.data?.map((orderItem, index) => (
+      {order.map((orderItem, index) => (
         <OrderItem
           orderItem={orderItem}
           key={index}

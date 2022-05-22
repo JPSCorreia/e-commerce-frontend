@@ -18,7 +18,8 @@ function Profile() {
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
       const getData = async () => {
-        const token = await getAccessTokenSilently({
+        const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+         await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           scope: 'openid'
         })

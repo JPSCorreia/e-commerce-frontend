@@ -7,7 +7,7 @@ import {useLocation} from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../Features/routes';
-import Loader from '../Loader';
+
 
 function ProductPage() {
 
@@ -34,7 +34,7 @@ function ProductPage() {
     }
     getData();
 
-  }, [])
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // if (dataIsLoading) {
   //   return <Loader />;
