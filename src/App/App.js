@@ -9,12 +9,13 @@ import OrdersPage from '../Components/Orders/OrdersPage'
 import { Routes, Route } from "react-router";
 import NavBar from '../Components/NavBar';
 import Profile from '../Components/Profile';
+import Footer from '../Components/Footer';
 import OrderDetailed from '../Components/Orders/OrderDetailed';
 import OrderPlaced from '../Components/Orders/OrderPlaced';
 import ProtectedRoute from '../Components/ProtectedRoute';
 import { useEffect } from 'react';
 import { api } from '../Features/routes';
-import { Box } from '@chakra-ui/react'
+import { Box, Divider } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
@@ -43,25 +44,34 @@ function App() {
   return (
     <Box className="App">
         <NavBar />
-        <Routes>
-          <Route exact path="/" element={ <Home /> }/>
-          <Route path="/users" element={ <ProtectedRoute component={UserList} /> }/>
-          <Route path="/products" element={ <ProductPage /> }/>
-          <Route path="/products/:id" element={ <ProductItem /> }/>
-          <Route path="/cart" element={ <ProtectedRoute component={CartPage} /> }/>
-          <Route path="/orders" element={ <ProtectedRoute component={OrdersPage} /> }/>
-          <Route path="/profile" element={ <ProtectedRoute component={Profile} /> }/>
-          <Route path="/orders/:id" element={ <ProtectedRoute component={OrderDetailed} /> }/>
-          <Route path="/order-placed" element={ <ProtectedRoute component={OrderPlaced} /> }/>
-          <Route 
-            path="*" 
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>404: There's nothing here!</p>
-              </main>
-            }
-          />
-        </Routes>
+        <Divider />
+        <Box
+          className='main'
+          flexGrow='1'
+          flexShrink='0'
+        >
+          <Routes>
+            <Route exact path="/" element={ <Home /> }/>
+            <Route path="/users" element={ <ProtectedRoute component={UserList} /> }/>
+            <Route path="/products" element={ <ProductPage /> }/>
+            <Route path="/products/:id" element={ <ProductItem /> }/>
+            <Route path="/cart" element={ <ProtectedRoute component={CartPage} /> }/>
+            <Route path="/orders" element={ <ProtectedRoute component={OrdersPage} /> }/>
+            <Route path="/profile" element={ <ProtectedRoute component={Profile} /> }/>
+            <Route path="/orders/:id" element={ <ProtectedRoute component={OrderDetailed} /> }/>
+            <Route path="/order-placed" element={ <ProtectedRoute component={OrderPlaced} /> }/>
+            <Route 
+              path="*" 
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>404: There's nothing here!</p>
+                </main>
+              }
+            />
+          </Routes>
+        
+        </Box>
+        <Footer />
     </Box>
   );
 }

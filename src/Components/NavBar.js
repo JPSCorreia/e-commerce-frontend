@@ -2,7 +2,7 @@ import '../Style/App.css';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Text, useColorModeValue, Avatar, useColorMode, Image, Icon } from '@chakra-ui/react'
+import { Box, Text, useColorModeValue, Avatar, useColorMode, Image, Icon, } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import {
   Menu,
@@ -17,6 +17,7 @@ import { MdLogout } from "react-icons/md";
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { BsPersonCircle } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
+import SearchBar from './SearchBar'
 
 
 function NavBar() {
@@ -27,33 +28,47 @@ function NavBar() {
   const { toggleColorMode } = useColorMode()
   const numberOfCartItems = useSelector((state) => state.cartData.numberOfCartItems)
   const { colorMode } = useColorMode()
+  const themeColorNavBar = useColorModeValue('gray.200', 'gray.700')
 
-
-
+  
   return(
     <Box 
-      className='top-bar' 
+      className={(colorMode === 'light')? 'top-bar-light' : 'top-bar-dark' }
       display='flex'
       fontSize='1.25rem'
       padding='0.25rem 0'
+      paddingBottom='0.4rem'
       justifyContent='space-between'
       alignItems='center'
-      borderBottom='1px solid'      
+      // borderBottom='1px solid'      
       borderColor={themeColor}
+      bgColor={themeColorNavBar}
+      flexShrink='0'
     >
       <Box 
         className='nav-bar' 
         display='flex'
       >
+          <NavLink
+            to={'/'}
+            className='home-page-link'
+          >
         <Image 
           className='navbar-logo' 
-          src={`/images/emporium.png`}
-          width='64px'
-          marginLeft='1rem'
+          src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'}
+          minWidth='160px'
+          maxWidth='160px'
+          marginLeft='0.75rem'
+          borderRadius='4px'
         />
+          </NavLink>
+        
         <Text 
           as='span'
           margin='auto 1rem'
+          marginLeft='1.5rem'
+          fontSize='2xl'
+          fontFamily
           textDecoration='none'
           _hover={{
             color: themeColor,
@@ -68,6 +83,7 @@ function NavBar() {
           </NavLink>
         </Text>
       </Box>
+      <SearchBar />
       <Box 
         className = 'navbar-right'
         display='flex'
@@ -90,9 +106,10 @@ function NavBar() {
           <>
           { isLoading? '' : 
           (
-          <>
+          <Box display='flex' marginTop='0.25rem'>
+
           <Text 
-            fontSize='sm'
+            fontSize='md'
             _hover={{
               color: themeColor,
               transition: '0.2s'
@@ -106,6 +123,7 @@ function NavBar() {
               Orders
             </NavLink>
           </Text>
+          
           <NavLink
             to={'/cart'}
             className='cart-page-profile-link'
@@ -205,7 +223,7 @@ function NavBar() {
               fontSize='md'
               icon={(colorMode === 'light')? <MoonIcon /> : <SunIcon />}
             >
-              Toggle Theme 
+              Change Theme
             </MenuItem>
             <MenuItem
               _hover={{
@@ -217,11 +235,10 @@ function NavBar() {
             >
               Sign out
             </MenuItem>
-            
           </MenuList>
         </Menu>
 
-        </>
+        </Box>
           )}
           </>
         )}

@@ -2,16 +2,24 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { api } from '../../Features/routes';
-import { Box, Heading, Image, Button, useColorModeValue } from '@chakra-ui/react'
+import { Box, Image, Button, useColorModeValue } from '@chakra-ui/react'
 import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
+import { BsCartPlus } from "react-icons/bs";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+} from '@chakra-ui/react'
+import { NavLink } from 'react-router-dom';
+import {ChevronRightIcon} from '@chakra-ui/icons';
 
 function ProductItem() {
 
   // React/Redux State/Action Management.
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const { id } = useParams();
@@ -19,7 +27,8 @@ function ProductItem() {
   let navigate = useNavigate();
   const product = useSelector((state) => state.productData.data.data[idIndex] || [])
   const cartData = useSelector((state) => state.cartData.cartProductsData)
-
+  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const themeColor = useColorModeValue('blue.500', 'blue.200');
 
   useEffect(() => {
     const getData = async () => {
@@ -28,7 +37,7 @@ function ProductItem() {
        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
        scope: 'openid'
      })
-      await dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
+      if (isAuthenticated) await dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
       
     }
     getData();
@@ -66,9 +75,33 @@ function ProductItem() {
   
 
   return(
-    <Box><Heading>Product Details</Heading>
+    <Box>
+      <Breadcrumb  
+        display='flex' 
+        width='80%' 
+        margin='0.5rem auto'
+        paddingTop='0.25rem'
+        separator={<ChevronRightIcon color='gray.500' />}
+        className='breadcrumb'
+      >
+        <BreadcrumbItem  marginLeft='0' marginRight='0' marginBottom='0.25rem'>
+          <BreadcrumbLink  as={NavLink} to='/'>
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem >
+        <BreadcrumbItem  marginLeft='0' marginRight='0' marginBottom='0.25rem'>
+          <BreadcrumbLink as={NavLink} to='/products'>
+            Products
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage marginLeft='0' marginRight='0' marginBottom='0.25rem'>
+          <BreadcrumbLink color={themeColor}>
+            Product #{id}
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
     <Box
-      width="80%"
+      width="100%"
       display='flex'
       justifyContent='center'
       margin='0 auto'
@@ -81,9 +114,10 @@ function ProductItem() {
         width='80%'
         justifyContent='space-between'
         alignItems='center'
-        border='1px solid'
+        // border='1px solid'
         borderColor={borderColor}
-        borderRadius='3px'
+        backgroundColor={backgroundColor}
+        borderRadius='8px'
         margin='1rem'
       >
         <Box 
@@ -92,7 +126,7 @@ function ProductItem() {
           flexDirection='column'
           justifyContent='flex-start'
           textAlign='left'
-          margin='2rem'
+          margin='1.25rem 2rem'
         >
           <Box 
             className='product-name'
@@ -112,6 +146,7 @@ function ProductItem() {
           >
             Price: {product.price}€
           </Box>
+          {isAuthenticated? 
           <NumberInput 
             id={'number-input-'+id} 
             defaultValue={1} 
@@ -124,12 +159,18 @@ function ProductItem() {
             <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+          : ''}
+          {isAuthenticated? 
           <Button 
           colorScheme='blue' 
+          width='144px'
+          className='button'
+          rightIcon={<BsCartPlus />}
           onClick={() => addToCart()}
           >
             Add to Cart
           </Button>
+          : ''}
         </Box>
         <Image
           className='product-image-preview'

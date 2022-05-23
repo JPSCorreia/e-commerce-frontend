@@ -5,7 +5,13 @@ const config = {
   useSystemColorMode: false,
 }
 
-const theme = extendTheme({ config });
+const theme = extendTheme({ 
+  fonts: {
+    heading: `'Open Sans', sans-serif`,
+    body: `'Raleway', sans-serif`,
+  },
+  config 
+});
 
 
 // const customTheme = extendTheme({ 

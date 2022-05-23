@@ -1,6 +1,6 @@
 import '../../Style/App.css';
 import * as React from 'react';
-import { Box, List, Heading } from '@chakra-ui/react'
+import { Box, List, useColorModeValue } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { api } from '../../Features/routes';
@@ -9,6 +9,13 @@ import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from '../Loader';
 import { useLocation } from 'react-router-dom';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+} from '@chakra-ui/react'
+import { NavLink } from 'react-router-dom';
+import {ChevronRightIcon} from '@chakra-ui/icons';
 
 
 function OrderDetailed(props) {
@@ -18,8 +25,8 @@ function OrderDetailed(props) {
   const { id } = useParams();
   const allOrderItemsData = useSelector((state) => state.orderData.allOrderItemsData)
   const order = location.state? location.state : allOrderItemsData
-  const orderDetailedDataIsLoading = useSelector((state) => state.orderData.allOrderItemsDataIsLoading)
   const [loaded, setLoaded] = useState(false);
+  const themeColor = useColorModeValue('blue.500', 'blue.200');
 
   useEffect(() => {
     const getData = async () => {
@@ -42,14 +49,38 @@ function OrderDetailed(props) {
     if (location.state) {
       setLoaded(true)
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // console.log(orderDetailedData)
   if (!loaded) return <Loader />
 
   return(
     <Box className='order-detailed-list'>
-      <Heading>Order #{id} </Heading>
+      {/* <Heading>Order #{id} </Heading> */}
+      <Breadcrumb  
+        display='flex' 
+        width='80%' 
+        margin='0.5rem auto'
+        paddingTop='0.25rem'
+        separator={<ChevronRightIcon color='gray.500' />}
+        className='breadcrumb'
+      >
+        <BreadcrumbItem  marginLeft='0' marginRight='0' marginBottom='0.25rem'>
+          <BreadcrumbLink  as={NavLink} to='/'>
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem >
+        <BreadcrumbItem  marginLeft='0' marginRight='0' marginBottom='0.25rem'>
+          <BreadcrumbLink as={NavLink} to='/orders'>
+            Orders
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage marginLeft='0' marginRight='0' marginBottom='0.25rem'>
+          <BreadcrumbLink color={themeColor}>
+            Order #{id}
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
       <List>
       {order.map((orderItem, index) => (
         <OrderItem

@@ -12,7 +12,7 @@ function UserList() {
   const [listLoaded, setListLoaded] = useState(false);
   const [usersData, setUsersData] = useState([]);
   const borderColor = useColorModeValue('blue.500', 'blue.200');
-
+  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
 
   useEffect(() => {
     const loadData = () => {
@@ -21,17 +21,17 @@ function UserList() {
         const list = result.data?.map((user, index) => (
           <ListItem 
             key={index} 
-            border='1px solid'
+            // border='1px solid'
             borderColor={borderColor}
             className='user'
-
+            backgroundColor={backgroundColor}
             display='flex'
             flexDirection='row'
             justifyContent='center'
             alignItems='center'
-            width='50%'
+            width='80%'
             alignSelf='center'
-            borderRadius='3px'
+            borderRadius='8px'
             margin='2rem'
             padding='2rem'
 
@@ -45,7 +45,7 @@ function UserList() {
       })
     }
     loadData();
-  }, [borderColor]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return(
     <Box className='UserList'>

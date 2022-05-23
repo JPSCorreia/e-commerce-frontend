@@ -2,7 +2,7 @@ import '../../Style/App.css';
 import * as React from 'react';
 import Product from './Product';
 import { useSelector } from 'react-redux';
-import { Heading, Box, List } from '@chakra-ui/react'
+import { Box, List } from '@chakra-ui/react'
 
 
 function ProductList() {
@@ -14,9 +14,6 @@ function ProductList() {
     <Box 
       className='product-list'
     >
-      <Heading>
-        Products
-      </Heading>
       <List>
         {productData.data?.map((product, index) => (
           <Product 
@@ -24,8 +21,9 @@ function ProductList() {
             key={index}
             id={`product-${product.id + 1}`}
           />
+          
         ))}
-      </List>
+      </List>      
     </Box>
   )
 }

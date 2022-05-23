@@ -5,6 +5,7 @@ import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
+import { BsCartDash } from "react-icons/bs";
 
 function CartItem(props) {
 
@@ -15,6 +16,7 @@ function CartItem(props) {
   const totalPrice = useSelector((state) => state.cartData.totalPrice)
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const cartData = useSelector((state) => state.cartData.cartProductsData)
+  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
 
   const removeFromCart = async () => {
     const quantityNumberInput = document.getElementById(`number-input-${props.product.id}`).value;
@@ -42,24 +44,6 @@ function CartItem(props) {
     }
   }
 
-
-  const removeAllFromCart = async () => {
-    
-    const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
-    await getAccessTokenSilently({
-     audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-     scope: 'openid'
-   })
-    
-    const index = cartData.findIndex((element) => (element.id === props.product.id))
-    dispatch(api.products.addStock({id: props.product.id, quantity: props.product.quantity}))
-    
-    await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - props.product.quantity))
-    await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price)*props.product.quantity)))
-    await dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
-    await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
-  }
-
   return(
     <>
       { 
@@ -72,10 +56,11 @@ function CartItem(props) {
           justifyContent='space-between'
           alignSelf='center'
           alignItems='center'
-          border='1px solid'
-          borderRadius='3px'
+          // border='1px solid'
+          borderRadius='8px'
           borderColor={borderColor}
           margin='1rem'
+          backgroundColor={backgroundColor}
         >
         <Box 
           className='product-description'
@@ -83,7 +68,7 @@ function CartItem(props) {
           flexDirection='column'
           justifyContent='flex-start'
           textAlign='left'
-          margin='2rem'
+          margin='1.25rem 2rem'
         >
           <Box className='product-name'>
             {props.product.name} - {props.product.description} 
@@ -114,17 +99,20 @@ function CartItem(props) {
             </NumberInputStepper>
           </NumberInput>
           <Button 
+            width='192px'
             colorScheme='blue' 
+            rightIcon={<BsCartDash />}
+            className='button'
             onClick={() => removeFromCart()}
           >
             Remove from Cart
           </Button>
-          <Button 
+          {/* <Button 
             colorScheme='blue' 
             onClick={() => removeAllFromCart()}
           >
             Remove All from Cart
-          </Button>
+          </Button> */}
         </Box>
         <Image
           className='product-image-preview'

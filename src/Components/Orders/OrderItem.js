@@ -5,15 +5,16 @@ import { Box, Image, ListItem, useColorModeValue } from '@chakra-ui/react'
 
 function OrderItem(props) {
 
-  // React/Redux State/Action Management.
 
+  // React/Redux State/Action Management.
+  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
   //TODO: add go back button to return to orders
   
   return(
     <ListItem 
       id={props.id}
       className='order-item'
-      border='1px solid'
+      // border='1px solid'
       display='flex'
       justifyContent='space-between'
       width='80%'
@@ -21,7 +22,8 @@ function OrderItem(props) {
       borderColor={
         useColorModeValue('blue.500', 'blue.200')
       }
-      borderRadius='3px'
+      borderRadius='8px'
+      backgroundColor={backgroundColor}
     >
       <Box 
         className='product-description'

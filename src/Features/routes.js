@@ -182,9 +182,7 @@ export const api = {
     deleteFromCart: createAsyncThunk(
       'cartData/deleteFromCart',
       async (obj) => {
-        
         const response = await axios.delete(`${backendURL}/api/cart_items/delete_item/${obj.user_email}/${obj.products_id}`)
-        console.log({ ...response.data[0], index: obj.index })
         return { ...response.data[0], index: obj.index }
       }
     ),

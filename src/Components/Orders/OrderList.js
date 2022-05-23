@@ -25,7 +25,7 @@ function OrderList() {
         token: token,
         email: user.email
       }
-      dispatch(api.orders.getAllOrders(orderObj)) 
+      await dispatch(api.orders.getAllOrders(orderObj)) 
     }
     getData();
   }, [dispatch, getAccessTokenSilently, user.email]);

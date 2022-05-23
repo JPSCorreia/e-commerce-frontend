@@ -2,10 +2,13 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom';
+import { CgDetailsMore } from 'react-icons/cg'
+
 
 function Product(props) {
 
   const borderColor = useColorModeValue('blue.500', 'blue.200');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
 
   return(
     <ListItem 
@@ -17,10 +20,11 @@ function Product(props) {
       justifyContent='space-between'
       alignSelf='center'
       alignItems='center'
-      border='1px solid'
+      // border='1px solid'
       borderColor={borderColor}
-      borderRadius='3px'
+      borderRadius='8px'
       margin='1rem'
+      backgroundColor={backgroundColor}
     >
       <Box 
         className='product-description'
@@ -28,7 +32,7 @@ function Product(props) {
         flexDirection='column'
         justifyContent='flex-start'
         textAlign='left'
-        margin='2rem'
+        margin='1.25rem 2rem'
       >
         <Box 
           className='product-name'
@@ -47,8 +51,9 @@ function Product(props) {
           className='products-page-link'
         >
           <Button 
-            className='order-details-button' 
+            className='button' 
             colorScheme='blue'
+            rightIcon={<CgDetailsMore />}
           >
             Details
           </Button>

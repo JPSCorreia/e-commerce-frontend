@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
+import { CgDetailsMore } from 'react-icons/cg'
 
 function Order(props) {
   
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
   
   const onClick = async () => {
 
@@ -19,7 +21,6 @@ function Order(props) {
      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
      scope: 'openid'
    })
-    console.log(props.order.id)
     const order = await dispatch(api.orders.getAllOrderItems({token, id: props.order.id})).unwrap()
     navigate(`${props.order.id}`, {state: order})
   }
@@ -28,7 +29,8 @@ function Order(props) {
     <ListItem 
       id={props.id}
       className='order'
-      border='1px solid'
+      // border='1px solid'
+      backgroundColor={backgroundColor}
       borderColor={
         useColorModeValue('blue.500', 'blue.200')
       }
@@ -39,7 +41,7 @@ function Order(props) {
       margin='1rem'
       width='80%'
       alignSelf='center'
-      borderRadius='3px'
+      borderRadius='8px'
     >
       <Box 
         className='order-description'
@@ -47,7 +49,7 @@ function Order(props) {
         flexDirection='column'
         justifyContent='flex-start'
         textAlign='left'
-        margin='2rem'
+        margin='1.25rem 2rem'
       >
         <Box 
           className='order-id'
@@ -68,9 +70,10 @@ function Order(props) {
           Status: {props.order.status}
         </Box>
           <Button 
-            className='order-details-button' 
+            className='button' 
             colorScheme='blue'
             onClick={() => onClick()}
+            rightIcon={<CgDetailsMore />}
           >
             Details
           </Button>

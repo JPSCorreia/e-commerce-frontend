@@ -14,6 +14,7 @@ function Profile() {
   const [numberOfOrders, setNumberOfOrders] = useState('');
   const [loading, setLoading] = useState(true);
   const themeColor = useColorModeValue('blue.500', 'blue.200')
+  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -46,14 +47,15 @@ function Profile() {
   return(
     <Box 
       className='profile'
-      border='1px solid'
+      // border='1px solid'
       borderColor={themeColor}
-      borderRadius='3px'
+      borderRadius='8px'
       display='flex'
       flexDirection='column'
       margin='6rem auto' 
-      width='50%'
+      width='80%'
       padding='1rem'
+      backgroundColor={backgroundColor}
     >
       
       <Avatar  

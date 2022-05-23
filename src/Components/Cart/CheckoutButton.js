@@ -14,6 +14,7 @@ import {
 import { useAuth0 } from "@auth0/auth0-react";
 // import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
+import { IoBagCheckOutline } from 'react-icons/io5'
 
 function CheckoutButton() {
 
@@ -72,6 +73,8 @@ function CheckoutButton() {
       <Button 
         colorScheme='blue' 
         onClick={onOpen}
+        className='button'
+        rightIcon={<IoBagCheckOutline />}
       >
         Checkout
       </Button>
@@ -89,7 +92,7 @@ function CheckoutButton() {
               Complete Purchase
             </AlertDialogHeader>
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
+              Your order will be placed. You can't undo this action afterwards.
             </AlertDialogBody>
             <AlertDialogFooter>
               <Button 

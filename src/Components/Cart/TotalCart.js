@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import CheckoutButton from './CheckoutButton';
 import { Heading, Box } from '@chakra-ui/react'
-
+import EmptyCartButton from './EmptyCartButton';
 
 function TotalCart() {
 
@@ -27,7 +27,11 @@ function TotalCart() {
         alignItems='center'
       >
         <Heading>Total Price: {totalPrice}€</Heading>
+        <Box display='flex'>
+        <EmptyCartButton />
         <CheckoutButton />
+        </Box>
+
       </Box>} 
     </>
   )
