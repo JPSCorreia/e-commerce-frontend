@@ -1,6 +1,6 @@
 import '../../Style/App.css';
 import * as React from 'react';
-import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
+import { Box, Image, Button, ListItem, useColorModeValue, Text } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom';
 import { CgDetailsMore } from 'react-icons/cg'
 
@@ -8,7 +8,9 @@ import { CgDetailsMore } from 'react-icons/cg'
 function Product(props) {
 
   const borderColor = useColorModeValue('blue.500', 'blue.200');
-  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.600');
+  const discountGreenColor = useColorModeValue('green.500', 'green.300');
+  const discountYellowColor = useColorModeValue('yellow.600', 'yellow.400');
 
   return(
     <ListItem 
@@ -44,7 +46,17 @@ function Product(props) {
           marginTop='1rem'
           marginBottom='1rem'
         >
-          Price: {props.product.price}€
+          Price:
+          { props.product.discount?
+          <>
+            <Text as='span' fontSize='xl' color={discountGreenColor}>{(props.product.price*(1-(props.product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
+            <Text as='span' fontSize='sm' color={discountYellowColor}>(-{props.product.discount}%)</Text>
+          </>
+          :
+          <>
+            <Text as='span'>{(props.product.price).toFixed(2).replace('.', ',')}€</Text>
+          </>
+          }
         </Box>
         <NavLink
           to={`${props.product.id}`}

@@ -97,6 +97,9 @@ form {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 
+
+
+
 .button {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18), 0 1px 4px rgba(0, 0, 0, 0.36);
 }
@@ -111,6 +114,58 @@ form {
   border-style: solid;
   border-width: 2px;
 }
+
+
+
+
+/* React Slick Carousel settings*/
+.carousel-light {
+  margin: 3vh auto;
+  width: 50%;
+  border-radius: 2px;
+  /* border: 1px solid #3182ce; */
+}
+
+.carousel-light .slick-arrow:before {
+  color: #3182ce !important;
+}
+
+.carousel-light .slick-arrow:hover:before {
+  color: #3182ce !important;
+
+}
+
+.carousel-light .slick-dots li.slick-active button:before {
+  color: #3182ce !important;
+}
+
+
+.carousel-dark {
+  margin: 3vh auto;
+  width: 50%;
+  border-radius: 2px;
+  /* border: 1px solid #90cdf4; */
+}
+
+.carousel-dark .slick-arrow:before {
+  color: #90cdf4 !important;
+}
+
+.carousel-dark .slick-arrow:hover:before {
+  color: #90cdf4 !important;
+
+}
+
+.carousel-dark .slick-dots li.slick-active button:before {
+  color: #90cdf4 !important;
+}
+
+
+.carousel-container {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+
 
 /* Chakra */
 

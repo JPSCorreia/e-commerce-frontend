@@ -12,7 +12,7 @@ function UserList() {
   const [listLoaded, setListLoaded] = useState(false);
   const [usersData, setUsersData] = useState([]);
   const borderColor = useColorModeValue('blue.500', 'blue.200');
-  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.600');
 
   useEffect(() => {
     const loadData = () => {

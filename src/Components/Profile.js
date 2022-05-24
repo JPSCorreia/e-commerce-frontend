@@ -14,7 +14,7 @@ function Profile() {
   const [numberOfOrders, setNumberOfOrders] = useState('');
   const [loading, setLoading] = useState(true);
   const themeColor = useColorModeValue('blue.500', 'blue.200')
-  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.600');
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {

@@ -12,7 +12,7 @@ function Order(props) {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.600');
   
   const onClick = async () => {
 
@@ -60,7 +60,7 @@ function Order(props) {
           className='order-price'
           marginTop='1rem'
           >
-            Total: {props.order.total}€
+            Total: {props.order.total.toFixed(2).replace('.', ',')}€
         </Box>
         <Box 
           className='order-status'

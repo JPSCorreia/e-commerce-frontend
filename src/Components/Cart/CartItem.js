@@ -16,7 +16,7 @@ function CartItem(props) {
   const totalPrice = useSelector((state) => state.cartData.totalPrice)
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const cartData = useSelector((state) => state.cartData.cartProductsData)
-  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.600');
 
   const removeFromCart = async () => {
     const quantityNumberInput = document.getElementById(`number-input-${props.product.id}`).value;
@@ -78,7 +78,10 @@ function CartItem(props) {
             marginTop='1rem'
             marginBottom='1rem'
           >
-            Total Price: {(props.product.price * props.product.quantity)}€
+            Total Price: {props.product.discount? 
+              (((props.product.price*(1-(props.product.discount / 100)) * props.product.quantity).toFixed(2).replace('.', ','))) 
+              : props.product.price  
+            }€
           </Box>
           <Box 
             className='product-quantity'
@@ -107,12 +110,6 @@ function CartItem(props) {
           >
             Remove from Cart
           </Button>
-          {/* <Button 
-            colorScheme='blue' 
-            onClick={() => removeAllFromCart()}
-          >
-            Remove All from Cart
-          </Button> */}
         </Box>
         <Image
           className='product-image-preview'

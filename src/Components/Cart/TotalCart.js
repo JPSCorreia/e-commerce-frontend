@@ -26,7 +26,7 @@ function TotalCart() {
         justifyContent='space-between'
         alignItems='center'
       >
-        <Heading>Total Price: {totalPrice}€</Heading>
+        <Heading>Total Price: {Number(totalPrice).toFixed(2).replace('.', ',')}€</Heading>
         <Box display='flex'>
         <EmptyCartButton />
         <CheckoutButton />

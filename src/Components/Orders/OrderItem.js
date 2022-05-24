@@ -7,7 +7,7 @@ function OrderItem(props) {
 
 
   // React/Redux State/Action Management.
-  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.600');
   //TODO: add go back button to return to orders
   
   return(
@@ -43,7 +43,7 @@ function OrderItem(props) {
           marginTop='1rem'
           marginBottom='1rem'
         >
-          Total Price: {(props.orderItem.price * props.orderItem.quantity)}€
+          Total: {((props.orderItem.price -(props.orderItem.price * props.orderItem.discount/100)) * props.orderItem.quantity).toFixed(2).replace('.', ',')}€
         </Box>
         <Box 
           className='product-quantity'

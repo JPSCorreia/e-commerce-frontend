@@ -2,7 +2,7 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { api } from '../../Features/routes';
-import { Box, Image, Button, useColorModeValue } from '@chakra-ui/react'
+import { Box, Text, Image, Button, useColorModeValue } from '@chakra-ui/react'
 import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,8 +27,11 @@ function ProductItem() {
   let navigate = useNavigate();
   const product = useSelector((state) => state.productData.data.data[idIndex] || [])
   const cartData = useSelector((state) => state.cartData.cartProductsData)
-  const backgroundColor = useColorModeValue('gray.100', 'gray.700');
+  const backgroundColor = useColorModeValue('gray.100', 'gray.600');
   const themeColor = useColorModeValue('blue.500', 'blue.200');
+  const discountRedColor = useColorModeValue('red.500', 'red.300');
+  const discountGreenColor = useColorModeValue('green.500', 'green.300');
+  const discountYellowColor = useColorModeValue('yellow.600', 'yellow.400');
 
   useEffect(() => {
     const getData = async () => {
@@ -144,7 +147,18 @@ function ProductItem() {
             marginTop='1rem'
             marginBottom='1rem'
           >
-            Price: {product.price}€
+            Price:  
+            { product.discount?
+          <>
+            <Text as='span' fontSize='sm' textDecoration='line-through' color={discountRedColor}> {product.price.toFixed(2).replace('.', ',')}€</Text>
+            <Text as='span' fontSize='xl'color={discountGreenColor}>{(product.price*(1-(product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
+            <Text as='span' fontSize='md' color={discountYellowColor}>(-{product.discount}%)</Text>
+          </>
+          :
+          <>
+            <Text as='span'>{(product.price).toFixed(2).replace('.', ',')}€</Text>
+          </>
+          }
           </Box>
           {isAuthenticated? 
           <NumberInput 
@@ -177,8 +191,8 @@ function ProductItem() {
           alt={`${product.image_link}`}
           src={`/images/${product.image_link}.jpg`}
           display='inline-block'
-          maxWidth='230px'
-          maxHeight='95px'
+          maxWidth='460px'
+          maxHeight='190px'
           width='auto'
           height='auto'
           margin='2rem'

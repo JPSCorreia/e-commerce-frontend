@@ -40,8 +40,9 @@ function CheckoutButton() {
       await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
       const orderId = await dispatch(api.orders.addOrder({user_email: user.email, total_price: totalPrice})).unwrap()
       const orderItems = []
+      console.log(cartData)
       cartData.forEach((item) => {
-        orderItems.push([item.id, orderId, item.quantity])            
+        orderItems.push([item.id, orderId, item.quantity, item.discount])            
       })
 
       await dispatch(api.orders.addOrderItems(orderItems))
@@ -71,7 +72,7 @@ function CheckoutButton() {
       className='checkout-button'
     >
       <Button 
-        colorScheme='blue' 
+        colorScheme='green' 
         onClick={onOpen}
         className='button'
         rightIcon={<IoBagCheckOutline />}
