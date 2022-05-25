@@ -100,7 +100,7 @@ function NavBar() {
             }}
             onClick={() => loginWithRedirect()}
           > 
-            Log In
+            Sign In
           </Text>) : 
           (
           <>

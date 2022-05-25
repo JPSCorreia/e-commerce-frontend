@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from 'react';
 import { api } from '../Features/routes';
 import Loader from '../Components/Loader';
+import AddAddressButton from '../Components/AddAddressButton'
 
 function Profile() {
 
@@ -46,44 +47,99 @@ function Profile() {
 
   return(
     <Box 
-      className='profile'
-      // border='1px solid'
-      borderColor={themeColor}
-      borderRadius='8px'
       display='flex'
       flexDirection='column'
-      margin='6rem auto' 
-      width='80%'
-      padding='1rem'
-      backgroundColor={backgroundColor}
     >
-      
-      <Avatar  
-        className='profile-page-avatar' 
-        src={user.picture} 
-        alt={user.name} 
-        margin='0 auto'
-      />
-      <Text 
-        fontSize='3xl'
-      >
-        {user.nickname}
-      </Text>
       <Box 
-        className='profile-box'
+        className='profile'
+        // border='1px solid'
+        borderColor={themeColor}
+        borderRadius='8px'
         display='flex'
         flexDirection='column'
-        marginTop='0.5rem'
-        justifyContent='flex-start'
-        textAlign='left'
+        margin='6rem auto' 
+        marginBottom='1rem'
+        width='80%'
+        padding='1rem'
+        backgroundColor={backgroundColor}
       >
-        <Box 
-          className='profile-text-row'
-          display='flex'
-          flexDirection='row'
-          alignItems='baseline'
-          margin='0'
+
+        <Avatar  
+          className='profile-page-avatar' 
+          src={user.picture} 
+          alt={user.name} 
+          margin='0 auto'
+        />
+        <Text 
+          fontSize='3xl'
         >
+          {user.nickname}
+        </Text>
+        <Box 
+          className='profile-box'
+          display='flex'
+          flexDirection='column'
+          marginTop='0.5rem'
+          justifyContent='flex-start'
+          textAlign='left'
+        >
+          <Box 
+            className='profile-text-row'
+            display='flex'
+            flexDirection='row'
+            alignItems='baseline'
+            margin='0'
+          >
+            <Text 
+              className='profile-text' 
+              fontSize='xl'
+              margin='0 !important'
+              marginTop='0.5rem !important'
+              marginLeft='0.5rem !important'
+            >
+              Email:
+            </Text>
+            <Text 
+              className='profile-text'
+              margin='0 !important'
+              marginTop='0.5rem !important'
+              marginLeft='0.5rem !important'
+            >
+              {user.email}
+            </Text>
+          </Box>
+          <Box 
+            className='profile-text-row'
+            display='flex'
+            flexDirection='row'
+            alignItems='baseline'
+            margin='0'
+          >
+            <Text 
+              className='profile-text' 
+              fontSize='xl'
+              margin='0 !important'
+              marginTop='0.5rem !important'
+              marginLeft='0.5rem !important'
+            >
+              Joined:
+            </Text>
+            <Text 
+              className='profile-text'
+              margin='0 !important'
+              marginTop='0.5rem !important'
+              marginLeft='0.5rem !important'
+            >
+             {`${registerMonth}, ${registerYear}`}
+            </Text>
+          </Box>
+          <Box 
+            className='profile-text-row'
+            display='flex'
+            flexDirection='row'
+            alignItems='baseline'
+            margin='0'
+          >
           <Text 
             className='profile-text' 
             fontSize='xl'
@@ -91,7 +147,7 @@ function Profile() {
             marginTop='0.5rem !important'
             marginLeft='0.5rem !important'
           >
-            Email:
+            Orders placed: 
           </Text>
           <Text 
             className='profile-text'
@@ -99,62 +155,12 @@ function Profile() {
             marginTop='0.5rem !important'
             marginLeft='0.5rem !important'
           >
-            {user.email}
+          {numberOfOrders}
           </Text>
-        </Box>
-        <Box 
-          className='profile-text-row'
-          display='flex'
-          flexDirection='row'
-          alignItems='baseline'
-          margin='0'
-        >
-          <Text 
-            className='profile-text' 
-            fontSize='xl'
-            margin='0 !important'
-            marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
-          >
-            Joined:
-          </Text>
-          <Text 
-            className='profile-text'
-            margin='0 !important'
-            marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
-          >
-           {`${registerMonth}, ${registerYear}`}
-          </Text>
-        </Box>
-        <Box 
-          className='profile-text-row'
-          display='flex'
-          flexDirection='row'
-          alignItems='baseline'
-          margin='0'
-        >
-        <Text 
-          className='profile-text' 
-          fontSize='xl'
-          margin='0 !important'
-          marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
-        >
-          Orders placed: 
-        </Text>
-        {/* //TODO: add orders placed here */}
-        <Text 
-          className='profile-text'
-          margin='0 !important'
-          marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
-        >
-        {numberOfOrders}
-        </Text>
+          </Box>
         </Box>
       </Box>
-
+      <AddAddressButton/>
     </Box>
   )
 }

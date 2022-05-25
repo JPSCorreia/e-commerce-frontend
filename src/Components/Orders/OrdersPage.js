@@ -15,9 +15,9 @@ function OrdersPage() {
 
   const themeColor = useColorModeValue('blue.500', 'blue.200');
 
+
   return(
     <Box className='order-page' >
-      {/* <Heading>Orders</Heading> */}
       <Breadcrumb  
         display='flex' 
         width='80%' 

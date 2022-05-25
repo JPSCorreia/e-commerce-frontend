@@ -12,7 +12,6 @@ import {
   AlertDialogOverlay,
 } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
-// import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import { IoBagCheckOutline } from 'react-icons/io5'
 
@@ -20,11 +19,9 @@ function CheckoutButton() {
 
   // React/Redux State/Action Management.
   const { user, getAccessTokenSilently } = useAuth0();
-
   const totalPrice = useSelector((state) => state.cartData.totalPrice)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
-  // const toast = useToast()
   const dispatch = useDispatch();
   const cartData = useSelector((state) => state.cartData.cartProductsData)
   let navigate = useNavigate();
@@ -40,7 +37,6 @@ function CheckoutButton() {
       await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
       const orderId = await dispatch(api.orders.addOrder({user_email: user.email, total_price: totalPrice})).unwrap()
       const orderItems = []
-      console.log(cartData)
       cartData.forEach((item) => {
         orderItems.push([item.id, orderId, item.quantity, item.discount])            
       })
@@ -52,17 +48,9 @@ function CheckoutButton() {
       await dispatch(api.cart.setNumberOfCartItems(0))
       await dispatch(api.orders.setAddOrderToastDisplayed(false))
 
-      navigate('/order-placed', {state: '1' })
-      
-      // toast({
-      //   title: 'Order Placed',
-      //   description: "Your order was placed successful",
-      //   status: 'success',
-      //   duration: 9000,
-      //   isClosable: true,
-      // })
-      // window.location.reload(false);
-     
+      const order = await dispatch(api.orders.getAllOrderItems({token, id: orderId})).unwrap()
+      await navigate(`/orders/${orderId}`, {state: order })
+
     }
     getData();
   }

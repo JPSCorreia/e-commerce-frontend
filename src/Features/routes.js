@@ -7,24 +7,27 @@ const backendURL = process.env.REACT_APP_IN_DEVELOPMENT? process.env.REACT_APP_B
 // endpoints
 export const api = {
 
-  // auth/users
-  // get data from current session.
-  verifySession: () => { return axios.get(`/auth/current-session`) },
+  // user routes
+
   // get user by email.
   getUserByEmail: (email) => { return axios.get(`${backendURL}/api/users/${email}`) },
+
   // create new user.
   addUser: (newUserObj) => { return axios.post(`${backendURL}/api/users/`, newUserObj) },
+
   // get list of all users.
   getUsers: () => { return axios.get(`${backendURL}/api/users`) },
+
   // get register date.
   getMonthAndYear: async (email, token) => {
     return axios.get(`${backendURL}/api/users/get_date/${email}`, { headers: {Authorization: `Bearer ${token}` }})
   },
-
+  
   // get number of orders.
   getNumberOfOrders: async (email, token) => { 
     return axios.get(`${backendURL}/api/orders/get_number/${email}`, { headers: {Authorization: `Bearer ${token}` }} )
   },
+
 
   // product routes
   products: {
@@ -36,15 +39,6 @@ export const api = {
         return axios.get(`${backendURL}/api/products`) 
       }
     ),
-
-    // get one product by id.
-    // getProduct: createAsyncThunk(
-    //   'productData/getProduct',
-    //   async (id) => {
-    //     const response = await axios.get(`${backendURL}/api/products/${id}`) 
-    //     return {id, data: response.data[0]}
-    //   }
-    // ),
 
     // set product stock
     setStock: createAsyncThunk(
@@ -176,9 +170,6 @@ export const api = {
       }
     ),
 
-    // delete row from cart.
-    // deleteFromCart2: (id) => { return axios.delete(`${backendURL}/api/cart_items/${id}`) },
-
     deleteFromCart: createAsyncThunk(
       'cartData/deleteFromCart',
       async (obj) => {
@@ -188,7 +179,6 @@ export const api = {
     ),
 
   },
-
 
 
 
@@ -240,84 +230,34 @@ export const api = {
         return state
       }
     ),
-    
 
-
-    
-      // (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems) },
   },
 
 
+  // addresses routes
+  addresses: {
+
+    addAddress: createAsyncThunk(
+      'addressesData/addAddress',
+      async (obj) => {
+        await axios.post(`${backendURL}/api/addresses`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }, 
+          data: { 
+            user_email: obj.user_email,
+            full_name: obj.full_name,
+            phone_number: obj.phone_number,
+            country: obj.country,
+            postcode: obj.postcode,
+            street_address: obj.street_address,
+            city: obj.city
+          }
+          }
+        )
+      }
+    ),
+  }
 
 
-
-
-
-  // add new product.
-  addProduct: (newProductObj) => { return axios.post(`${backendURL}/api/product`, newProductObj) },
-
-
-  // cart_items
-
-
-  // get cart products by email.
-  getCartProductsByEmail2: (authenticatedEmail) => { return axios.get(`${backendURL}/api/cart_items/cart_products/${authenticatedEmail}`) },
-
-  // remove from quantity and add stock to that item.
-  removeQuantityAddStock: ({quant, id, authenticatedEmail}) => { return axios.put(`${backendURL}/api/cart_items/remove_quantity`, {quantity: quant, products_id: id, user_email: authenticatedEmail}) },
-  // get the price sum of all items in user's cart.
-  getTotalPrice: (email) => { return axios.get(`${backendURL}/api/cart_items/total_price/${email}`) },
-  // delete row from cart.
-  deleteFromCart: (id) => { return axios.delete(`${backendURL}/api/cart_items/${id}`) },
-  // delete row from cart.
-  deleteAllFromCart: (email) => { return axios.delete(`${backendURL}/api/cart_items/delete_cart/${email}`) },
-
-
-
-
-
-  // orders
-  // add new order
-  // addOrder: ({authenticatedEmail, totalPrice}) => { return axios.post(`${backendURL}/api/orders`, {user_email: authenticatedEmail, total: totalPrice, status: 'Ordered'} )},
-
-
-  
-
-
-
-
-  // get list of all order items by id.
-  getOrderById: (id) => { return axios.get(`${backendURL}/api/orders/${id}`) },
-
-
-  // order_items
-  // add cart_items to order_items
-  // addOrderItems: (orderItems) => { return axios.post(`${backendURL}/api/order_items`, orderItems )},
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // // remove from stock and add quantity to that item.
-  // removeStockAddQuantity2: ({quant, id, authenticatedEmail}) => { return axios.put(`${backendURL}/api/cart_items`, {quantity: quant, products_id: id, user_email: authenticatedEmail}) },
-
-
-  // // remove from stock and add quantity to that item.
-  // removeStockAddQuantity: createAsyncThunk(
-  //   'x/y',
-  //   async (obj) => {
-  //     const response = await axios.put(`${backendURL}/api/cart_items`,  {quantity: obj.quantity, products_id: obj.id, user_email: obj.email})
-  //     return response
-  //   }
-  // ),
 
 
 

@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from '../Loader';
 import { useLocation } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,6 +26,8 @@ function OrderDetailed(props) {
   const { id } = useParams();
   const allOrderItemsData = useSelector((state) => state.orderData.allOrderItemsData)
   const order = location.state? location.state : allOrderItemsData
+  const toast = useToast()
+  const addOrderToastDisplayed = useSelector((state) => state.orderData.addOrderToastDisplayed)
   const [loaded, setLoaded] = useState(false);
   const themeColor = useColorModeValue('blue.500', 'blue.200');
 
@@ -51,12 +54,23 @@ function OrderDetailed(props) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // console.log(orderDetailedData)
+  useEffect(() => {
+    if (location.state && !addOrderToastDisplayed) {
+      toast({
+        title: 'Order Placed',
+        description: "Your order was placed successfully",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+      dispatch(api.orders.setAddOrderToastDisplayed(true))
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!loaded) return <Loader />
 
   return(
     <Box className='order-detailed-list'>
-      {/* <Heading>Order #{id} </Heading> */}
       <Breadcrumb  
         display='flex' 
         width='80%' 

@@ -29,15 +29,26 @@ function CartItem(props) {
 
     if (props.product.quantity - quantityNumberInput === 0) {
       await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
-      await dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
+
+      props.product.discount? 
+      await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price*(1-(props.product.discount / 100)) * props.product.quantity))))
+      :
+      await dispatch(api.cart.setTotalPrice(totalPrice - (props.product.price)));
+
       await dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
       await dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
       await dispatch(api.cart.deleteFromCart({products_id: props.product.id, user_email: user.email, index}))
       await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
     }
     if (props.product.quantity - quantityNumberInput > 0) {
+
       await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
-      await dispatch(api.cart.setTotalPrice(totalPrice - props.product.price))
+      
+      props.product.discount? 
+        await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price*(1-(props.product.discount / 100)) * props.product.quantity))))
+        :
+        await dispatch(api.cart.setTotalPrice(totalPrice - (props.product.price)));
+      
       await dispatch(api.cart.removeQuantity({ quantity: quantityNumberInput, products_id: Number(props.product.id), user_email: user.email, index }))
       await dispatch(api.products.addStock({id: props.product.id, quantity: quantityNumberInput}))
       await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))

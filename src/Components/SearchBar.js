@@ -16,9 +16,9 @@ function SearchBar() {
   return(
     <Box width='75%' marginRight='0.5rem'>
       <InputGroup>
-        <InputLeftElement
-          pointerEvents='none'
-          children={<SearchIcon color={iconColor} />}
+      <InputLeftElement
+         children={<SearchIcon color={iconColor} />}
+         cursor='pointer'
         />
         <Input 
           placeholder='Search' 

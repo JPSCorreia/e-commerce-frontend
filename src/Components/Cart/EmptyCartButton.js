@@ -58,7 +58,7 @@ function EmptyCartButton() {
               fontSize='lg' 
               fontWeight='bold'
             >
-              Empty Cart
+              Remove items from cart
             </AlertDialogHeader>
             <AlertDialogBody>
               Are you sure? You can't undo this action afterwards.
@@ -71,11 +71,11 @@ function EmptyCartButton() {
                 Cancel
               </Button>
               <Button 
-                colorScheme='red' 
                 onClick={emptyCartNow} 
+                colorScheme='blue' 
                 ml={3}
               >
-                Empty
+                Confirm
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

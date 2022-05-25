@@ -8,7 +8,6 @@ function OrderItem(props) {
 
   // React/Redux State/Action Management.
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
-  //TODO: add go back button to return to orders
   
   return(
     <ListItem 
