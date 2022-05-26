@@ -3,9 +3,11 @@ import * as React from 'react';
 import { Box, Text, Avatar, useColorModeValue } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { api } from '../Features/routes';
 import Loader from '../Components/Loader';
-import AddAddressButton from '../Components/AddAddressButton'
+import AddAddressButton from './Addresses/AddAddressButton'
+import AddressList from './Addresses/AddressList';
 
 function Profile() {
 
@@ -16,6 +18,7 @@ function Profile() {
   const [loading, setLoading] = useState(true);
   const themeColor = useColorModeValue('blue.500', 'blue.200')
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
+  const addressData = useSelector((state) => state.addressData.data || [])
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -160,7 +163,9 @@ function Profile() {
           </Box>
         </Box>
       </Box>
-      <AddAddressButton/>
+      <AddressList />
+      { (addressData.length < 2)?
+        <AddAddressButton /> : ''}
     </Box>
   )
 }

@@ -253,8 +253,50 @@ export const api = {
           }
           }
         )
+        // console.log(response)
+        // return response
       }
     ),
+
+    getAddresses: createAsyncThunk(
+      'addressesData/getAddresses',
+      async (obj) => {
+        const response = await axios.get(`${backendURL}/api/addresses/${obj.user_email}`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }}
+        )
+        return response.data
+      }
+    ),
+
+    deleteAddress: createAsyncThunk(
+      'addressesData/deleteAddress',
+      async (obj) => {
+        const response = await axios.delete(`${backendURL}/api/addresses/delete_address/${obj.user_email}/${obj.id}`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }}
+        )
+        return response.data
+      }
+    ),
+
+    editAddress: createAsyncThunk(
+      'addressesData/editAddress',
+      async (obj) => {
+        await axios.put(`${backendURL}/api/addresses/${obj.id}`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }, 
+          data: { 
+            full_name: obj.full_name,
+            phone_number: obj.phone_number,
+            country: obj.country,
+            postcode: obj.postcode,
+            street_address: obj.street_address,
+            city: obj.city
+          }
+          }
+        )
+      }
+    ),
+
+
   }
 
 

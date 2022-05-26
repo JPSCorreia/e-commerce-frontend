@@ -1,16 +1,20 @@
-import '../Style/App.css';
+import '../../Style/App.css';
 import * as React from 'react';
-import { Select, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, Button, useDisclosure } from '@chakra-ui/react'
+import { useToast, Select, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, Button, useDisclosure } from '@chakra-ui/react'
 import {RiPlayListAddFill} from 'react-icons/ri'
-import { useDispatch } from 'react-redux';
-import { api } from '../Features/routes';
+import { useDispatch, useSelector } from 'react-redux';
+import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
+
 
 function AddAddressButton() {
 
+  // React/Redux State/Action Management.
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
+  const toast = useToast()
+  const addressData = useSelector((state) => state.addressData.data || [])
 
   const addAddress = async () => {
 
@@ -27,18 +31,35 @@ function AddAddressButton() {
     const address = document.getElementById(`form-address`).value;
     const city = document.getElementById(`form-city`).value;
 
-    await dispatch(api.addresses.addAddress({
-      token, 
-      user_email: user.email, 
-      full_name: fullname,
-      phone_number: phonenumber,
-      country: country,
-      postcode: postcode,
-      street_address: address,
-      city: city
-    }))
+    if (addressData.length < 2) {
+
+      await dispatch(api.addresses.addAddress({
+        token, 
+        user_email: user.email, 
+        full_name: fullname,
+        phone_number: phonenumber,
+        country: country,
+        postcode: postcode,
+        street_address: address,
+        city: city
+      }))
+  
+      await dispatch(api.addresses.getAddresses({token, user_email: user.email}))
+    }
+
+
+    if (addressData.length >= 2) {
+
+      toast({
+        title: `Error`,
+        description: 'Maximum number of addresses reached.',
+        status: 'error',
+        isClosable: true,
+      })  
+    }
 
     onClose();
+
 
   }
 
