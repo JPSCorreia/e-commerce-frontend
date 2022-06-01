@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Box, Text, Avatar, useColorModeValue } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../Features/routes';
 import Loader from '../Components/Loader';
 import AddAddressButton from './Addresses/AddAddressButton'
@@ -12,13 +12,14 @@ import AddressList from './Addresses/AddressList';
 function Profile() {
 
   const { isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();
-  const [registerYear, setRegisterYear] = useState('');
-  const [registerMonth, setRegisterMonth] = useState('');
-  const [numberOfOrders, setNumberOfOrders] = useState('');
   const [loading, setLoading] = useState(true);
-  const themeColor = useColorModeValue('blue.500', 'blue.200')
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
-  const addressData = useSelector((state) => state.addressData.data || [])
+  const addressesData = useSelector((state) => state.addressesData.data || [])
+  const month = useSelector((state) => state.userData.month)
+  const year = useSelector((state) => state.userData.year)
+  const numberOfOrders = useSelector((state) => state.orderData.numberOfOrders)
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -28,19 +29,13 @@ function Profile() {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           scope: 'openid'
         })
-          api.getMonthAndYear(user.email, token).then((result) => {  
-            // setRegisterDate([result.data.year, result.data.month])
-            setRegisterYear(result.data.year)
-            setRegisterMonth(result.data.month)
-            api.getNumberOfOrders(user.email, token).then((result) => {   
-              setNumberOfOrders(result.data.count)
-              setLoading(false)
-            })
-          }) 
+        await dispatch(api.users.getMonthAndYear({user_email: user.email, token }))
+        await dispatch(api.orders.getNumberOfOrders({user_email: user.email, token}))
+        setLoading(false)
       }
       getData();
     }
-  }, [getAccessTokenSilently, isAuthenticated, isLoading, user.email]);
+  }, [getAccessTokenSilently, isAuthenticated, isLoading, user.email, dispatch]);
 
 
   if (loading) {
@@ -55,8 +50,6 @@ function Profile() {
     >
       <Box 
         className='profile'
-        // border='1px solid'
-        borderColor={themeColor}
         borderRadius='8px'
         display='flex'
         flexDirection='column'
@@ -133,7 +126,7 @@ function Profile() {
               marginTop='0.5rem !important'
               marginLeft='0.5rem !important'
             >
-             {`${registerMonth}, ${registerYear}`}
+             {`${month}, ${year}`}
             </Text>
           </Box>
           <Box 
@@ -164,8 +157,8 @@ function Profile() {
         </Box>
       </Box>
       <AddressList />
-      { (addressData.length < 2)?
-        <AddAddressButton /> : ''}
+      { (addressesData.length < 1)?
+        <AddAddressButton width='80%' /> : ''}
     </Box>
   )
 }

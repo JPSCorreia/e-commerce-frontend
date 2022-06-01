@@ -1,6 +1,7 @@
 import '../../Style/App.css';
 import * as React from 'react';
 import TotalCart from './TotalCart';
+import CartAddress from './CartAddress';
 import CartList from './CartList';
 import { NavLink } from 'react-router-dom';
 import { Box, useColorModeValue } from '@chakra-ui/react'

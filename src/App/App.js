@@ -17,25 +17,26 @@ import { useEffect } from 'react';
 import { api } from '../Features/routes';
 import { Box, Divider } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from 'react-redux';
+
 
 function App() {
 
+  if (!process.env.REACT_APP_IN_DEVELOPMENT) {
+    console.log = function() {}
+  }
+
   // React/Redux State/Action Management.
   const { isAuthenticated, isLoading, user } = useAuth0();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getData = () => {
+    const getData = async () => {
     if (!isLoading && isAuthenticated) {
-      const newUserObj = {
-        "email": user.email,
-        "admin": false,
-        "image_link": user.picture
+      const registeredUser = await dispatch(api.users.getUserByEmail(user.email)).unwrap();
+      if (registeredUser.length < 1) {
+        await dispatch(api.users.addUser({"email": user.email, "admin": false, "image_link": user.picture}))
       }
-      api.getUserByEmail(user.email).then((result) => {   
-        if (result.data.length < 1) {
-          api.addUser(newUserObj).then(() => {})
-        }
-      })
     }}
     getData();
   }, [isAuthenticated, isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -53,8 +54,8 @@ function App() {
           <Routes>
             <Route exact path="/" element={ <Home /> }/>
             <Route path="/users" element={ <ProtectedRoute component={UserList} /> }/>
-            <Route path="/products" element={ <ProductPage /> }/>
-            <Route path="/products/:id" element={ <ProductItem /> }/>
+            <Route path="/products/:page" element={ <ProductPage /> }/>
+            <Route path="/products/item/:id" element={ <ProductItem /> }/>
             <Route path="/cart" element={ <ProtectedRoute component={CartPage} /> }/>
             <Route path="/orders" element={ <ProtectedRoute component={OrdersPage} /> }/>
             <Route path="/profile" element={ <ProtectedRoute component={Profile} /> }/>

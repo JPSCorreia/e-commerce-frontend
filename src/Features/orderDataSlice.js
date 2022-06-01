@@ -9,7 +9,9 @@ export const orderDataSlice = createSlice({
     allOrderItemsData: [],
     allOrderItemsDataIsLoading: true,
     addOrderToastDisplayed: false,
-    addOrderToastDisplayedIsLoading: true
+    addOrderToastDisplayedIsLoading: true,
+    numberOfOrders: 0,
+    numberOfOrdersIsLoading: true,
   },
   reducers: {
   },
@@ -35,6 +37,18 @@ export const orderDataSlice = createSlice({
     },
     [api.orders.getAllOrders.rejected]: (state, action) => {
       state.allOrdersDataIsLoading = true;
+    },
+
+
+    [api.orders.getNumberOfOrders.pending]: (state, action) => {
+      state.numberOfOrdersIsLoading = true;
+    },
+    [api.orders.getNumberOfOrders.fulfilled]: (state, action) => {
+      state.numberOfOrders = action.payload;
+      state.numberOfOrdersIsLoading = false;
+    },
+    [api.orders.getNumberOfOrders.rejected]: (state, action) => {
+      state.numberOfOrdersIsLoading = true;
     },
 
 

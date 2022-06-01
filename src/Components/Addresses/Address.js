@@ -16,11 +16,8 @@ function Address(props) {
       className='address-item'
       display='flex'
       flexDirection='column'
-      justifyContent='flex-start'
       width='80%'
       margin='1.5rem auto'
-      alignItems='baseline'
-      textAlign='left'
       padding='1rem'
       borderColor={
         useColorModeValue('blue.500', 'blue.200')
@@ -48,6 +45,28 @@ function Address(props) {
           marginLeft='0.5rem !important'
         >
           {props.address.full_name}
+        </Text>
+      </Box>
+      <Box
+        display='flex'
+        alignItems='baseline'
+      >
+        <Text 
+          className='address-text' 
+          fontSize='xl'
+          margin='0 !important'
+          marginTop='0.5rem !important'
+          marginLeft='0.5rem !important'
+        >
+          Phone Number:
+        </Text>
+        <Text 
+          className='address-text'
+          margin='0 !important'
+          marginTop='0.5rem !important'
+          marginLeft='0.5rem !important'
+        >
+          {props.address.phone_number}
         </Text>
       </Box>
       <Box
@@ -141,8 +160,12 @@ function Address(props) {
       <Box
         display='flex'
         flexDirection='row'
-        margin='0 auto'
-        marginTop='0.5rem'
+        // margin='0 auto'
+        className='edit-remove-buttons'
+        marginTop='0.75rem'
+        marginRight='0.5rem'
+        marginLeft='0.5rem'
+        justifyContent='space-between'
       >
         <EditAddressButton 
           address={props.address}
@@ -151,7 +174,6 @@ function Address(props) {
           address={props.address}
         />
       </Box>
-
     </ListItem>
   )
 }

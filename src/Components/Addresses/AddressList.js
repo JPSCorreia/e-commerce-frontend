@@ -12,7 +12,7 @@ function AddressList() {
 
   // React/Redux State/Action Management.
   const dispatch = useDispatch();
-  const addressData = useSelector((state) => state.addressData.data || [])
+  const addressesData = useSelector((state) => state.addressesData.data || [])
   const { user, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function AddressList() {
   return (
     <Box className='address-list'>
       <List>
-      {addressData?.map((address, index) => (
+      {addressesData?.map((address, index) => (
           <Address 
             address={address}
             key={index}

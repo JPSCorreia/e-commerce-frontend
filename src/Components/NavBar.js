@@ -2,7 +2,7 @@ import '../Style/App.css';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Text, useColorModeValue, Avatar, useColorMode, Image, Icon, } from '@chakra-ui/react'
+import { Box, Text, Flex, useColorModeValue, Avatar, useColorMode, Image, Icon, } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import {
   Menu,
@@ -12,11 +12,12 @@ import {
   MenuDivider,
   MenuGroup
 } from '@chakra-ui/react'
+import { chakra } from "@chakra-ui/react"
 import { IoCartOutline } from 'react-icons/io5';
 import { MdLogout } from "react-icons/md";
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { BsPersonCircle } from "react-icons/bs";
-import { FaUsers } from "react-icons/fa";
+import { BsBorderWidth } from "react-icons/bs";
 import SearchBar from './SearchBar'
 
 
@@ -37,7 +38,8 @@ function NavBar() {
       display='flex'
       fontSize='1.25rem'
       padding='0.25rem 0'
-      paddingBottom='0.4rem'
+      paddingBottom='0.6rem'
+      paddingTop='0.6rem'
       justifyContent='space-between'
       alignItems='center'
       // borderBottom='1px solid'      
@@ -76,7 +78,7 @@ function NavBar() {
           }}
         >
           <NavLink
-            to={'/products'}
+            to={'/products/1'}
             className='products-page-link'
           >
             Browse
@@ -91,9 +93,11 @@ function NavBar() {
         {(!isAuthenticated && !isLoading)? (
           <Text 
             as='span'
-            margin='auto 0.5rem'
+            margin='auto 0'
             textDecoration='none'
             className="app-link"
+            marginRight='1rem'
+            fontSize='2xl'
             _hover={{
               color: themeColor,
               transition: '0.2s',
@@ -106,53 +110,54 @@ function NavBar() {
           <>
           { isLoading? '' : 
           (
-          <Box display='flex' marginTop='0.25rem'>
-
-          <Text 
-            fontSize='md'
-            _hover={{
-              color: themeColor,
-              transition: '0.2s'
-            }}
-            margin='auto 0.5rem'
-          >
-            <NavLink
-              to={'/orders'}
-              className='orders-page-profile-link'
-            >
-              Orders
-            </NavLink>
-          </Text>
-          
+          <Box display='flex' >         
           <NavLink
             to={'/cart'}
             className='cart-page-profile-link'
           >
-            <Box 
+            <Flex
               display='flex'
               _hover={{
                 color: themeColor,
                 transition: '0.2s'
               }}
               className='profile-cart'
-              marginRight='0.4rem'
+              padding='0'
+              paddingRight='1.1rem'
+              paddingLeft='0.15rem'
               cursor='pointer'
-              alignItems='center'
-              justifyContent='center'
-            >      
-              <Icon
+              margin='0 auto'
+              paddingTop='1rem'
+            >
+              <chakra.span pos="relative" display="inline-block">
+                <Icon
                 as={IoCartOutline} 
+                boxSize={6}
                 className='react-icon' 
                 margin='auto 0'
-              />
-              <Text 
-                className='profile-cart-number' 
-                fontSize='sm'
-              >
-                {numberOfCartItems}
-              </Text>
-            </Box>
+                />
+                { (numberOfCartItems > 0)?
+                <chakra.span
+                  pos="absolute"
+                  top="-2px"
+                  right="-2px"
+                  px={2}
+                  py={1}
+                  fontSize="xs"
+                  fontWeight="bold"
+                  lineHeight="none"
+                  color={(colorMode === 'light')? 'white' : 'black'}
+                  transform="translate(50%,-50%)"
+                  bg={(colorMode === 'light')? 'blue.500' : 'blue.200'}
+                  rounded="full"
+                >
+                  {numberOfCartItems}
+                </chakra.span>
+                : ''}
+              </chakra.span>
+            </Flex>
           </NavLink>
+
           <Menu>
           <MenuButton 
             className='profile-avatar'
@@ -202,17 +207,17 @@ function NavBar() {
             </MenuItem>
           </NavLink>
             <NavLink
-              to={'/users'}
-              className='users-page-link'
+              to={'/orders'}
+              className='orders-page-link'
             >
               <MenuItem
                 _hover={{
                   color: themeColor
                 }} 
                 fontSize='md'
-                icon={<FaUsers />}
+                icon={<BsBorderWidth />}
               >
-               Users
+               Orders
               </MenuItem>
             </NavLink>
             <MenuItem

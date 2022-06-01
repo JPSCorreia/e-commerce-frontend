@@ -1,6 +1,7 @@
 import '../../Style/App.css';
 import * as React from 'react';
 import ProductList from './ProductList';
+import PageChanger from '../PageChanger';
 import { Box } from '@chakra-ui/react'
 import { useToast, useColorModeValue } from '@chakra-ui/react'
 import {useLocation, NavLink} from 'react-router-dom';
@@ -13,6 +14,8 @@ import {
   BreadcrumbLink,
 } from '@chakra-ui/react'
 import {ChevronRightIcon} from '@chakra-ui/icons';
+import { useParams } from "react-router-dom";
+import Loader from '../Loader';
 
 
 function ProductPage() {
@@ -22,6 +25,8 @@ function ProductPage() {
   const addToCartToastDisplayed = useSelector((state) => state.cartData.addToCartToastDisplayed)
   const dispatch = useDispatch();
   const themeColor = useColorModeValue('blue.500', 'blue.200');
+  const { page } = useParams();
+  const dataIsLoading = useSelector((state) => state.productData.dataIsLoading)
 
   useEffect(() => {
 
@@ -37,15 +42,16 @@ function ProductPage() {
     }
 
     const getData = async () => {
-      dispatch(api.products.getProducts()) 
+      await dispatch(api.products.getProductPage(page)) 
     }
     getData();
 
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // if (dataIsLoading) {
   //   return <Loader />;
   // }
+  
 
   return(
     <Box className='product-page'>
@@ -69,6 +75,7 @@ function ProductPage() {
         </BreadcrumbItem>
       </Breadcrumb>
       <ProductList />
+      <PageChanger />
     </Box>
   )
 }

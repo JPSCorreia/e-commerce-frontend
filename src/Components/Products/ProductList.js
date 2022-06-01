@@ -14,14 +14,21 @@ function ProductList() {
     <Box 
       className='product-list'
     >
-      <List>
+      <List
+        flexWrap='wrap'
+        display='flex'
+        flexDirection='row'
+        borderRadius='20px'
+        width='80%'
+        margin='0 auto'
+        justifyContent='space-between'
+      >
         {productData.data?.map((product, index) => (
           <Product 
             product={product}
             key={index}
             id={`product-${product.id + 1}`}
-          />
-          
+          />   
         ))}
       </List>      
     </Box>

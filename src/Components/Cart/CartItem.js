@@ -96,7 +96,7 @@ function CartItem(props) {
           </Box>
           <Box 
             className='product-quantity'
-            marginBottom='1rem'
+            marginBottom='0.5rem'
           >
             Quantity: {props.product.quantity}
           </Box>
@@ -105,6 +105,8 @@ function CartItem(props) {
             defaultValue={1} 
             min={1} 
             max={props.product.quantity}
+            marginBottom='1.5rem'
+
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -122,17 +124,21 @@ function CartItem(props) {
             Remove from Cart
           </Button>
         </Box>
-        <Image
-          className='product-image-preview'
-          alt={`${props.product.image_link}`}
-          src={`images/${props.product.image_link}.jpg`}
-          display='inline-block'
-          maxWidth='230px'
-          maxHeight='95px'
-          width='auto'
-          height='auto'
-          margin='2rem'
-        />
+        <Box
+          bg="gray.300"
+          h='225px'
+          w="320px"
+          marginRight='1.5rem'
+          rounded="lg"
+          shadow="md"
+          bgSize="cover"
+          bgPos="center"
+          style={{
+            backgroundImage:
+              `url(/images/${props.product.image_link}.jpg`
+          }}
+        >
+        </Box>
       </ListItem>
       }
     </>

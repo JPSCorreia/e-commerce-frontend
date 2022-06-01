@@ -20,7 +20,7 @@ function Footer() {
       borderColor={themeColor}
       bgColor={themeColorNavBar}
       flexShrink='0'
-      marginTop='2rem'
+      marginTop='0'
     >
      <Text
       fontSize='sm'

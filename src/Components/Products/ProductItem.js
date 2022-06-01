@@ -117,7 +117,6 @@ function ProductItem() {
         width='80%'
         justifyContent='space-between'
         alignItems='center'
-        // border='1px solid'
         borderColor={borderColor}
         backgroundColor={backgroundColor}
         borderRadius='8px'
@@ -145,7 +144,7 @@ function ProductItem() {
           <Box 
             className='product-price'
             marginTop='1rem'
-            marginBottom='1rem'
+            marginBottom='0.5rem'
           >
             Price:  
             { product.discount?
@@ -166,6 +165,7 @@ function ProductItem() {
             defaultValue={1} 
             min={1} 
             max={product.stock}
+            marginBottom='1.25rem'
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -186,17 +186,21 @@ function ProductItem() {
           </Button>
           : ''}
         </Box>
-        <Image
-          className='product-image-preview'
-          alt={`${product.image_link}`}
-          src={`/images/${product.image_link}.jpg`}
-          display='inline-block'
-          maxWidth='460px'
-          maxHeight='190px'
-          width='auto'
-          height='auto'
-          margin='2rem'
-        />
+        <Box
+          bg="gray.300"
+          h='225px'
+          w="320px"
+          marginRight='1.5rem'
+          rounded="lg"
+          shadow="md"
+          bgSize="cover"
+          bgPos="center"
+          style={{
+            backgroundImage:
+              `url(/images/${product.image_link}.jpg`
+          }}
+        >
+        </Box>
       </Box>
     </Box>
     </Box>

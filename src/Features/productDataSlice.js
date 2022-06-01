@@ -6,6 +6,8 @@ export const productDataSlice = createSlice({
   initialState: {
     data: [],
     dataIsLoading: true,
+    numberOfProducts: 0,
+    numberOfProductsIsLoading: true
   },
   reducers: {
   },
@@ -21,6 +23,30 @@ export const productDataSlice = createSlice({
     },
     [api.products.getProducts.rejected]: (state, action) => {
       state.dataIsLoading = true;
+    },
+
+
+    [api.products.getProductPage.pending]: (state, action) => {
+      state.dataIsLoading = true;
+    },
+    [api.products.getProductPage.fulfilled]: (state, action) => {
+      state.data = action.payload;
+      state.dataIsLoading = false;
+    },
+    [api.products.getProductPage.rejected]: (state, action) => {
+      state.dataIsLoading = true;
+    },
+
+
+    [api.products.getNumberOfProducts.pending]: (state, action) => {
+      state.numberOfProductsIsLoading = true;
+    },
+    [api.products.getNumberOfProducts.fulfilled]: (state, action) => {
+      state.numberOfProducts = Number(action.payload.data);
+      state.numberOfProductsIsLoading = false;
+    },
+    [api.products.getNumberOfProducts.rejected]: (state, action) => {
+      state.numberOfProductsIsLoading = true;
     },
 
 

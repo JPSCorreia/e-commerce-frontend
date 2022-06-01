@@ -14,7 +14,7 @@ function SearchBar() {
   const backgroundColor = useColorModeValue('whiteAlpha.700', 'gray.800');
 
   return(
-    <Box width='75%' marginRight='0.5rem'>
+    <Box width='82%' marginRight='0.5rem'>
       <InputGroup>
       <InputLeftElement
          children={<SearchIcon color={iconColor} />}

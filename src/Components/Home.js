@@ -1,6 +1,6 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { Box, Image, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, Image, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";

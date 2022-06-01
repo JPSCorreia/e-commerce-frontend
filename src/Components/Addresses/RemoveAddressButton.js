@@ -32,7 +32,8 @@ function RemoveAddressButton(props) {
    })
    await dispatch(api.addresses.deleteAddress({token, user_email: user.email, id: props.address.id}))
    await dispatch(api.addresses.getAddresses({token, user_email: user.email}))
-
+   await dispatch(api.addresses.setAdressIndex(0))
+   onClose();
   }
 
   return(

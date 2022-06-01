@@ -1,74 +1,84 @@
 import '../../Style/App.css';
 import * as React from 'react';
-import { useToast, Select, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, Button, useDisclosure } from '@chakra-ui/react'
+import { useToast, Select, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, FormErrorMessage, Button, useDisclosure, propNames } from '@chakra-ui/react'
 import {RiPlayListAddFill} from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
+import { addressSchema } from '../../Validations/AddressValidation';
+import { useFormik } from 'formik';
 
 
-function AddAddressButton() {
+function AddAddressButton(props) {
 
   // React/Redux State/Action Management.
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const toast = useToast()
-  const addressData = useSelector((state) => state.addressData.data || [])
+  const addressesData = useSelector((state) => state.addressesData.data || [])
 
-  const addAddress = async () => {
+    const formik = useFormik({
+    initialValues: {
+      country: 'Afganistan',
+      fullName: '',
+      phoneNumber: '',
+      postcode: '',
+      address: '',
+      city: ''
+    },
+    validationSchema: addressSchema,
+    onSubmit: async (values, actions) => {
 
-    const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
-    await getAccessTokenSilently({
-     audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-     scope: 'openid'
-   })
+      const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+      await getAccessTokenSilently({
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        scope: 'openid'
+      })
 
-    const country = document.getElementById(`form-country`).value;
-    const fullname = document.getElementById(`form-fullname`).value;
-    const phonenumber = document.getElementById(`form-phonenumber`).value;
-    const postcode = document.getElementById(`form-postcode`).value;
-    const address = document.getElementById(`form-address`).value;
-    const city = document.getElementById(`form-city`).value;
+      if (addressesData.length < 1) {
+        await dispatch(api.addresses.addAddress({
+          token, 
+          user_email: user.email, 
+          full_name: formik.values.fullName,
+          phone_number: formik.values.phoneNumber,
+          country: formik.values.country,
+          postcode: formik.values.postcode,
+          street_address: formik.values.address,
+          city: formik.values.city
+        }))
+        await dispatch(api.addresses.getAddresses({token, user_email: user.email}))
+      }
 
-    if (addressData.length < 2) {
-
-      await dispatch(api.addresses.addAddress({
-        token, 
-        user_email: user.email, 
-        full_name: fullname,
-        phone_number: phonenumber,
-        country: country,
-        postcode: postcode,
-        street_address: address,
-        city: city
-      }))
-  
-      await dispatch(api.addresses.getAddresses({token, user_email: user.email}))
+      if (addressesData.length >= 1) {
+        toast({
+          title: `Error`,
+          description: 'Maximum number of addresses reached.',
+          status: 'error',
+          isClosable: true,
+        })  
+      }
+      onClose();
+      actions.resetForm();
     }
+  })
 
-
-    if (addressData.length >= 2) {
-
-      toast({
-        title: `Error`,
-        description: 'Maximum number of addresses reached.',
-        status: 'error',
-        isClosable: true,
-      })  
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.charCode === 13) {
+      formik.handleSubmit();
     }
+  };
 
-    onClose();
-
-
-  }
 
   return(
-    <Box
+    <VStack
       display='flex'
-      width='80%'
+      width={props.width}
+      flexDirection='row'
       justifyContent='flex-start'
-      margin='0 auto' 
+      margin='0.75rem auto' 
+      as='form'
     >
       <Button 
         colorScheme='green' 
@@ -88,9 +98,14 @@ function AddAddressButton() {
         <ModalHeader>Add a new address</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
-          <FormControl >
+          <FormControl>
             <FormLabel>Country</FormLabel>
-            <Select id='form-country' placeholder=''>
+            <Select 
+              id='form-country' 
+              name='country'
+              placeholder=''
+              {...formik.getFieldProps('country')}
+            >
               <option value="Afganistan">Afghanistan</option>
               <option value="Albania">Albania</option>
               <option value="Algeria">Algeria</option>
@@ -340,30 +355,65 @@ function AddAddressButton() {
               <option value="Zimbabwe">Zimbabwe</option>
             </Select>
           </FormControl>
-          <FormControl mt={4}>  
+          <FormControl mt={4} isInvalid={formik.errors.fullName && formik.touched.fullName}>  
             <FormLabel>Full name</FormLabel>
-            <Input id='form-fullname' placeholder='' />
+            <Input 
+              id='form-fullname'
+              name='fullName' 
+              placeholder='' 
+              onKeyPress={handleKeypress}
+              {...formik.getFieldProps('fullName')}
+            />
+            <FormErrorMessage>{formik.errors.fullName}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={formik.errors.phoneNumber && formik.touched.phoneNumber}>
             <FormLabel>Phone number</FormLabel>
-            <Input id='form-phonenumber' placeholder='Your 10 or 9 digit phone number' />
+            <Input 
+              id='form-phonenumber' 
+              placeholder='Your 10 or 9 digit phone number'
+              name='phoneNumber'
+              onKeyPress={handleKeypress} 
+              {...formik.getFieldProps('phoneNumber')}
+              
+            />
+            <FormErrorMessage>{formik.errors.phoneNumber}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={formik.errors.postcode && formik.touched.postcode}>
             <FormLabel>Postcode</FormLabel>
-            <Input id='form-postcode' placeholder='Enter your area postcode' />
+            <Input 
+              id='form-postcode' 
+              name='postcode'
+              {...formik.getFieldProps('postcode')}
+              onKeyPress={handleKeypress}
+              placeholder='Enter your area postcode' 
+            />
+            <FormErrorMessage>{formik.errors.postcode}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={formik.errors.address && formik.touched.address}>
             <FormLabel>Address</FormLabel>
-            <Input id='form-address' placeholder='' />
+            <Input 
+              id='form-address' 
+              placeholder='' 
+              name='address'
+              {...formik.getFieldProps('address')}
+              onKeyPress={handleKeypress}
+            />
+            <FormErrorMessage>{formik.errors.address}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={4}>
+          <FormControl mt={4} isInvalid={formik.errors.city && formik.touched.city}>
             <FormLabel>City</FormLabel>
-            <Input id='form-city' placeholder='' />
+            <Input 
+              id='form-city' 
+              placeholder=''
+              name='city'
+              {...formik.getFieldProps('city')}
+              onKeyPress={handleKeypress}
+            />
+            <FormErrorMessage>{formik.errors.city}</FormErrorMessage>
           </FormControl>
-
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme='blue' mr={3} onClick={addAddress} >
+          <Button colorScheme='blue' mr={3} onClick={formik.handleSubmit} >
             Save
           </Button>
           <Button onClick={onClose}>
@@ -372,7 +422,7 @@ function AddAddressButton() {
         </ModalFooter>
       </ModalContent>
       </Modal>
-    </Box>
+    </VStack>
   )
 }
 

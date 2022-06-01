@@ -51,17 +51,23 @@ function OrderItem(props) {
           Quantity: {props.orderItem.quantity}
         </Box>
       </Box>
-      <Image
-        className='product-image-preview'
-        alt={`${props.orderItem.image_link}`}
-        src={`/images/${props.orderItem.image_link}.jpg`}
-        display='inline-block'
-        maxWidth='230px'
-        maxHeight='95px'
-        width='auto'
-        height='auto'
-        margin='2rem'
-      />
+      <Box
+        bg="gray.300"
+        h='225px'
+        w="320px"
+        marginRight='1.25rem'
+        marginTop='1.25rem'
+        marginBottom='1.25rem'
+        rounded="lg"
+        shadow="md"
+        bgSize="cover"
+        bgPos="center"
+        style={{
+          backgroundImage:
+            `url(/images/${props.orderItem.image_link}.jpg`
+        }}
+      >
+      </Box>
     </ListItem>
   )
 }
