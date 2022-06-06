@@ -12,14 +12,14 @@ function OrderList() {
 
   console.log(orderData)
 
-  if (orderData.length === 0) {
+  if (orderData.data.length === 0) {
     return <Loader />
   }
 
   return(
     <Box className='order-list'>
       <List>
-        {orderData?.map((order, index) => (
+        {orderData?.data.map((order, index) => (
           <Order 
             order={order}
             key={index}
