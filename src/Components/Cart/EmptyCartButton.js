@@ -12,8 +12,10 @@ import {
 } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { CgTrashEmpty } from 'react-icons/cg'
+import { useSelector, } from 'react-redux';
+import { api } from '../../Features/routes';
 
-//TODO: finish this component
+
 function EmptyCartButton() {
 
   // React/Redux State/Action Management.
@@ -21,18 +23,25 @@ function EmptyCartButton() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const dispatch = useDispatch();
   const cancelRef = React.useRef()
+  const cartData = useSelector((state) => state.cartData.cartProductsData)
 
-  const emptyCartNow = () => {
-
-    const getData = async () => {
-      const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
-      await getAccessTokenSilently({
-       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-       scope: 'openid'
-     })
-    }
-    getData();
+  const emptyCartNow = async () => {
+    const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+    await getAccessTokenSilently({
+     audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+     scope: 'openid'
+    })
+    cartData.forEach(async (product) => {
+      const index = cartData.findIndex((element) => (element.id === product.id))
+      await dispatch(api.cart.deleteFromCart({products_id: product.id, user_email: user.email, index}))
+      await dispatch(api.products.addStock({id: product.id, quantity: product.quantity}))
+    })
+    await dispatch(api.cart.setNumberOfCartItems(0))
+    await dispatch(api.cart.setTotalPrice(0));
+    await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
+    onClose();
   }
+
 
   return(
     <Box 

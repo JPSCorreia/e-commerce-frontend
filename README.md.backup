@@ -11,13 +11,13 @@
 <br>
 **Functionalities:**
 
-- Register or login
+- Register or login, 
 - Browse the store
 - Search for products
 - Add products to cart
 - Add/edit a delivery address 
-- Make a purchase
-- Light and dark color themes
+- Make a purchase, 
+- Light and dark color themes.
 
 <br>
 **Technologies:**
@@ -27,11 +27,11 @@
 - [Chakra UI](https://chakra-ui.com/) Component-based library for UI.
 - [Auth0](https://auth0.com/) with [jwt](https://jwt.io/) for authentication and authorization.
 - [React Router](https://reactrouter.com/) for page routing in React.
-- [Formik](https://formik.org/) and [yup](https://www.npmjs.com/package/yup) Form management and validation.
+- [Formik](https://formik.org/) and [yup](https://www.npmjs.com/package/yup) form management and validation.
 
 - [Express.js](https://expressjs.com/) Web framework
-- [helmet](https://www.npmjs.com/package/helmet), [hpp](https://www.npmjs.com/package/hpp) and [csurf](https://www.npmjs.com/package/csurf) Backend middleware protection
-- [PostgreSQL](https://www.postgresql.org/) Database
+- [helmet](https://www.npmjs.com/package/helmet), [hpp](https://www.npmjs.com/package/hpp) and [csurf](https://www.npmjs.com/package/csurf) backend middleware protection
+- [PostgreSQL](https://www.postgresql.org/) database
 
 
 <br>
