@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Box, List } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import Order from './Order';
+import Loader from '../Loader';
 
 function OrderList() {
 
@@ -10,6 +11,10 @@ function OrderList() {
   const orderData = useSelector((state) => state.orderData.allOrdersData)
 
   console.log(orderData)
+
+  if (orderData.length === 0) {
+    return <Loader />
+  }
 
   return(
     <Box className='order-list'>
