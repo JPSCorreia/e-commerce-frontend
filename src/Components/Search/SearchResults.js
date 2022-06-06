@@ -11,9 +11,13 @@ function SearchResults(props) {
   const searchResults = useSelector((state) => state.productData.searchResults)
   const searchResultsIsLoading = useSelector((state) => state.productData.searchResultsIsLoading)
 
+  console.log(searchResultsIsLoading)
+  
   if (searchResultsIsLoading) {
     return <Loader />
   }
+
+  
 
   return (
     <Box 
