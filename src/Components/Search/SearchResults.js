@@ -7,8 +7,7 @@ import { Box, List } from '@chakra-ui/react'
 function SearchResults(props) {
 
   // React/Redux State/Action Management.
-  const searchResults = useSelector((state) => state.productData.searchResults.data)
-  console.log(searchResults)
+  const searchResults = useSelector((state) => state.productData.searchResults)
 
   return (
     <Box 
@@ -23,7 +22,7 @@ function SearchResults(props) {
         margin='0 auto'
         justifyContent='flex-start'
       >
-     {searchResults?.map((product, index) => (
+     {searchResults.data?.map((product, index) => (
           <Product 
             searchString={props.searchString}
             fromSearch

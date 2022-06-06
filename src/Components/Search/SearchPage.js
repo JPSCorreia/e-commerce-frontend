@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 function SearchPage() {
 
   const dispatch = useDispatch();
-  // const searchResults = useSelector((state) => state.productData.searchResults.data)
   const themeColor = useColorModeValue('blue.500', 'blue.200');
   const { searchString } = useParams();
 
