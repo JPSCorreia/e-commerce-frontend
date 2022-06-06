@@ -8,7 +8,7 @@
 
 **Deployed at https://e-commerce-frontend2.herokuapp.com**
 
-<br>
+---
 **Functionalities:**
 
 - Register or login
@@ -19,7 +19,7 @@
 - Make a purchase
 - Light and dark color themes
 
-<br>
+
 **Technologies:**
 
 - Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -34,7 +34,6 @@
 - [PostgreSQL](https://www.postgresql.org/) Database
 
 
-<br>
 # ☕ Usage
 
 
@@ -44,8 +43,6 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.
-
----
 
 
 #### `npm start`
@@ -61,7 +58,7 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
-<br>
+
 ## 📫 Contributing
 We are not taking Pull requests at this moment.
 
