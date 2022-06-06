@@ -7,7 +7,9 @@ import Order from './Order';
 function OrderList() {
 
   // React/Redux State/Action Management.
-  const orderData = useSelector((state) => state.orderData.allOrdersData || [])
+  const orderData = useSelector((state) => state.orderData.allOrdersData)
+
+  console.log(orderData)
 
   return(
     <Box className='order-list'>
