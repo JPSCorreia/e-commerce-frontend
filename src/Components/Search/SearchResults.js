@@ -2,12 +2,18 @@ import '../../Style/App.css';
 import { useSelector } from 'react-redux';
 import Product from '../Products/Product';
 import { Box, List } from '@chakra-ui/react'
+import Loader from '../Loader';
 
 
 function SearchResults(props) {
 
   // React/Redux State/Action Management.
   const searchResults = useSelector((state) => state.productData.searchResults)
+  const searchResultsIsLoading = useSelector((state) => state.productData.searchResultsIsLoading)
+
+  if (searchResultsIsLoading) {
+    return <Loader />
+  }
 
   return (
     <Box 
