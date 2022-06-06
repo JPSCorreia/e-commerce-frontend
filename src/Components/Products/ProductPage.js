@@ -15,7 +15,6 @@ import {
 } from '@chakra-ui/react'
 import {ChevronRightIcon} from '@chakra-ui/icons';
 import { useParams } from "react-router-dom";
-import Loader from '../Loader';
 
 
 function ProductPage() {
@@ -26,10 +25,8 @@ function ProductPage() {
   const dispatch = useDispatch();
   const themeColor = useColorModeValue('blue.500', 'blue.200');
   const { page } = useParams();
-  const dataIsLoading = useSelector((state) => state.productData.dataIsLoading)
 
   useEffect(() => {
-
     if (location.state && !addToCartToastDisplayed) {
       toast({
         title: 'Success!',
@@ -40,22 +37,16 @@ function ProductPage() {
       })
       dispatch(api.cart.setAddToCartToastDisplayed(true))
     }
-
     const getData = async () => {
       await dispatch(api.products.getProductPage(page)) 
     }
     getData();
-
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // if (dataIsLoading) {
-  //   return <Loader />;
-  // }
-  
 
   return(
     <Box className='product-page'>
-            <Breadcrumb  
+      <Breadcrumb  
         display='flex' 
         width='80%' 
         margin='0.5rem auto'
@@ -70,7 +61,7 @@ function ProductPage() {
         </BreadcrumbItem >
         <BreadcrumbItem isCurrentPage marginLeft='0' marginRight='0' marginBottom='0.25rem'>
           <BreadcrumbLink color={themeColor}>
-            Products
+            Products ({`${page}`})
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>

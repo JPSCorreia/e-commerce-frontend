@@ -18,7 +18,7 @@ import { MdLogout } from "react-icons/md";
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { BsPersonCircle } from "react-icons/bs";
 import { BsBorderWidth } from "react-icons/bs";
-import SearchBar from './SearchBar'
+import SearchBar from './Search/SearchBar'
 
 
 function NavBar() {

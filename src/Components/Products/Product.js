@@ -1,16 +1,18 @@
 import '../../Style/App.css';
 import * as React from 'react';
-import { Box, Image, Button, ListItem, useColorModeValue, Text, chakra, Flex } from '@chakra-ui/react'
+import { Box, Button, ListItem, useColorModeValue, Text, chakra, Flex } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom';
 import { CgDetailsMore } from 'react-icons/cg'
 
-
 function Product(props) {
 
-  const borderColor = useColorModeValue('blue.500', 'blue.200');
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
   const discountGreenColor = useColorModeValue('green.500', 'green.300');
   const discountYellowColor = useColorModeValue('yellow.600', 'yellow.400');
+  const headingColor = useColorModeValue("gray.800", "white")
+  const backgroundColor2 = useColorModeValue("white", "gray.800")
+  const backgroundColor3 = useColorModeValue("gray.200", "gray.700")
+  const textColor = useColorModeValue("gray.800", "gray.200")
 
   return(
     <ListItem 
@@ -22,6 +24,8 @@ function Product(props) {
       margin='0'
       marginTop='1rem'
       marginBottom='1rem'
+      // marginLeft='0.7rem'
+      marginRight='1.1rem'
     >
       <Flex
         bg={backgroundColor}
@@ -55,7 +59,7 @@ function Product(props) {
           </Box>
           <Box
             w={{ base: 56, md: 64 }}
-            bg={useColorModeValue("white", "gray.800")}
+            bg={backgroundColor2}
             mt={-10}
             shadow="lg"
             rounded="lg"
@@ -66,7 +70,7 @@ function Product(props) {
               textAlign="center"
               fontWeight="bold"
               textTransform="uppercase"
-              color={useColorModeValue("gray.800", "white")}
+              color={headingColor}
               letterSpacing={1}
             >
               {props.product.description}
@@ -76,11 +80,11 @@ function Product(props) {
               justifyContent="space-around"
               py={2}
               px={3}
-              bg={useColorModeValue("gray.200", "gray.700")}
+              bg={backgroundColor3}
             >
               <chakra.span
                 fontWeight="bold"
-                color={useColorModeValue("gray.800", "gray.200")}
+                color={textColor}
               >
                 <Box 
                   className='product-price'
@@ -101,7 +105,8 @@ function Product(props) {
                 </Box>
               </chakra.span>
               <NavLink
-                to={`item/${props.product.id}`}
+                to={props.fromSearch? `products/item/${props.product.id}`: `item/${props.product.id}`}
+                state={{ product: props.product }}
                 className='products-page-link'
               >
                 <Button 
@@ -114,8 +119,9 @@ function Product(props) {
                 </Button>
               </NavLink>
             </Flex>
-          </Box>
-        </Flex>
+            
+          </Box> 
+        </Flex> 
       </Flex>
     </ListItem>
   )

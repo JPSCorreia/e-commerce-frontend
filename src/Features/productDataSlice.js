@@ -7,7 +7,11 @@ export const productDataSlice = createSlice({
     data: [],
     dataIsLoading: true,
     numberOfProducts: 0,
-    numberOfProductsIsLoading: true
+    numberOfProductsIsLoading: true,
+    searchResults: [],
+    searchResultsIsLoading: true,
+    productById: [],
+    productByIdIsLoading: true,
   },
   reducers: {
   },
@@ -25,6 +29,16 @@ export const productDataSlice = createSlice({
       state.dataIsLoading = true;
     },
 
+    [api.products.getProductById.pending]: (state, action) => {
+      state.productByIdIsLoading = true;
+    },
+    [api.products.getProductById.fulfilled]: (state, action) => {
+      state.productById = action.payload;
+      state.productByIdIsLoading = false;
+    },
+    [api.products.getProductById.rejected]: (state, action) => {
+      state.productByIdIsLoading = true;
+    },
 
     [api.products.getProductPage.pending]: (state, action) => {
       state.dataIsLoading = true;
@@ -50,16 +64,16 @@ export const productDataSlice = createSlice({
     },
 
 
-    // [api.products.getProduct.pending]: (state, action) => {
-    //   state.dataIsLoading = true;
-    // },
-    // [api.products.getProduct.fulfilled]: (state, action) => {
-    //   state.data[action.payload.id] = action.payload.data
-    //   state.dataIsLoading = false;
-    // },
-    // [api.products.getProduct.rejected]: (state, action) => {
-    //   state.dataIsLoading = true;
-    // },
+    [api.products.getSearchResults.pending]: (state, action) => {
+      state.searchResultsIsLoading = true;
+    },
+    [api.products.getSearchResults.fulfilled]: (state, action) => {
+      state.searchResults = action.payload
+      state.searchResultsIsLoading = false;
+    },
+    [api.products.getSearchResults.rejected]: (state, action) => {
+      state.searchResultsIsLoading = true;
+    },
 
 
     [api.products.setStock.pending]: (state, action) => {

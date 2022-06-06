@@ -8,6 +8,7 @@ import CarouselItem from './CarouselItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../Features/routes';
 import { useEffect } from 'react';
+import Loader from './Loader';
 
 function Home() {
 
@@ -16,15 +17,20 @@ function Home() {
   const productData = useSelector((state) => state.productData.data)
   const { colorMode } = useColorMode()
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
+  const dataIsLoading = useSelector((state) => state.productData.dataIsLoading)
 
   useEffect(() => {
 
     const getData = async () => {
-      dispatch(api.products.getProducts()) 
+      await dispatch(api.products.getProductPage(1))
     }
     getData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+
+  if (dataIsLoading) {
+    return <Loader />;
+  }
 
   return(
     <>

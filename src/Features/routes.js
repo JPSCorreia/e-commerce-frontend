@@ -76,7 +76,6 @@ export const api = {
       'productData/getNumberOfProducts',
       async () => { 
         const response = axios.get(`${backendURL}/api/products/total/get_number`) 
-        console.log(response)
         return response
       }
     ),
@@ -104,6 +103,26 @@ export const api = {
       async (obj) => {
         await axios.put(`${backendURL}/api/products/add_stock`,  { quantity: obj.quantity, products_id: obj.id })
         return { quantity: obj.quantity, id: obj.id }
+      }
+    ),
+
+
+    // add order items
+    getSearchResults: createAsyncThunk(
+      'productData/getSearchResults',
+      async (searchString) => {
+        const response = await axios.post(`${backendURL}/api/products/search_products/search`, {search: searchString})
+        return response
+      }
+    ),
+
+
+    // get list of all products.
+    getProductById: createAsyncThunk(
+      'productData/getProductById',
+      async (id) => { 
+        const response = await axios.get(`${backendURL}/api/products/${id}`)
+        return response
       }
     ),
 

@@ -12,6 +12,8 @@ import Profile from '../Components/Profile';
 import Footer from '../Components/Footer';
 import OrderDetailed from '../Components/Orders/OrderDetailed';
 import OrderPlaced from '../Components/Orders/OrderPlaced';
+import SearchPage from '../Components/Search/SearchPage';
+import SearchItem from '../Components/Search/SearchItem';
 import ProtectedRoute from '../Components/ProtectedRoute';
 import { useEffect } from 'react';
 import { api } from '../Features/routes';
@@ -53,9 +55,11 @@ function App() {
         >
           <Routes>
             <Route exact path="/" element={ <Home /> }/>
-            <Route path="/users" element={ <ProtectedRoute component={UserList} /> }/>
             <Route path="/products/:page" element={ <ProductPage /> }/>
-            <Route path="/products/item/:id" element={ <ProductItem /> }/>
+            <Route path="/products/:page/item/:id" element={ <ProductItem /> }/>
+            <Route path="/search/:searchString/products/item/:id" element={ <SearchItem /> }/>
+            <Route path="/search/:searchString" element={ <SearchPage /> }/>
+            <Route path="/users" element={ <ProtectedRoute component={UserList} /> }/>
             <Route path="/cart" element={ <ProtectedRoute component={CartPage} /> }/>
             <Route path="/orders" element={ <ProtectedRoute component={OrdersPage} /> }/>
             <Route path="/profile" element={ <ProtectedRoute component={Profile} /> }/>

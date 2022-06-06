@@ -2,7 +2,7 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { api } from '../../Features/routes';
-import { Box, Text, Button, useColorModeValue } from '@chakra-ui/react'
+import { Box, Text, Image, Button, useColorModeValue } from '@chakra-ui/react'
 import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,23 +15,38 @@ import {
 } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom';
 import {ChevronRightIcon} from '@chakra-ui/icons';
+import {useLocation} from 'react-router-dom'
+import { useState } from 'react';
+import Loader from '../Loader';
 
-function ProductItem() {
+
+function SearchItem() {
 
   // React/Redux State/Action Management.
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const { id } = useParams();
-  const page = Number(useParams().page);
-  let navigate = useNavigate();
-  const product = useSelector((state) => state.productData.data.data[id-1-((page-1)*9)] || [])
+  const { searchString } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const cartData = useSelector((state) => state.cartData.cartProductsData)
+  const [product, setProduct] = useState('')
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
   const themeColor = useColorModeValue('blue.500', 'blue.200');
   const discountRedColor = useColorModeValue('red.500', 'red.300');
   const discountGreenColor = useColorModeValue('green.500', 'green.300');
   const discountYellowColor = useColorModeValue('yellow.600', 'yellow.400');
+  const productData = useSelector((state) => state.productData.productById.data)
+
+
+  useEffect(() => {
+    const getData = async () => {
+      await dispatch(api.products.getProductById(id)) 
+      location.state? setProduct(location.state.product) : setProduct(productData[0]);
+    }
+    getData()
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   useEffect(() => {
@@ -48,23 +63,11 @@ function ProductItem() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  useEffect(() => {
-    const getData = async () => {
-      await dispatch(api.products.getProductPage(page)) 
-      // await dispatch(api.products.getProductPage(page)) 
-    }
-    getData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-
-
-
-
+  
 
 
 
   const addToCart = async () => {
-
     //Search if item has stock
     if (product.stock > 0) {
       const quantity = document.getElementById(`number-input-${id}`).value;
@@ -72,7 +75,6 @@ function ProductItem() {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         scope: 'openid'
       })
-
       // create a new row if product doesn't already exist
       if ( cartData.length < 1  || !(cartData.find(element => element.id === Number(id))?.id === Number(id)) ) {
         await dispatch(api.cart.addProductToCart({user_email: user.email, products_id: Number(id), quantity: quantity }))
@@ -82,15 +84,16 @@ function ProductItem() {
          dispatch(api.products.removeStock({id, quantity: quantity}))
         await dispatch(api.cart.addQuantity({ quantity: quantity, products_id: Number(id), user_email: user.email }))
       }
-
       // update number of items in cart and navigate to products page while showing toast
       await dispatch(api.cart.getNumberOfCartItems({token, email: user.email}))
       await dispatch(api.cart.setAddToCartToastDisplayed(false))
-      navigate(`/products/${page}`, {state: { product, quantity } } )
+      navigate(`/search/${searchString}`, {state: { product, quantity } } )
     }
   }
 
-  
+  if (!product) {
+    return <Loader />
+  }
 
   return(
     <Box>
@@ -108,8 +111,8 @@ function ProductItem() {
           </BreadcrumbLink>
         </BreadcrumbItem >
         <BreadcrumbItem  marginLeft='0' marginRight='0' marginBottom='0.25rem'>
-          <BreadcrumbLink as={NavLink} to={`/products/${page}`}>
-            Products ({`${page}`})
+          <BreadcrumbLink as={NavLink} to={`/search/${searchString}`}>
+            Products ({`${searchString}`})
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage marginLeft='0' marginRight='0' marginBottom='0.25rem'>
@@ -222,4 +225,4 @@ function ProductItem() {
   )
 }
 
-export default ProductItem;
+export default SearchItem;
