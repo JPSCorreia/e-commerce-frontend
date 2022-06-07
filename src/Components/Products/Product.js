@@ -20,12 +20,13 @@ function Product(props) {
       id={props.id}
       borderRadius='8px'
       backgroundColor={backgroundColor}
-      flexBasis='32.1%'
+      flexBasis='31.2%'
       margin='0'
       marginTop='1rem'
       marginBottom='1rem'
-      // marginLeft='0.7rem'
-      marginRight='1.1rem'
+      marginLeft='1rem'
+      marginRight='1rem'
+      maxWidth='100%'
     >
       <Flex
         bg={backgroundColor}
@@ -43,17 +44,15 @@ function Product(props) {
           mx="auto"
         >
           <Box
-            bg="gray.300"
             h={64}
             w="full"
             rounded="lg"
-            shadow="md"
             bgSize="cover"
             bgPos="center"
             style={{
               backgroundImage:
                 // "url(https://images.unsplash.com/photo-1521903062400-b80f2cb8cb9d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80)",
-                `url(/images/${props.product.image_link}.jpg`
+                `url(/images/${props.product.image_link}.png`
             }}
           >
           </Box>
@@ -72,6 +71,7 @@ function Product(props) {
               textTransform="uppercase"
               color={headingColor}
               letterSpacing={1}
+              fontSize={['sm', 'md']}
             >
               {props.product.description}
             </chakra.h3>
@@ -90,16 +90,16 @@ function Product(props) {
                   className='product-price'
                   // marginTop='1rem'
                   // marginBottom='1rem'
-                  fontSize='xl'
+                  fontSize={['md', 'xl']}
                 >
                 Price: { props.product.discount?
                   <Box display='flex'>
-                    <Text as='span' fontSize='lg' color={discountGreenColor}>{(props.product.price*(1-(props.product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
-                    <Text as='span' fontSize='xs' color={discountYellowColor}>(-{props.product.discount}%)</Text>
+                    <Text as='span' fontSize={['md', 'lg']} color={discountGreenColor}>{(props.product.price*(1-(props.product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
+                    <Text as='span' fontSize={['xs', 'sm']} color={discountYellowColor}>(-{props.product.discount}%)</Text>
                   </Box>
                 :
                   <Box>
-                    <Text fontSize='lg'>{(props.product.price).toFixed(2).replace('.', ',')}€</Text>
+                    <Text fontSize={['md', 'lg']}>{(props.product.price).toFixed(2).replace('.', ',')}€</Text>
                   </Box>
                 }
                 </Box>
@@ -112,6 +112,7 @@ function Product(props) {
                 <Button 
                   className='button' 
                   colorScheme='blue'
+                  marginLeft='0.25rem'
                   size='sm'
                   rightIcon={<CgDetailsMore />}
                 >

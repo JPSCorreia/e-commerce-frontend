@@ -26,9 +26,9 @@ function SearchResults(props) {
         display='flex'
         flexDirection='row'
         borderRadius='20px'
-        width='80%'
+        width={['90%','80%']}
         margin='0 auto'
-        justifyContent='flex-start'
+        justifyContent={[ "center", "center" , "center", "center", "flex-start" ]}
       >
         {searchResults.data?.map((product, index) => (
           <Product 

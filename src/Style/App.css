@@ -126,7 +126,7 @@ form {
 /* React Slick Carousel settings*/
 .carousel-light {
   margin: 3vh auto;
-  width: 50%;
+  width: 80%;
   border-radius: 2px;
   /* border: 1px solid #3182ce; */
 }
@@ -147,7 +147,7 @@ form {
 
 .carousel-dark {
   margin: 3vh auto;
-  width: 50%;
+  width: 80%;
   border-radius: 2px;
   /* border: 1px solid #90cdf4; */
 }

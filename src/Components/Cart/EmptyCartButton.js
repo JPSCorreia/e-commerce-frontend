@@ -62,7 +62,7 @@ function EmptyCartButton() {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent width='90%'>
             <AlertDialogHeader 
               fontSize='lg' 
               fontWeight='bold'

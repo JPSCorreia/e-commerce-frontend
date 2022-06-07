@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Image, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
+import { Box, Hide, Show, Button, ListItem, useColorModeValue } from '@chakra-ui/react'
 import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { BsCartDash } from "react-icons/bs";
 
@@ -63,7 +63,7 @@ function CartItem(props) {
           id={`cart-item-${props.product.id}`}
           display='flex'
           flexDirection='row'
-          width='80%'
+          width={['90%','80%']} 
           justifyContent='space-between'
           alignSelf='center'
           alignItems='center'
@@ -79,15 +79,40 @@ function CartItem(props) {
           flexDirection='column'
           justifyContent='flex-start'
           textAlign='left'
-          margin='1.25rem 2rem'
+          margin='1.25rem 1rem'
+          width={['95%','95%','50%']}
         >
-          <Box className='product-name'>
-            {props.product.name} - {props.product.description} 
+          <Box className='product-name' fontSize={['sm', 'md']}>
+            {props.product.name} 
           </Box>
+          <Box 
+            className='product-name' 
+            fontSize={['sm', 'md']} 
+            marginTop='1rem'
+          >
+            {props.product.description} 
+          </Box>
+          <Show breakpoint='(max-width: 550px)'>
+          <Box
+            h='216px'
+            w="288px"
+            margin='0 auto'
+            marginTop='1rem'
+            rounded="lg"
+            bgSize="cover"
+            bgPos="center"
+            style={{
+              backgroundImage:
+                `url(/images/${props.product.image_link}.png`
+            }}
+          >
+          </Box>
+          </Show>
           <Box 
             className='product-price'
             marginTop='1rem'
             marginBottom='1rem'
+            fontSize={['sm', 'md']}
           >
             Total Price: {props.product.discount? 
               (((props.product.price*(1-(props.product.discount / 100)) * props.product.quantity).toFixed(2).replace('.', ','))) 
@@ -97,6 +122,7 @@ function CartItem(props) {
           <Box 
             className='product-quantity'
             marginBottom='0.5rem'
+            fontSize={['sm', 'md']}
           >
             Quantity: {props.product.quantity}
           </Box>
@@ -105,7 +131,7 @@ function CartItem(props) {
             defaultValue={1} 
             min={1} 
             max={props.product.quantity}
-            marginBottom='1.5rem'
+            marginBottom='0.75rem'
 
           >
             <NumberInputField />
@@ -124,21 +150,23 @@ function CartItem(props) {
             Remove from Cart
           </Button>
         </Box>
+        <Hide breakpoint='(max-width: 550px)'>
         <Box
-          bg="gray.300"
-          h='225px'
+          h='270px'
           w="320px"
-          marginRight='1.5rem'
+          marginRight='1.25rem'
+          marginTop='1.25rem'
+          marginBottom='1.25rem'
           rounded="lg"
-          shadow="md"
           bgSize="cover"
           bgPos="center"
           style={{
             backgroundImage:
-              `url(/images/${props.product.image_link}.jpg`
+              `url(/images/${props.product.image_link}.png`
           }}
         >
         </Box>
+        </Hide>
       </ListItem>
       }
     </>

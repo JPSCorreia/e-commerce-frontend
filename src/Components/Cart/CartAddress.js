@@ -45,10 +45,9 @@ function CartAddress(props) {
         >
           <Text 
             className='address-text' 
-            fontSize='xl'
+            fontSize={['sm', 'xl']}
             margin='0 !important'
             marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
           >
             Name:
           </Text>
@@ -57,6 +56,7 @@ function CartAddress(props) {
             margin='0 !important'
             marginTop='0.5rem !important'
             marginLeft='0.5rem !important'
+            fontSize={['sm', 'md']}
           >
             {props.address.full_name}
           </Text>
@@ -67,10 +67,9 @@ function CartAddress(props) {
         >
           <Text 
             className='address-text' 
-            fontSize='xl'
+            fontSize={['sm', 'xl']}
             margin='0 !important'
             marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
           >
             Phone Number:
           </Text>
@@ -79,6 +78,7 @@ function CartAddress(props) {
             margin='0 !important'
             marginTop='0.5rem !important'
             marginLeft='0.5rem !important'
+            fontSize={['sm', 'md']}
           >
             {props.address.phone_number}
           </Text>
@@ -89,10 +89,9 @@ function CartAddress(props) {
         >
           <Text 
             className='address-text' 
-            fontSize='xl'
+            fontSize={['sm', 'xl']}
             margin='0 !important'
             marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
           >
             Address:
           </Text>
@@ -101,6 +100,7 @@ function CartAddress(props) {
             margin='0 !important'
             marginTop='0.5rem !important'
             marginLeft='0.5rem !important'
+            fontSize={['sm', 'md']}
           >
             {props.address.street_address}
           </Text>
@@ -111,10 +111,9 @@ function CartAddress(props) {
         >
           <Text 
             className='address-text' 
-            fontSize='xl'
+            fontSize={['sm', 'xl']}
             margin='0 !important'
             marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
           >
             City:
           </Text>
@@ -123,6 +122,7 @@ function CartAddress(props) {
             margin='0 !important'
             marginTop='0.5rem !important'
             marginLeft='0.5rem !important'
+            fontSize={['sm', 'md']}
           >
             {props.address.city}
           </Text>
@@ -133,10 +133,9 @@ function CartAddress(props) {
         >
           <Text 
             className='address-text' 
-            fontSize='xl'
+            fontSize={['sm', 'xl']}
             margin='0 !important'
             marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
           >
             Country:
           </Text>
@@ -144,6 +143,7 @@ function CartAddress(props) {
             className='address-text'
             margin='0 !important'
             marginTop='0.5rem !important'
+            fontSize={['sm', 'md']}
             marginLeft='0.5rem !important'
           >
             {props.address.country}
@@ -155,16 +155,16 @@ function CartAddress(props) {
         >      
           <Text 
             className='address-text' 
-            fontSize='xl'
+            fontSize={['sm', 'xl']}
             margin='0 !important'
             marginTop='0.5rem !important'
-            marginLeft='0.5rem !important'
           >
             Postcode:
           </Text>
           <Text 
             className='address-text'
             margin='0 !important'
+            fontSize={['sm', 'md']}
             marginTop='0.5rem !important'
             marginLeft='0.5rem !important'
           >
@@ -173,12 +173,12 @@ function CartAddress(props) {
         </Box>
         <Box
           display='flex'
-          flexDirection='row'
+          flexDirection={['column', 'row']}
           // margin='0 auto'
           className='edit-remove-buttons'
           marginTop='0.75rem'
           marginRight='0.5rem'
-          marginLeft='0.5rem'
+          alignItems={['baseline', '']}
           justifyContent='space-between'
         >
           <EditAddressButton 

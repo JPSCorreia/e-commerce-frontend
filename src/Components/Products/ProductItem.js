@@ -2,7 +2,7 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { api } from '../../Features/routes';
-import { Box, Text, Button, useColorModeValue } from '@chakra-ui/react'
+import { Box, Show, Hide, Text, Button, useColorModeValue } from '@chakra-ui/react'
 import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -96,11 +96,12 @@ function ProductItem() {
     <Box>
       <Breadcrumb  
         display='flex' 
-        width='80%' 
+        width={['90%','80%']}
         margin='0.5rem auto'
         paddingTop='0.25rem'
         separator={<ChevronRightIcon color='gray.500' />}
         className='breadcrumb'
+        fontSize={['sm', 'md']}
       >
         <BreadcrumbItem  marginLeft='0' marginRight='0' marginBottom='0.25rem'>
           <BreadcrumbLink  as={NavLink} to='/'>
@@ -129,7 +130,7 @@ function ProductItem() {
         className='product'
         display='flex'
         flexDirection='row'
-        width='80%'
+        width={['90%','80%']}
         justifyContent='space-between'
         alignItems='center'
         borderColor={borderColor}
@@ -143,44 +144,74 @@ function ProductItem() {
           flexDirection='column'
           justifyContent='flex-start'
           textAlign='left'
-          margin='1.25rem 2rem'
+          margin='1.25rem 1rem'
+          width={['95%','95%','50%']}
+
         >
           <Box 
             className='product-name'
+            fontSize={['sm', 'md']}
           >
-            {product.name} - {product.description} 
+            {product.name}
           </Box>
           <Box 
-            className='product-stock'
+            className='product-name'
             marginTop='1rem'
+            fontSize={['sm', 'md']}
           >
-            Stock: {product.stock}
+            {product.description} 
           </Box>
-          <Box 
+          <Show breakpoint='(max-width: 650px)'>
+          <Box
+            h='216px'
+            w="288px"
+            margin='0 auto'
+            marginTop='1rem'
+            rounded="lg"
+            bgSize="cover"
+            bgPos="center"
+            style={{
+              backgroundImage:
+                `url(/images/${product.image_link}.png`
+            }}
+          >
+          </Box>
+          </Show>
+            <Box 
             className='product-price'
             marginTop='1rem'
-            marginBottom='0.5rem'
+            marginBottom='1rem'
+            fontSize={['sm', 'md']}
           >
             Price:  
             { product.discount?
           <>
-            <Text as='span' fontSize='sm' textDecoration='line-through' color={discountRedColor}> {product.price.toFixed(2).replace('.', ',')}€</Text>
-            <Text as='span' fontSize='xl'color={discountGreenColor}>{(product.price*(1-(product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
-            <Text as='span' fontSize='md' color={discountYellowColor}>(-{product.discount}%)</Text>
+            <Text as='span' fontSize={['xs','sm']} textDecoration='line-through' color={discountRedColor}> {product.price.toFixed(2).replace('.', ',')}€</Text>
+            <Text as='span' fontSize={['lg','xl']} color={discountGreenColor}>{(product.price*(1-(product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
+            <Text as='span' fontSize={['sm','md']} color={discountYellowColor}>(-{product.discount}%)</Text>
           </>
           :
           <>
-            <Text as='span'>{(product.price).toFixed(2).replace('.', ',')}€</Text>
+            <Text as='span' fontSize={['sm','md']} >{(product.price).toFixed(2).replace('.', ',')}€</Text>
           </>
           }
           </Box>
+          <Box 
+            className='product-stock'
+            
+            marginBottom='0.5rem'
+            fontSize={['sm', 'md']}
+          >
+            Stock: {product.stock}
+          </Box>
+
           {isAuthenticated? 
           <NumberInput 
             id={'number-input-'+id} 
             defaultValue={1} 
             min={1} 
             max={product.stock}
-            marginBottom='1.25rem'
+            marginBottom='0.75rem'
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -201,21 +232,23 @@ function ProductItem() {
           </Button>
           : ''}
         </Box>
+        <Hide breakpoint='(max-width: 650px)'>
         <Box
-          bg="gray.300"
-          h='225px'
-          w="320px"
-          marginRight='1.5rem'
+          h='216px'
+          w="288px"
+          marginRight='1.25rem'
+          marginTop='1.25rem'
+          marginBottom='1.25rem'
           rounded="lg"
-          shadow="md"
           bgSize="cover"
           bgPos="center"
           style={{
             backgroundImage:
-              `url(/images/${product.image_link}.jpg`
+              `url(/images/${product.image_link}.png`
           }}
         >
         </Box>
+        </Hide>
       </Box>
     </Box>
     </Box>

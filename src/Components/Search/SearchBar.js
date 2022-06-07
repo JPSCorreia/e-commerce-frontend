@@ -33,7 +33,7 @@ function SearchBar() {
   };
 
   return(
-    <Box width='79%' marginRight='0.5rem'>
+    <Box width='100%' marginRight='1rem' marginLeft='1rem'>
       <InputGroup>
       <InputLeftElement
          children={<SearchIcon color={iconColor} />}

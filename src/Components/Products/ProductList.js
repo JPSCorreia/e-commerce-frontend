@@ -18,10 +18,9 @@ function ProductList() {
         flexWrap='wrap'
         display='flex'
         flexDirection='row'
-        borderRadius='20px'
-        width='80%'
+        width={['90%','80%']}
         margin='0 auto'
-        justifyContent='space-between'
+        // justifyContent='space-between'
       >
         {productData.data?.map((product, index) => (
           <Product 

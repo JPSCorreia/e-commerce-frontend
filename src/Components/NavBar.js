@@ -2,7 +2,7 @@ import '../Style/App.css';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Text, Flex, useColorModeValue, Avatar, useColorMode, Image, Icon, } from '@chakra-ui/react'
+import { Box, Show, Hide, Text, Flex, useColorModeValue, Avatar, useColorMode, Image, Icon, } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import {
   Menu,
@@ -41,35 +41,38 @@ function NavBar() {
       paddingBottom='0.6rem'
       paddingTop='0.6rem'
       justifyContent='space-between'
-      alignItems='center'
-      // borderBottom='1px solid'      
+      alignItems='center'    
       borderColor={themeColor}
       bgColor={themeColorNavBar}
       flexShrink='0'
     >
+      
       <Box 
         className='nav-bar' 
         display='flex'
       >
+        <Hide breakpoint='(max-width: 550px)'>
           <NavLink
             to={'/'}
             className='home-page-link'
           >
-        <Image 
-          className='navbar-logo' 
-          src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'}
-          minWidth='160px'
-          maxWidth='160px'
-          marginLeft='0.75rem'
-          borderRadius='4px'
-        />
+            
+              <Image 
+                className='navbar-logo' 
+                src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'}
+                minWidth='160px'
+                maxWidth='160px'
+                marginLeft='0.75rem'
+                borderRadius='4px'
+              />
+            
+            
           </NavLink>
-        
         <Text 
           as='span'
-          margin='auto 1rem'
+          margin='auto 0'
           marginLeft='1.5rem'
-          fontSize='2xl'
+          fontSize={[ "sm", "md", "xl", "2xl" ]}
           fontFamily
           textDecoration='none'
           _hover={{
@@ -84,6 +87,7 @@ function NavBar() {
             Browse
           </NavLink>
         </Text>
+        </Hide>
       </Box>
       <SearchBar />
       <Box 
@@ -97,14 +101,15 @@ function NavBar() {
             textDecoration='none'
             className="app-link"
             marginRight='1rem'
-            fontSize='2xl'
+            fontSize={[ "sm", "md", "xl", "2xl" ]}
+            fontWeight={["bold", "normal"]}
             _hover={{
               color: themeColor,
               transition: '0.2s',
             }}
             onClick={() => loginWithRedirect()}
           > 
-            Sign In
+            Login
           </Text>) : 
           (
           <>

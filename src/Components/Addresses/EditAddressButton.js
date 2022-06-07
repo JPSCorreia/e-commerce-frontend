@@ -81,7 +81,7 @@ function EditAddressButton(props) {
         size='xl'
       >
         <ModalOverlay />
-        <ModalContent >
+        <ModalContent width='90%'>
           <ModalHeader >Edit address</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>

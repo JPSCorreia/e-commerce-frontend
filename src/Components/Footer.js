@@ -23,7 +23,7 @@ function Footer() {
       marginTop='0'
     >
      <Text
-      fontSize='sm'
+      fontSize={[ "xs", "md" ]}
       margin
       marginTop='0.65rem'
       marginBottom='0.65rem'

@@ -12,42 +12,42 @@ function CarouselItem(props) {
 
   return(
     <Box>
-    <Text fontSize='2xl' >{props.product.description}</Text>
+    <Text fontSize={['2xl', '4xl']} >{props.product.description}</Text>
     <Box 
-      backgroundColor={backgroundTextColor}    
+      // backgroundColor={backgroundTextColor}    
       overflow='hidden'   
     >
       <NavLink
-        to={`products/${props.product.id}`}
+        to={`products/1/item/${props.product.id}`}
         className='products-page-link'
       >
-        <AspectRatio 
-          ratio={16 / 9} 
+        {/* <AspectRatio 
+          // ratio={16 / 9} 
           _hover={{
-            transform: 'scale(1.15)',
+            transform: 'scale(1.1)',
             // transitionDuration: '1s'
           }}
           transition='transform .5s ease'
           
-        >
+        > */}
           <Image 
-          
-            src={`/images/${props.product.image_link}.jpg`}           
+            margin='0 auto'
+            src={`/images/${props.product.image_link}.png`}           
           />
-        </AspectRatio>
+        {/* </AspectRatio> */}
       </NavLink>
     </Box>
-    <Text>{props.product.name}</Text>
+    <Text marginBottom='0.5rem'>{props.product.name}</Text>
     {props.product.discount?
     <>
-      <Text as='span'>In stock now for only </Text>
+      <Text as='span'>In stock now for only: </Text>
       <Text as='span' textDecoration='line-through' color={discountRedColor}>{props.product.price.toFixed(2).replace('.', ',')}€</Text>
       <Text as='span' fontSize='2xl' color={discountGreenColor}>{(props.product.price*(1-(props.product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
       <Text as='span' fontSize='sm' color={discountYellowColor}>(-{props.product.discount}%)</Text>
     </>
     :
     <>
-      <Text as='span' >In stock now for only </Text>
+      <Text as='span' >In stock now for only: </Text>
       <Text as='span' fontSize='2xl'>{props.product.price.toFixed(2).replace('.', ',')}€</Text>
     </>
     }

@@ -39,7 +39,7 @@ function RemoveAddressButton(props) {
   return(
     <Box 
       className='remove-address-button'
-      marginLeft='0.75rem'
+      marginLeft={['', '0.75rem']}
     >
       <Button 
         colorScheme='red' 
@@ -54,8 +54,8 @@ function RemoveAddressButton(props) {
         leastDestructiveRef={cancelRef}
         onClose={onClose}
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
+        <AlertDialogOverlay >
+          <AlertDialogContent width='90%'>
             <AlertDialogHeader 
               fontSize='lg' 
               fontWeight='bold'

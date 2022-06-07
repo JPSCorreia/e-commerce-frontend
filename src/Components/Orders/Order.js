@@ -1,6 +1,6 @@
 import '../../Style/App.css';
 import * as React from 'react';
-import { Box, Text, ListItem, useColorModeValue, Button } from '@chakra-ui/react'
+import { Box, Show, Text, Hide, ListItem, useColorModeValue, Button } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
@@ -29,7 +29,6 @@ function Order(props) {
     <ListItem 
       id={props.id}
       className='order'
-      // border='1px solid'
       backgroundColor={backgroundColor}
       borderColor={
         useColorModeValue('blue.500', 'blue.200')
@@ -38,9 +37,8 @@ function Order(props) {
       flexDirection='row'
       justifyContent='space-between'
       alignItems='center'
-      margin='1rem'
-      width='80%'
-      alignSelf='center'
+      margin='1rem auto'
+      width={['90%','80%']}
       borderRadius='8px'
     >
       <Box 
@@ -48,8 +46,9 @@ function Order(props) {
         display='flex'
         flexDirection='column'
         justifyContent='flex-start'
+        margin='1rem 1rem'
+        width='90%'
         textAlign='left'
-        margin='1.25rem 2rem'
       >
         <Box
           display='flex'
@@ -57,18 +56,18 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
-          marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
+          // marginTop='0.5rem !important'
         >
           Order:
         </Text>
         <Text 
           className='address-text'
           margin='0 !important'
-          marginTop='0.5rem !important'
+          // marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
+          fontSize={['sm', 'md']}
         >
           #{props.order.id}
         </Text>
@@ -79,10 +78,9 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           Total:
         </Text>
@@ -91,6 +89,7 @@ function Order(props) {
           margin='0 !important'
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
+          fontSize={['sm', 'md']}
         >
           {props.order.total.toFixed(2).replace('.', ',')}€
         </Text>
@@ -101,10 +100,9 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           Status:
         </Text>
@@ -113,6 +111,7 @@ function Order(props) {
           margin='0 !important'
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
+          fontSize={['sm', 'md']}
         >
           {props.order.status}
         </Text>
@@ -123,10 +122,9 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           Name:
         </Text>
@@ -135,6 +133,7 @@ function Order(props) {
           margin='0 !important'
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
+          fontSize={['sm', 'md']}
         >
           {props.order.full_name}
         </Text>
@@ -145,10 +144,9 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           Phone Number:
         </Text>
@@ -157,6 +155,7 @@ function Order(props) {
           margin='0 !important'
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
+          fontSize={['sm', 'md']}
         >
           {props.order.phone_number}
         </Text>
@@ -167,10 +166,9 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           Address:
         </Text>
@@ -179,6 +177,7 @@ function Order(props) {
           margin='0 !important'
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
+          fontSize={['sm', 'md']}
         >
           {props.order.street_address}
         </Text>
@@ -189,10 +188,9 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           City:
         </Text>
@@ -201,6 +199,7 @@ function Order(props) {
           margin='0 !important'
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
+          fontSize={['sm', 'md']}
         >
           {props.order.city}
         </Text>
@@ -211,16 +210,16 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           Country:
         </Text>
         <Text 
           className='address-text'
           margin='0 !important'
+          fontSize={['sm', 'md']}
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
         >
@@ -234,23 +233,41 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize='xl'
+          fontSize={['sm', 'xl']}
           margin='0 !important'
           marginTop='0.5rem !important'
-          marginLeft='0.5rem !important'
         >
           Postcode:
         </Text>
         <Text 
           className='address-text'
+          fontSize={['sm', 'md']}
           margin='0 !important'
           marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
         >
           {props.order.postcode}
         </Text>
-        </Box>
+
       </Box>
+        <Show breakpoint='(max-width: 750px)'>
+        <Button 
+            className='button' 
+            colorScheme='blue'
+
+            marginRight='1.5rem'
+            alignSelf='flex-start'
+            onClick={() => onClick()}
+            rightIcon={<CgDetailsMore />}
+            maxWidth='128px'
+            marginTop='0.75rem'
+          >
+            Details
+          </Button>
+          </Show>
+        </Box>
+        
+        <Hide breakpoint='(max-width: 750px)'>
           <Button 
             className='button' 
             colorScheme='blue'
@@ -263,6 +280,7 @@ function Order(props) {
           >
             Details
           </Button>
+        </Hide>
     </ListItem>
   )
 }

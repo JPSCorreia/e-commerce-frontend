@@ -1,6 +1,6 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { Box, Image, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, chakra, Text, Image, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../Features/routes';
 import { useEffect } from 'react';
 import Loader from './Loader';
+import { NavLink } from 'react-router-dom';
 
 function Home() {
 
@@ -34,12 +35,25 @@ function Home() {
 
   return(
     <>
-    <Image src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'} margin='1.5rem auto' maxWidth='20%'/>
+    {/* <Image src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'} margin='1.5rem auto' maxWidth='20%'/> */}
+    <NavLink
+      to={'/products/1'}
+      className='home-page-link'
+    >
+      <Image 
+        className='navbar-logo' 
+        src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'}
+        minWidth='215px'
+        maxWidth='215px'
+        margin='0.5rem auto'
+        borderRadius='4px'
+      />
+    </NavLink>
     <Box 
       className='carousel-container'
-      padding='0 auto'
+      // padding='0 auto'
       backgroundColor={backgroundColor}
-      width='95%'
+      width='90%'
       borderRadius='8px'
       margin='0 auto'
       display='flex'

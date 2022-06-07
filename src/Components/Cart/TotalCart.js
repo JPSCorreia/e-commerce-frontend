@@ -17,16 +17,21 @@ function TotalCart() {
       <Box 
         className='total-cart'  
         display='flex'
-        flexDirection='row'
-        margin='1rem' 
-        width='80%'
+        flexDirection={['column','row']}
+        marginBottom='1rem' 
+        width={['90%','80%']}
         alignSelf='center'
         borderRadius=' 3px ' 
-        padding='0 0.5rem'
+        // padding='0 0.5rem'
         justifyContent='space-between'
         alignItems='center'
       >
-        <Heading>Total Price: {Number(totalPrice).toFixed(2).replace('.', ',')}€</Heading>
+        <Heading 
+          fontSize={['xl', '3xl']}
+          marginBottom={['0.5rem','0']}
+        >
+          Total Price: {Number(totalPrice).toFixed(2).replace('.', ',')}€
+        </Heading>
         <Box display='flex'>
         <EmptyCartButton />
         <CheckoutButton />

@@ -94,7 +94,7 @@ function AddAddressButton(props) {
         size='xl'
       >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent width='90%'>
         <ModalHeader>Add a new address</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>

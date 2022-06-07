@@ -33,11 +33,12 @@ function SearchPage() {
     <Box className='search-page' >
       <Breadcrumb  
         display='flex' 
-        width='80%' 
+        width={['90%','80%']} 
         margin='0.5rem auto'
         paddingTop='0.25rem'
         separator={<ChevronRightIcon color='gray.500' />}
         className='breadcrumb'
+        fontSize={['sm', 'md']}
       >
         <BreadcrumbItem  marginLeft='0' marginRight='0' marginBottom='0.25rem'>
           <BreadcrumbLink  as={NavLink} to='/'>
@@ -46,7 +47,7 @@ function SearchPage() {
         </BreadcrumbItem >
         <BreadcrumbItem isCurrentPage marginLeft='0' marginRight='0' marginBottom='0.25rem'>
           <BreadcrumbLink color={themeColor}>
-            Search ({searchString})
+            Search
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>

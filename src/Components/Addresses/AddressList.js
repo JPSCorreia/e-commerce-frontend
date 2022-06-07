@@ -31,7 +31,7 @@ function AddressList() {
 
   return (
     <Box className='address-list'>
-      <List>
+      <List marginBottom='1rem'>
       {addressesData?.map((address, index) => (
           <Address 
             address={address}

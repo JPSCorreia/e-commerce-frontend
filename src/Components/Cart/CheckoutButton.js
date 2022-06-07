@@ -109,13 +109,13 @@ function CheckoutButton() {
       >
         
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent width='90%'>
             <AlertDialogHeader 
               fontSize='lg' 
               fontWeight='bold'
               paddingBottom='0'
             >
-              <Heading marginTop='0.5rem' fontSize='2xl' >Delivery Address</Heading>
+              <Heading marginTop='0.5rem' fontSize={['xl', '2xl']} >Delivery Address</Heading>
               { (addressesData.length > 0)?              
                 <CartAddress 
                   address={addressesData[0]}
