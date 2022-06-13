@@ -17,7 +17,7 @@ import SearchItem from '../Components/Search/SearchItem';
 import ProtectedRoute from '../Components/ProtectedRoute';
 import { useEffect } from 'react';
 import { api } from '../Features/routes';
-import { Box, Divider } from '@chakra-ui/react'
+import { Box, Divider, useColorMode } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from 'react-redux';
 
@@ -31,6 +31,8 @@ function App() {
   // React/Redux State/Action Management.
   const { isAuthenticated, isLoading, user } = useAuth0();
   const dispatch = useDispatch();
+  const { colorMode } = useColorMode()
+
 
   useEffect(() => {
     const getData = async () => {
@@ -45,7 +47,7 @@ function App() {
 
 
   return (
-    <Box className="App">
+    <Box className={(colorMode === 'light')? 'App-light' : 'App-dark' }>
         <NavBar />
         <Divider />
         <Box

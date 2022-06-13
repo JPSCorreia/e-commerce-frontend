@@ -1,7 +1,6 @@
 import '../../Style/App.css';
 import * as React from 'react';
 import TotalCart from './TotalCart';
-import CartAddress from './CartAddress';
 import CartList from './CartList';
 import { NavLink } from 'react-router-dom';
 import { Box, useColorModeValue } from '@chakra-ui/react'
@@ -34,6 +33,7 @@ function CartPage() {
      })
       await dispatch(api.cart.getCartProductsByEmail({token, email: user.email}))
       await dispatch(api.cart.getTotalPrice({user_email: user.email}))
+      await dispatch(api.cart.getNumberOfCartItems({token, email: user.email}))
     }
     getData();
     

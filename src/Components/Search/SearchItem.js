@@ -18,6 +18,8 @@ import {ChevronRightIcon} from '@chakra-ui/icons';
 import {useLocation} from 'react-router-dom'
 import { useState } from 'react';
 import Loader from '../Loader';
+import ProductReviewList from '../Products/ProductReviewList';
+import ReactStars from "react-rating-stars-component";
 
 
 function SearchItem() {
@@ -38,6 +40,16 @@ function SearchItem() {
   const discountGreenColor = useColorModeValue('green.500', 'green.300');
   const discountYellowColor = useColorModeValue('yellow.600', 'yellow.400');
   const productData = useSelector((state) => state.productData.productById.data)
+  const reviewsData = useSelector((state) => state.reviewsData[product.id] || [])
+
+
+  let totalRating = Math.ceil(reviewsData.reduce(function (previousValue, currentValue) {
+    return previousValue + currentValue.rating
+  }, 0)/ reviewsData.length);
+
+
+
+
 
 
   useEffect(() => {
@@ -46,7 +58,7 @@ function SearchItem() {
       location.state? setProduct(location.state.product) : setProduct(productData[0]);
     }
     getData()
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [totalRating]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   useEffect(() => {
@@ -62,7 +74,15 @@ function SearchItem() {
 
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     setTotalRating(Math.ceil(reviewsData.reduce(function (previousValue, currentValue) {
+  //       return previousValue + currentValue.rating
+  //     }, 0)/ reviewsData.length))
+  //   }
+  //   getData()
+  //   console.log(totalRating)
+  // }, [reviewsData]); // eslint-disable-line react-hooks/exhaustive-deps
   
 
 
@@ -87,7 +107,7 @@ function SearchItem() {
       // update number of items in cart and navigate to products page while showing toast
       await dispatch(api.cart.getNumberOfCartItems({token, email: user.email}))
       await dispatch(api.cart.setAddToCartToastDisplayed(false))
-      navigate(`/search/${searchString}`, {state: { product, quantity } } )
+      navigate(`/search/${searchString}`, {state: { product, quantity, toast: true } } )
     }
   }
 
@@ -179,6 +199,36 @@ function SearchItem() {
           >
           </Box>
           </Show>
+          {!isNaN(totalRating) &&
+              <Box
+                marginTop='1rem'
+                display='flex'
+              >
+                <ReactStars
+                  count={5}
+                  value={totalRating}
+                  edit={false}
+                  size={18}
+                  color2={'#ffd700'} 
+                />
+                <Text fontSize='xs' mr='0.25rem'>({reviewsData.length} Ratings)</Text>
+              </Box>
+            }
+            {isNaN(totalRating) &&
+              <Box
+                marginTop='1rem'
+                display='flex'
+              >
+                <ReactStars
+                  count={5}
+                  value={0}
+                  edit={false}
+                  size={18}
+                  color2={'#ffd700'} 
+                />
+                <Text fontSize='xs' mr='0.25rem'>({reviewsData.length} Ratings)</Text>
+              </Box>
+            }
           <Box 
             className='product-price'
             marginTop='1rem'
@@ -252,6 +302,9 @@ function SearchItem() {
         </Hide>
       </Box>
     </Box>
+    <ProductReviewList 
+        productsId={product.id}
+      />
     </Box>
   )
 }

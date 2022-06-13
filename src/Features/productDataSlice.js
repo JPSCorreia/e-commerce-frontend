@@ -12,6 +12,8 @@ export const productDataSlice = createSlice({
     searchResultsIsLoading: true,
     productById: [],
     productByIdIsLoading: true,
+    rating: 0,
+    ratingIsLoading: true
   },
   reducers: {
   },
@@ -73,6 +75,18 @@ export const productDataSlice = createSlice({
     },
     [api.products.getSearchResults.rejected]: (state, action) => {
       state.searchResultsIsLoading = true;
+    },
+
+
+    [api.products.setRating.pending]: (state, action) => {
+      state.ratingIsLoading = true;
+    },
+    [api.products.setRating.fulfilled]: (state, action) => {
+      state.rating = action.payload.rating
+      state.ratingIsLoading = false;
+    },
+    [api.products.setRating.rejected]: (state, action) => {
+      state.ratingIsLoading = true;
     },
 
 

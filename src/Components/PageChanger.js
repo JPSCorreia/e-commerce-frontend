@@ -100,7 +100,7 @@ function PageChanger(){
 
   return (
     <Flex
-      bg={useColorModeValue("white", "gray.600")}
+      // bg={useColorModeValue("white", "gray.600")}
       p={5}
       mt={5}
       w="full"

@@ -22,7 +22,6 @@ function TotalCart() {
         width={['90%','80%']}
         alignSelf='center'
         borderRadius=' 3px ' 
-        // padding='0 0.5rem'
         justifyContent='space-between'
         alignItems='center'
       >

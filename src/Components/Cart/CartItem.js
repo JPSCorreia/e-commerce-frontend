@@ -43,9 +43,8 @@ function CartItem(props) {
     if (props.product.quantity - quantityNumberInput > 0) {
 
       await dispatch(api.cart.setNumberOfCartItems(numberOfCartItems - quantityNumberInput))
-      
       props.product.discount? 
-        await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price*(1-(props.product.discount / 100)) * props.product.quantity))))
+        await dispatch(api.cart.setTotalPrice(totalPrice - ((props.product.price*(1-(props.product.discount / 100)) * quantityNumberInput))))
         :
         await dispatch(api.cart.setTotalPrice(totalPrice - (props.product.price)));
       

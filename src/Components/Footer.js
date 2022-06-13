@@ -1,6 +1,6 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { Box, Text, useColorModeValue, Icon, Link } from '@chakra-ui/react'
+import { Box, Text, useColorMode, useColorModeValue, Icon, Link } from '@chakra-ui/react'
 import { SiGithub, SiNodedotjs, SiReact, SiRedux, SiAuth0 } from "react-icons/si";
 
 function Footer() {
@@ -9,10 +9,11 @@ function Footer() {
 
   const themeColor = useColorModeValue('blue.500', 'blue.200')
   const themeColorNavBar = useColorModeValue('gray.200', 'gray.700')
+  const { colorMode } = useColorMode()
 
   return(
     <Box 
-      className='footer' 
+      className={(colorMode === 'light')? 'footer-light' : 'footer-dark' }
       display='flex'
       fontSize='xl'
       justifyContent='space-between'
@@ -27,12 +28,12 @@ function Footer() {
       margin
       marginTop='0.65rem'
       marginBottom='0.65rem'
-      marginLeft='1.5rem'
+      marginLeft={['0.75rem', '1.5rem']}
       textAlign='left'
      >
      © 2022, Emporium Inc. and its affiliates
      </Text>
-     <Box display='flex' marginRight='1rem'>
+     <Box display='flex' marginRight={['0.25rem', '1rem']}>
      <Link href='https://github.com/JPSCorreia/e-commerce-frontend' display='flex'>
       <Icon as={SiGithub} className='react-icon' />
       </Link>

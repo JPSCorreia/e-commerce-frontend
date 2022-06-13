@@ -16,7 +16,6 @@ import {
 import {ChevronRightIcon} from '@chakra-ui/icons';
 import { useParams } from "react-router-dom";
 
-
 function ProductPage() {
 
   const location = useLocation();
@@ -27,7 +26,7 @@ function ProductPage() {
   const { page } = useParams();
 
   useEffect(() => {
-    if (location.state && !addToCartToastDisplayed) {
+    if (location.state?.toast && !addToCartToastDisplayed) {
       toast({
         title: 'Success!',
         description: `Your item ${location.state.product.name} was added to your cart.`,
@@ -42,6 +41,8 @@ function ProductPage() {
     }
     getData();
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
 
 
   return(

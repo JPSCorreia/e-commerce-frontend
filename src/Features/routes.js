@@ -126,6 +126,18 @@ export const api = {
       }
     ),
 
+
+    // set product rating
+    setRating: createAsyncThunk(
+      'productData/setRating',
+      async (rating) => {
+        return { rating: rating }
+      }
+    ),
+    
+
+    
+
   },
 
 
@@ -319,6 +331,56 @@ export const api = {
 
   },
 
+  // review routes
+  reviews: {
+
+    getReviews: createAsyncThunk(
+      'reviewsData/getReviews',
+      async (obj) => {
+        const response = await axios.get(`${backendURL}/api/reviews/${obj.products_id}`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }}
+        )
+        return { data: response.data, productId: obj.products_id}
+      }
+    ),
+
+    addReview: createAsyncThunk(
+      'reviewsData/addReview',
+      async (obj) => {
+        const response = await axios.post(`${backendURL}/api/reviews`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }, 
+          data: { 
+            products_id: obj.products_id,
+            user_email: obj.user_email,
+            full_name: obj.full_name,
+            comment: obj.comment,
+            rating: obj.rating
+          }
+          }
+        )
+        return { id: response.data, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating}
+      }
+    ),
+
+
+    editReview: createAsyncThunk(
+      'reviewsData/editReview',
+      async (obj) => {
+        await axios.put(`${backendURL}/api/reviews/${obj.id}`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }, 
+          data: { 
+            full_name: obj.full_name,
+            comment: obj.comment,
+            rating: obj.rating
+          }
+          }
+        )
+        return { id: obj.id, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating}
+      }
+    ),
+
+  },
+
 
   // addresses routes
   addresses: {
@@ -339,8 +401,6 @@ export const api = {
           }
           }
         )
-        // console.log(response)
-        // return response
       }
     ),
 

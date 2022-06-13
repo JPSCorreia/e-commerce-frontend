@@ -25,9 +25,9 @@ function OrderDetailed(props) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const allOrderItemsData = useSelector((state) => state.orderData.allOrderItemsData)
-  const order = location.state? location.state : allOrderItemsData
-  const toast = useToast()
   const addOrderToastDisplayed = useSelector((state) => state.orderData.addOrderToastDisplayed)
+  const order = location.state.order? location.state.order : allOrderItemsData
+  const toast = useToast()
   const [loaded, setLoaded] = useState(false);
   const themeColor = useColorModeValue('blue.500', 'blue.200');
 
@@ -55,7 +55,7 @@ function OrderDetailed(props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (location.state && !addOrderToastDisplayed) {
+    if (location.state.toast && !addOrderToastDisplayed) {
       toast({
         title: 'Order Placed',
         description: "Your order was placed successfully",

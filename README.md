@@ -15,9 +15,10 @@
 - Browse the store
 - Search for products
 - Add products to cart
-- Add/edit a delivery address 
+- Add or edit the delivery address 
 - Make a purchase
-- Light and dark color themes
+- Review a product you bought
+- Switch between light and dark color theme
 
 
 **Technologies:**

@@ -1,9 +1,9 @@
 import '../../Style/App.css';
 import * as React from 'react';
 import { CgTrashEmpty } from 'react-icons/cg'
-import { Button, Box, useToast, useDisclosure } from '@chakra-ui/react'
+import { Button, Box, useDisclosure } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
 import {
   AlertDialog,
@@ -19,7 +19,6 @@ function RemoveAddressButton(props) {
   // React/Redux State/Action Management.
   const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
-  const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
 
@@ -32,7 +31,6 @@ function RemoveAddressButton(props) {
    })
    await dispatch(api.addresses.deleteAddress({token, user_email: user.email, id: props.address.id}))
    await dispatch(api.addresses.getAddresses({token, user_email: user.email}))
-   await dispatch(api.addresses.setAdressIndex(0))
    onClose();
   }
 

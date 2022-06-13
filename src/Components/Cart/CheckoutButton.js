@@ -63,7 +63,7 @@ function CheckoutButton() {
       await dispatch(api.orders.setAddOrderToastDisplayed(false))
 
       const order = await dispatch(api.orders.getAllOrderItems({token, id: orderId})).unwrap()
-      await navigate(`/orders/${orderId}`, {state: order })
+      await navigate(`/orders/${orderId}`, {state: {order, toast: true} })
 
     }
     getData();
@@ -81,7 +81,7 @@ function CheckoutButton() {
       await dispatch(api.addresses.getAddresses({token, user_email: user.email})) 
     }
     getData();
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
