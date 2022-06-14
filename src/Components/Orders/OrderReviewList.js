@@ -1,24 +1,26 @@
 import '../../Style/App.css';
-import ProductReview from './ProductReview';
+import OrderReview from './OrderReview';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../Features/routes';
-import { List, useColorModeValue } from '@chakra-ui/react'
+import { List, Text, useColorModeValue } from '@chakra-ui/react'
 import { useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import ProductNewReviewButton from './ProductNewReviewButton';
+import ProductNewReviewButton from '../Products/ProductNewReviewButton';
 import Loader from '../Loader';
 
 
-function ProductReviewList(props) {
+function OrderReviewList(props) {
 
   // React/Redux State/Action Management.
-  const reviewsData = useSelector((state) => state.reviewsData[props.productsId] || [])
-  const reviewsDataIsLoading = useSelector((state) => state.reviewsData.dataIsLoading)
+
+  const orderReviewData = useSelector((state) => state.orderReviewsData[props.orderId] || [])
+  const orderReviewsDataIsLoading = useSelector((state) => state.orderReviewsData.dataIsLoading)
+
   const dispatch = useDispatch();
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
-  
+
 
   useEffect(() => {
     const getData = async () => {
@@ -27,25 +29,27 @@ function ProductReviewList(props) {
        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
        scope: 'openid'
      })
-      await dispatch(api.reviews.getReviews({token, products_id: props.productsId})) 
+     await dispatch(api.orderReviews.getReviews({ token: token, order_id: props.orderId, user_email: user.email }))
     }
     getData();
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (reviewsDataIsLoading) {
+  if (orderReviewsDataIsLoading) {
     return <Loader />
   }
-  
- 
+
+
+
   return(
     <>
-    { reviewsData.length > 0 &&
+    { orderReviewData[props.index] &&
       <List
         className='review'
         flexWrap='wrap'
         display='flex'
         flexDirection='column'
-        width={['90%','80%']}
+        // width={['90%','80%']}
+        width='97%'
         margin='0 auto'
         marginTop='0.75rem'
         marginBottom='1.5rem'
@@ -54,20 +58,24 @@ function ProductReviewList(props) {
         borderColor={borderColor}
         backgroundColor={backgroundColor}
         borderRadius='8px'
+        padding='0'
       >
-        {reviewsData.map((review, index) => (
-          <ProductReview 
-            review={review}
-            key={index}
-            id={`product-${review.id + 1}`}
-          />   
-        ))}
+        
+        { orderReviewData[props.index] &&
+          <>
+            <Text>Your Review</Text>
+            <OrderReview 
+              orderId={props.orderId}
+              review={orderReviewData[props.index]}
+            /> 
+          </>  
+        }
       </List> 
     } 
-    {/* { isAuthenticated && !(reviewsData.find((element) => (element.user_email === user.email))) && <ProductNewReviewButton productsId={props.productsId}/> }   */}
+     
 
     </> 
   )
 }
 
-export default ProductReviewList;
+export default OrderReviewList;

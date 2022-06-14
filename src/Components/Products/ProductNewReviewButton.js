@@ -35,8 +35,10 @@ function ProductNewReviewButton(props) {
         scope: 'openid'
       })
 
+      onClose();
+
       // dispatch review
-      await dispatch(api.reviews.addReview({
+      dispatch(api.reviews.addReview({
         token, 
         products_id: props.productsId,
         user_email: user.email, 
@@ -45,7 +47,9 @@ function ProductNewReviewButton(props) {
         rating: formik.values.rating,
       }))
 
-      onClose();
+      dispatch(api.orderReviews.getReviews({ token: token, order_id: props.orderId, user_email: user.email }))
+      
+
       actions.resetForm();
 
       toast({
@@ -77,10 +81,11 @@ function ProductNewReviewButton(props) {
   return(
     <VStack
       display='flex'
-      width={['90%','80%']}
+      // width={['90%','80%']}
+      width='100%'
       flexDirection='row'
       justifyContent='flex-start'
-      margin='0.75rem auto' 
+      mt='0.75rem'
       as='form'
     >
       <Button 
@@ -88,6 +93,7 @@ function ProductNewReviewButton(props) {
         className='button'
         onClick={onOpen}
         rightIcon={<RiPlayListAddFill />}
+        mb='0.25rem'
       >
         Review Product
       </Button>

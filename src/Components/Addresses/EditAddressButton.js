@@ -47,6 +47,10 @@ function EditAddressButton(props) {
        }))
 
        await dispatch(api.addresses.getAddresses({token, user_email: user.email}))
+
+
+       
+
        onClose();
 
       // alert(JSON.stringify(values, null, 2))

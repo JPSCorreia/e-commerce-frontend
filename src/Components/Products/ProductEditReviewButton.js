@@ -7,15 +7,26 @@ import { reviewSchema } from '../../Validations/ReviewValidation';
 import {RiPlayListAddFill} from 'react-icons/ri'
 import { useFormik } from 'formik';
 import ReactStars from "react-rating-stars-component";
+import { useState, useEffect } from 'react'
 
 
 function ProductEditReviewButton(props) {
 
   // React/Redux State/Action Management.
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const toast = useToast()
+  // const [name, setName] = useState(props.review.full_name)
+  // const [comment, setComment] = useState(props.review.comment)
+  // const [rating, setRating] = useState(props.review.rating)
+
+
+  // useEffect(() => {
+  //   setName(props.review.full_name)
+  //   setComment(props.review.comment)
+  //   setRating(props.review.rating)
+  // }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const formik = useFormik({
@@ -44,9 +55,26 @@ function ProductEditReviewButton(props) {
         full_name: formik.values.name,
         comment: formik.values.comment,
         rating: formik.values.rating,
-      }))
+      }))  
 
-
+      if (props.fromOrder) {
+        // console.log('!')
+        // setName(formik.values.name)
+        // setComment(formik.values.comment)
+        // setRating(formik.values.rating)
+        // await dispatch(api.orderReviews.editReview({
+        //   token, 
+        //   id: props.review.id,
+        //   products_id: props.review.products_id,
+        //   user_email: props.review.user_email,
+        //   full_name: formik.values.name,
+        //   comment: formik.values.comment,
+        //   rating: formik.values.rating,
+        // }))
+        await dispatch(api.orderReviews.getReviews({ token: token, order_id: props.orderId, user_email: user.email }))
+      } else {
+        await dispatch(api.reviews.getReviews({token, products_id: props.productsId})) 
+      }
 
       toast({
         title: `Review Edited`,
@@ -55,12 +83,6 @@ function ProductEditReviewButton(props) {
         duration: 3000,
         isClosable: true,
       })  
-      if (props.fromOrder) {
-        await dispatch(api.reviews.getReview({token, user_email: props.review.user_email, products_id: props.review.products_id}))
-      } else {
-        await dispatch(api.reviews.getReviews({token, products_id: props.productsId})) 
-      }
-      
 
       onClose();
       actions.resetForm();

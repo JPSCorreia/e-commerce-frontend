@@ -20,7 +20,6 @@ function ProductList() {
         flexDirection='row'
         width={['90%','80%']}
         margin='0 auto'
-        // justifyContent='space-between'
       >
         {productData.data?.map((product, index) => (
           <Product 

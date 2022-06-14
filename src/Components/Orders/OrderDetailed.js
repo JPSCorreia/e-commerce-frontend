@@ -20,7 +20,8 @@ import {ChevronRightIcon} from '@chakra-ui/icons';
 
 
 function OrderDetailed(props) {
-  const { getAccessTokenSilently } = useAuth0();
+
+  const { getAccessTokenSilently, user } = useAuth0();
   const location = useLocation();
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -30,6 +31,7 @@ function OrderDetailed(props) {
   const toast = useToast()
   const [loaded, setLoaded] = useState(false);
   const themeColor = useColorModeValue('blue.500', 'blue.200');
+  const orderReviewData = useSelector((state) => state.orderReviewsData[id])
 
   useEffect(() => {
     const getData = async () => {
@@ -38,17 +40,13 @@ function OrderDetailed(props) {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           scope: 'openid'
         })
-      // get all orders from the database and put them in an array
       await dispatch(api.orders.getAllOrderItems({ token: token, id: id }))
       setLoaded(true)
     }
-    if (!location.state) {
       getData();
-    }
-    if (location.state) {
-      setLoaded(true)
-    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+
 
   useEffect(() => {
     if (location.state?.toast && !addOrderToastDisplayed) {
@@ -96,6 +94,9 @@ function OrderDetailed(props) {
       {order.map((orderItem, index) => (
         <OrderItem
           orderItem={orderItem}
+          index={index}
+          orderId={id}
+          review={orderReviewData? orderReviewData[index] : ''}
           key={index}
           id={`order-item-${index+1}`}
         />

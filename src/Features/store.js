@@ -9,6 +9,7 @@ import cartDataSliceReducer from "./cartDataSlice";
 import addressesDataSliceReducer from "./addressesDataSlice";
 import userDataSliceReducer from "./userDataSlice";
 import reviewsDataSliceReducer from "./reviewsDataSlice";
+import orderReviewsDataSliceReducer from "./orderReviewsDataSlice";
 
 const persistConfig = {
   key:'main-root',
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   cartData: cartDataSliceReducer,
   addressesData: addressesDataSliceReducer,
   userData: userDataSliceReducer,
-  reviewsData: reviewsDataSliceReducer
+  reviewsData: reviewsDataSliceReducer,
+  orderReviewsData: orderReviewsDataSliceReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

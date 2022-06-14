@@ -1,11 +1,12 @@
 import '../../Style/App.css';
 import * as React from 'react';
 import { Box, Flex, Hide, Show, ListItem, useColorModeValue } from '@chakra-ui/react'
-import OrderReview from './OrderReview';
+import OrderReviewList from './OrderReviewList';
 import { api } from '../../Features/routes';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth0 } from "@auth0/auth0-react";
+import ProductNewReviewButton from '../Products/ProductNewReviewButton';
 
 function OrderItem(props) {
 
@@ -13,29 +14,21 @@ function OrderItem(props) {
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
   const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
-  const [review, setReview] = useState({})
-  const reviewsData = useSelector((state) => state.reviewsData[props.orderItem.products_id]?.id || [])  
-  const revData = useSelector((state) => state.reviewsData) 
-  console.log(revData)
-  console.log(reviewsData)
+  const orderReviewData = useSelector((state) => state.orderReviewsData[props.orderId] || [])
 
   useEffect(() => {
-
     const getData = async () => {
-
       const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
       await getAccessTokenSilently({
        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
        scope: 'openid'
      })
-     
-     const getReview = await dispatch(api.reviews.getReview({token, user_email: user.email, products_id: props.orderItem.products_id})).unwrap()
-     setReview(getReview)
     }
     getData();
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  
+
+
   return(
     <ListItem 
       id={props.id}
@@ -92,9 +85,16 @@ function OrderItem(props) {
           >
           </Box>
           </Show>
-        <Box 
+          <Box 
           className='product-price'
           marginTop='1rem'
+          marginBottom='1rem'
+          fontSize={['sm', 'md']}
+        >
+          Price per unit: {((props.orderItem.price -(props.orderItem.price * props.orderItem.discount/100))).toFixed(2).replace('.', ',')}€
+        </Box>
+        <Box 
+          className='product-price'
           marginBottom='1rem'
           fontSize={['sm', 'md']}
         >
@@ -107,6 +107,7 @@ function OrderItem(props) {
         >
           Quantity: {props.orderItem.quantity}
         </Box>
+        { !orderReviewData[props.index] && <ProductNewReviewButton orderId={props.orderId} productsId={props.orderItem.products_id} /> } 
       </Box>
       <Hide breakpoint='(max-width: 650px)'>
       <Box
@@ -126,13 +127,13 @@ function OrderItem(props) {
       </Box>
       </Hide>
       </Flex>
-      { review && <OrderReview 
-        review={review}
-        key={review.id}
-        id={`product-${review.id + 1}`}
-      />   
-      }
       
+      { <OrderReviewList 
+          orderId={props.orderId}
+          productId={props.orderItem.product_id}
+          index={props.index}
+        />
+      }
     </ListItem>
   )
 }

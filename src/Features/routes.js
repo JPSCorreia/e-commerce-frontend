@@ -338,7 +338,8 @@ export const api = {
         const response = await axios.get(`${backendURL}/api/reviews/${obj.products_id}`, 
           { headers: {Authorization: `Bearer ${obj.token}` }}
         )
-        return { data: response.data, productId: obj.products_id}
+        const responseData = { data: response.data, productId: obj.products_id}
+        return responseData
       }
     ),
 
@@ -383,12 +384,29 @@ export const api = {
           }
         )
         const response = { id: obj.id, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating}
-        console.log(response)
         return response
       }
     ),
 
   },
+
+  
+  // orderReviews routes
+  orderReviews: {
+
+    getReviews: createAsyncThunk(
+      'orderReviewsData/getReviews',
+      async (obj) => {
+        const response = await axios.get(`${backendURL}/api/orderReviews/${obj.user_email}/${obj.order_id}`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }}
+        )
+        const responseData = { data: response.data, order_id: obj.order_id }
+        return responseData
+      }
+    ),
+
+  },
+
 
 
   // addresses routes
