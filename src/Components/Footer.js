@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Box, Text, useColorMode, useColorModeValue, Icon, Link } from '@chakra-ui/react'
 import { SiGithub, SiNodedotjs, SiReact, SiRedux, SiAuth0 } from "react-icons/si";
 
+
 function Footer() {
 
   // Redux State/Action Management.

@@ -26,7 +26,7 @@ function OrderDetailed(props) {
   const { id } = useParams();
   const allOrderItemsData = useSelector((state) => state.orderData.allOrderItemsData)
   const addOrderToastDisplayed = useSelector((state) => state.orderData.addOrderToastDisplayed)
-  const order = location.state.order? location.state.order : allOrderItemsData
+  const order = location.state?.order? location.state.order : allOrderItemsData
   const toast = useToast()
   const [loaded, setLoaded] = useState(false);
   const themeColor = useColorModeValue('blue.500', 'blue.200');
@@ -38,12 +38,8 @@ function OrderDetailed(props) {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           scope: 'openid'
         })
-      const orderObj = {
-        token: token,
-        id: id
-      }
       // get all orders from the database and put them in an array
-      await dispatch(api.orders.getAllOrderItems(orderObj))
+      await dispatch(api.orders.getAllOrderItems({ token: token, id: id }))
       setLoaded(true)
     }
     if (!location.state) {
@@ -55,7 +51,7 @@ function OrderDetailed(props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (location.state.toast && !addOrderToastDisplayed) {
+    if (location.state?.toast && !addOrderToastDisplayed) {
       toast({
         title: 'Order Placed',
         description: "Your order was placed successfully",

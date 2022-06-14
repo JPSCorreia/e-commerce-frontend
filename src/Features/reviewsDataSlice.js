@@ -5,6 +5,9 @@ export const reviewsDataSlice = createSlice({
   name: 'reviewsData',
   initialState: {
     dataIsLoading: true,
+    singleReview: {},
+    singleReviewIsLoading: true,
+    reviews: [],
   },
   reducers: {
   },
@@ -32,6 +35,28 @@ export const reviewsDataSlice = createSlice({
     [api.reviews.addReview.rejected]: (state, action) => {
       state.dataIsLoading = true;
     },
+
+    [api.reviews.editReview.pending]: (state, action) => {
+      state.dataIsLoading = true;
+    },
+    [api.reviews.editReview.fulfilled]: (state, action) => {
+      state.dataIsLoading = false;
+      console.log(action.payload)
+    },
+    [api.reviews.editReview.rejected]: (state, action) => {
+      state.dataIsLoading = true;
+    },
+
+    // [api.reviews.getReview.pending]: (state, action) => {
+      
+    // },
+    // [api.reviews.getReview.fulfilled]: (state, action) => {
+    //   console.log(action.payload)
+    //   state.reviews[action.payload.products_id] = action.payload 
+      
+    // },
+    // [api.reviews.getReview.rejected]: (state, action) => {
+    // },
 
 
   }

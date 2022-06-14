@@ -1,13 +1,13 @@
 import '../../Style/App.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
-import { useToast, Icon, useColorModeValue, IconButton, Textarea, Select, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, FormErrorMessage, Button, useDisclosure, propNames } from '@chakra-ui/react'
+import { useToast, Textarea, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, FormErrorMessage, Button, useDisclosure } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { reviewSchema } from '../../Validations/ReviewValidation';
 import {RiPlayListAddFill} from 'react-icons/ri'
-import { useFormik, Field } from 'formik';
-import { ImStarEmpty, ImStarHalf, ImStarFull } from 'react-icons/im'
+import { useFormik } from 'formik';
 import ReactStars from "react-rating-stars-component";
+
 
 function ProductEditReviewButton(props) {
 
@@ -46,8 +46,7 @@ function ProductEditReviewButton(props) {
         rating: formik.values.rating,
       }))
 
-      onClose();
-      actions.resetForm();
+
 
       toast({
         title: `Review Edited`,
@@ -56,8 +55,15 @@ function ProductEditReviewButton(props) {
         duration: 3000,
         isClosable: true,
       })  
+      if (props.fromOrder) {
+        await dispatch(api.reviews.getReview({token, user_email: props.review.user_email, products_id: props.review.products_id}))
+      } else {
+        await dispatch(api.reviews.getReviews({token, products_id: props.productsId})) 
+      }
+      
 
-      await dispatch(api.reviews.getReviews({token, products_id: props.productsId})) 
+      onClose();
+      actions.resetForm();
     }
   })
 

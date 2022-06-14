@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { api } from '../../Features/routes';
 import { useAuth0 } from "@auth0/auth0-react";
 
+
 function OrdersPage() {
 
   const themeColor = useColorModeValue('blue.500', 'blue.200');
@@ -33,7 +34,7 @@ function OrdersPage() {
       })) 
     }
     getData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return(
     <Box className='order-page' >

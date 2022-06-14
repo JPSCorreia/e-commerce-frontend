@@ -15,8 +15,6 @@ function SearchResults(props) {
     return <Loader />
   }
 
-  
-
   return (
     <Box 
       className='product-list'

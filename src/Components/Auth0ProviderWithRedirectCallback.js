@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router';
 import { Auth0Provider } from '@auth0/auth0-react';
 
+
 function Auth0ProviderWithRedirectCallback ({ children }) {
 
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-  // const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
-  // const scope = 'openid'
   const navigate = useNavigate();
   const onRedirectCallback = (appState) => {
     navigate( appState?.returnTo || window.location.pathname);

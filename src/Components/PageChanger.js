@@ -1,7 +1,7 @@
 import '../Style/App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../Features/routes';
-import { useColorModeValue, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import PagButton from './PagButton';
 import { NavLink } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -100,7 +100,6 @@ function PageChanger(){
 
   return (
     <Flex
-      // bg={useColorModeValue("white", "gray.600")}
       p={5}
       mt={5}
       w="full"
@@ -108,30 +107,7 @@ function PageChanger(){
       justifyContent="center"
     >
       <Flex>
-        {/* <PagButton disabled>previous</PagButton> */}
-
         {pages}
-        
-        {/* <NavLink
-            to={'/products/1'}
-            className='products-page-link'
-          >
-           <PagButton active>1</PagButton>
-        </NavLink>
-        <NavLink
-            to={'/products/2'}
-            className='products-page-link'
-          >
-            <PagButton>2</PagButton>
-        </NavLink>
-        <NavLink
-            to={'/products/3'}
-            className='products-page-link'
-          >
-            <PagButton>3</PagButton>
-        </NavLink>
-        <PagButton>4</PagButton>
-        <PagButton>5</PagButton> */}
       </Flex>
     </Flex>
   );

@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { api } from '../../Features/routes';
 import { useDispatch, useSelector } from 'react-redux';
 
+
 function OrderPlaced() {
 
   const toast = useToast()

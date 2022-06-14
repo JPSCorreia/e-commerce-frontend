@@ -1,8 +1,7 @@
 import '../../Style/App.css';
 import { Box, useColorModeValue, useColorMode, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
-import { useParams, useNavigate } from "react-router-dom";
-import { api } from '../../Features/routes';
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
 function SearchBar() {

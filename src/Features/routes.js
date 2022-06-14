@@ -3,7 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const backendURL = process.env.REACT_APP_IN_DEVELOPMENT? process.env.REACT_APP_BACKEND_URL : process.env.REACT_APP_PUBLIC_BACKEND_URL 
 
-
 // endpoints
 export const api = {
 
@@ -125,7 +124,6 @@ export const api = {
         return response
       }
     ),
-
 
     // set product rating
     setRating: createAsyncThunk(
@@ -362,6 +360,15 @@ export const api = {
       }
     ),
 
+    getReview: createAsyncThunk(
+      'reviewsData/getReview',
+      async (obj) => {
+        const response = await axios.get(`${backendURL}/api/reviews/get_review/${obj.user_email}/${obj.products_id}`, 
+          { headers: {Authorization: `Bearer ${obj.token}` }  }
+        )
+        return response.data
+      }
+    ),
 
     editReview: createAsyncThunk(
       'reviewsData/editReview',
@@ -375,7 +382,9 @@ export const api = {
           }
           }
         )
-        return { id: obj.id, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating}
+        const response = { id: obj.id, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating}
+        console.log(response)
+        return response
       }
     ),
 
@@ -444,5 +453,3 @@ export const api = {
   }
 
 }
-
-

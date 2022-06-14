@@ -2,6 +2,7 @@ import '../Style/App.css';
 import * as React from 'react';
 import { Box, Spinner, useColorModeValue } from '@chakra-ui/react'
 
+
 function Loader() {
 
   const spinnerColor = useColorModeValue('blue.500', 'blue.200');

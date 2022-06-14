@@ -2,7 +2,7 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { api } from '../../Features/routes';
-import { Box, Text, Show, Hide, Image, Button, useColorModeValue } from '@chakra-ui/react'
+import { Box, Text, Show, Hide, Button, useColorModeValue } from '@chakra-ui/react'
 import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,17 +48,13 @@ function SearchItem() {
   }, 0)/ reviewsData.length);
 
 
-
-
-
-
   useEffect(() => {
     const getData = async () => {
       await dispatch(api.products.getProductById(id)) 
       location.state? setProduct(location.state.product) : setProduct(productData[0]);
     }
     getData()
-  }, [totalRating]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   useEffect(() => {
@@ -73,18 +69,6 @@ function SearchItem() {
     getData();
 
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     setTotalRating(Math.ceil(reviewsData.reduce(function (previousValue, currentValue) {
-  //       return previousValue + currentValue.rating
-  //     }, 0)/ reviewsData.length))
-  //   }
-  //   getData()
-  //   console.log(totalRating)
-  // }, [reviewsData]); // eslint-disable-line react-hooks/exhaustive-deps
-  
-
 
 
   const addToCart = async () => {

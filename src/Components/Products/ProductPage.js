@@ -16,6 +16,7 @@ import {
 import {ChevronRightIcon} from '@chakra-ui/icons';
 import { useParams } from "react-router-dom";
 
+
 function ProductPage() {
 
   const location = useLocation();

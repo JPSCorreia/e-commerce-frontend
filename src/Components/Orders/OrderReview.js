@@ -1,11 +1,11 @@
 import '../../Style/App.css';
-import { Flex, Text, ListItem, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import ReactStars from "react-rating-stars-component";
 import { useAuth0 } from "@auth0/auth0-react";
-import ProductEditReviewButton from './ProductEditReviewButton';
+import ProductEditReviewButton from '../Products/ProductEditReviewButton';
 
 
-function ProductReview(props) {
+function OrderReview(props) {
 
   // React/Redux State/Action Management.
   const borderColor = useColorModeValue('blue.500', 'blue.200');
@@ -13,7 +13,7 @@ function ProductReview(props) {
   const { user, isAuthenticated } = useAuth0();
 
   return(
-    <ListItem 
+    <Flex 
       className='review'
       width={["95%", "96%", "97%", "98%"]}
       display='flex'
@@ -28,21 +28,21 @@ function ProductReview(props) {
     >  
       <Flex ml='0.75rem' mt='0.5rem' justifyContent='start' >
         <Text fontSize='1.25rem' mr='1rem' >
-          {props.review.full_name}
+          {props.review?.full_name}
         </Text>
         <ReactStars
           count={5}
-          value={props.review.rating}
+          value={props.review?.rating}
           edit={false}
           size={18}
           color2={'#ffd700'} 
         />
       </Flex>
 
-      <Text mt='0.75rem' ml='0.75rem' mb='0.5rem' textAlign='start'>{props.review.comment}</Text>
-      { isAuthenticated && props.review.user_email === user.email && <ProductEditReviewButton review={props.review} productsId={props.review.products_id}/>}
-    </ListItem>
+      <Text mt='0.75rem' ml='0.75rem' mb='0.5rem' textAlign='start'>{props.review?.comment}</Text>
+      { isAuthenticated && props.review?.user_email === user.email && <ProductEditReviewButton fromOrder={true} review={props.review} productsId={props.review.products_id}/>}
+    </Flex>
   )
 }
 
-export default ProductReview;
+export default OrderReview;

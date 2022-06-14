@@ -1,13 +1,13 @@
 import '../../Style/App.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { api } from '../../Features/routes';
-import { useToast, Icon, useColorModeValue, IconButton, Textarea, Select, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, FormErrorMessage, Button, useDisclosure, propNames } from '@chakra-ui/react'
+import { useToast, Textarea, VStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, FormLabel, FormErrorMessage, Button, useDisclosure } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { reviewSchema } from '../../Validations/ReviewValidation';
 import {RiPlayListAddFill} from 'react-icons/ri'
-import { useFormik, Field } from 'formik';
-import { ImStarEmpty, ImStarHalf, ImStarFull } from 'react-icons/im'
+import { useFormik } from 'formik';
 import ReactStars from "react-rating-stars-component";
+
 
 function ProductNewReviewButton(props) {
 
@@ -16,7 +16,6 @@ function ProductNewReviewButton(props) {
   const { user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const toast = useToast()
-  const backgroundColor = useColorModeValue("white", "gray.700")
 
 
   const formik = useFormik({
@@ -37,7 +36,6 @@ function ProductNewReviewButton(props) {
       })
 
       // dispatch review
-
       await dispatch(api.reviews.addReview({
         token, 
         products_id: props.productsId,

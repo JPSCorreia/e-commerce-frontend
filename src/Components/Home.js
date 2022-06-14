@@ -1,6 +1,6 @@
 import '../Style/App.css';
 import * as React from 'react';
-import { Box, chakra, Text, Image, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, Image, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -10,6 +10,7 @@ import { api } from '../Features/routes';
 import { useEffect } from 'react';
 import Loader from './Loader';
 import { NavLink } from 'react-router-dom';
+
 
 function Home() {
 
@@ -35,7 +36,6 @@ function Home() {
 
   return(
     <>
-    {/* <Image src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'} margin='1.5rem auto' maxWidth='20%'/> */}
     <NavLink
       to={'/products/1'}
       className='home-page-link'
@@ -51,7 +51,6 @@ function Home() {
     </NavLink>
     <Box 
       className='carousel-container'
-      // padding='0 auto'
       backgroundColor={backgroundColor}
       width='90%'
       borderRadius='8px'

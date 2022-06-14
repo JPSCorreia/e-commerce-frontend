@@ -1,13 +1,40 @@
 import '../../Style/App.css';
 import * as React from 'react';
-
-import { Box, Hide, Show, Image, ListItem, useColorModeValue } from '@chakra-ui/react'
+import { Box, Flex, Hide, Show, ListItem, useColorModeValue } from '@chakra-ui/react'
+import OrderReview from './OrderReview';
+import { api } from '../../Features/routes';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function OrderItem(props) {
 
-
   // React/Redux State/Action Management.
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
+  const { user, getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
+  const [review, setReview] = useState({})
+  const reviewsData = useSelector((state) => state.reviewsData[props.orderItem.products_id]?.id || [])  
+  const revData = useSelector((state) => state.reviewsData) 
+  console.log(revData)
+  console.log(reviewsData)
+
+  useEffect(() => {
+
+    const getData = async () => {
+
+      const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+      await getAccessTokenSilently({
+       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+       scope: 'openid'
+     })
+     
+     const getReview = await dispatch(api.reviews.getReview({token, user_email: user.email, products_id: props.orderItem.products_id})).unwrap()
+     setReview(getReview)
+    }
+    getData();
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   
   return(
     <ListItem 
@@ -16,14 +43,17 @@ function OrderItem(props) {
       display='flex'
       justifyContent='space-between'
       width={['90%','80%']}
+      flexDirection='column'
       margin='1rem auto'
-      // alignItems='center'
       borderColor={
         useColorModeValue('blue.500', 'blue.200')
       }
       borderRadius='8px'
       backgroundColor={backgroundColor}
     >
+      <Flex 
+       flexDirection='row'
+      >
       <Box 
         className='product-description'
         display='flex'
@@ -31,7 +61,7 @@ function OrderItem(props) {
         justifyContent='flex-start'
         textAlign='left'
         margin='1.25rem 1rem'
-        width={['95%','95%','50%']}
+        width='100%'
       >
         <Box 
           className='product-name'
@@ -95,6 +125,14 @@ function OrderItem(props) {
       >
       </Box>
       </Hide>
+      </Flex>
+      { review && <OrderReview 
+        review={review}
+        key={review.id}
+        id={`product-${review.id + 1}`}
+      />   
+      }
+      
     </ListItem>
   )
 }

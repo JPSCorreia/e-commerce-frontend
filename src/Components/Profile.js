@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 import {ChevronRightIcon} from '@chakra-ui/icons';
 
+
 function Profile() {
 
   const { isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();

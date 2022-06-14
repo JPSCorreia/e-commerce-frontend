@@ -2,7 +2,7 @@ import '../Style/App.css';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Show, Hide, Text, Flex, useColorModeValue, Avatar, useColorMode, Image, Icon, } from '@chakra-ui/react'
+import { Box, Hide, Text, Flex, useColorModeValue, Avatar, useColorMode, Image, Icon } from '@chakra-ui/react'
 import { useSelector } from 'react-redux';
 import {
   Menu,
@@ -56,7 +56,6 @@ function NavBar() {
             to={'/'}
             className='home-page-link'
           >
-            
               <Image 
                 className='navbar-logo' 
                 src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'}
@@ -65,8 +64,6 @@ function NavBar() {
                 marginLeft='0.75rem'
                 borderRadius='4px'
               />
-            
-            
           </NavLink>
         <Text 
           as='span'

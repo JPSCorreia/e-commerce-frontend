@@ -4,6 +4,7 @@ import { Box, Button, ListItem, useColorModeValue, Text, chakra, Flex } from '@c
 import { NavLink } from 'react-router-dom';
 import { CgDetailsMore } from 'react-icons/cg'
 
+
 function Product(props) {
 
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');

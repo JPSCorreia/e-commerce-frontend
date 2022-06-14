@@ -2,11 +2,12 @@ import '../../Style/App.css';
 import ProductReview from './ProductReview';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../Features/routes';
-import { Box, Text, List, useColorModeValue } from '@chakra-ui/react'
+import { List, useColorModeValue } from '@chakra-ui/react'
 import { useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import ProductNewReviewButton from './ProductNewReviewButton';
 import Loader from '../Loader';
+
 
 function ProductReviewList(props) {
 
@@ -29,7 +30,7 @@ function ProductReviewList(props) {
       await dispatch(api.reviews.getReviews({token, products_id: props.productsId})) 
     }
     getData();
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (reviewsDataIsLoading) {
     return <Loader />

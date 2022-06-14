@@ -1,7 +1,6 @@
 import '../Style/App.css';
 import * as React from 'react';
 import Home from '../Components/Home'
-import UserList from '../Components/UserList'
 import ProductPage from '../Components/Products/ProductPage'
 import ProductItem from '../Components/Products/ProductItem'
 import CartPage from '../Components/Cart/CartPage'
@@ -61,7 +60,6 @@ function App() {
             <Route path="/products/:page/item/:id" element={ <ProductItem /> }/>
             <Route path="/search/:searchString/products/item/:id" element={ <SearchItem /> }/>
             <Route path="/search/:searchString" element={ <SearchPage /> }/>
-            <Route path="/users" element={ <ProtectedRoute component={UserList} /> }/>
             <Route path="/cart" element={ <ProtectedRoute component={CartPage} /> }/>
             <Route path="/orders" element={ <ProtectedRoute component={OrdersPage} /> }/>
             <Route path="/profile" element={ <ProtectedRoute component={Profile} /> }/>

@@ -2,19 +2,14 @@ import '../../Style/App.css';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { api } from '../../Features/routes';
-import { Box, Heading, Show, Hide, Text, Button, useColorModeValue } from '@chakra-ui/react'
-import {NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
+import { Box, Show, Hide, Text, Button, useColorModeValue, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
+import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-} from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom';
-import {ChevronRightIcon} from '@chakra-ui/icons';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 import ProductReviewList from './ProductReviewList';
 import Loader from '../Loader';
 import ReactStars from "react-rating-stars-component";
@@ -28,7 +23,7 @@ function ProductItem() {
   const borderColor = useColorModeValue('blue.500', 'blue.200');
   const { id } = useParams();
   const page = Number(useParams().page);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const productIsLoading = useSelector((state) => state.productData.dataIsLoading)
   const product = useSelector((state) => state.productData.data || '')
   const cartData = useSelector((state) => state.cartData.cartProductsData)
@@ -38,10 +33,13 @@ function ProductItem() {
   const discountGreenColor = useColorModeValue('green.500', 'green.300');
   const discountYellowColor = useColorModeValue('yellow.600', 'yellow.400');
   const [isLoaded, setIsLoaded] = useState(false)
-  const reviewsData = useSelector((state) => state.reviewsData[product.data[id-1-((page-1)*9)].id] || [])
-
-  const rating = useSelector((state) => state.productData.rating)
   
+  // define product and review based on product id and page
+  const productIndex = id-1-((page-1)*9)
+  const productItem = product.data[productIndex]; 
+  const reviewsData = useSelector((state) => state.reviewsData[productItem.id] || [])  
+
+  // get product average rating from all user reviews
   let totalRating = Math.ceil(reviewsData.reduce(function (previousValue, currentValue) {
     return previousValue + currentValue.rating
   }, 0)/ reviewsData.length);
@@ -58,17 +56,10 @@ function ProductItem() {
         await dispatch(api.products.getProductPage(page)) 
       }
       if (isAuthenticated) await dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
-
-      dispatch(api.products.setRating(Math.ceil(reviewsData.reduce(function (previousValue, currentValue) {
-        return previousValue + currentValue.rating
-      }, 0)/ reviewsData.length)))
     }
     getData();
     
-  }, [reviewsData]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  console.log(rating)
-
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const addToCart = async () => {
 
@@ -95,13 +86,12 @@ function ProductItem() {
         await dispatch(api.cart.getNumberOfCartItems({token, email: user.email}))
         await dispatch(api.cart.getTotalPrice({user_email: user.email}))
         await dispatch(api.cart.setAddToCartToastDisplayed(false))
-        navigate(`/products/${page}`, {state: { product: product.data[id-1-((page-1)*9)], quantity, toast: true } } )
+        navigate(`/products/${page}`, {state: { product: productItem, quantity, toast: true } } )
       }
     } else {
       loginWithRedirect();
     }
   }
-
 
   if (productIsLoading && !isLoaded) {
     return <Loader />
@@ -166,14 +156,14 @@ function ProductItem() {
               className='product-name'
               fontSize={['sm', 'md']}
             >
-              {product.data[id-1-((page-1)*9)].name}
+              {productItem.name}
             </Box>
             <Box 
               className='product-name'
               marginTop='1rem'
               fontSize={['sm', 'md']}
             >
-              {product.data[id-1-((page-1)*9)].description} 
+              {productItem.description} 
             </Box>
             <Show breakpoint='(max-width: 650px)'>
               <Box
@@ -186,7 +176,7 @@ function ProductItem() {
                 bgPos="center"
                 style={{
                   backgroundImage:
-                    `url(/images/${product.data[id-1-((page-1)*9)].image_link}.png`
+                    `url(/images/${productItem.image_link}.png`
                 }}
               >
               </Box>
@@ -229,15 +219,15 @@ function ProductItem() {
               fontSize={['sm', 'md']}
             >
               Price:  
-              { product.data[id-1-((page-1)*9)].discount?
+              { productItem.discount?
               <>
-                <Text as='span' fontSize={['xs','sm']} textDecoration='line-through' color={discountRedColor}> {product.data[id-1-((page-1)*9)].price.toFixed(2).replace('.', ',')}€</Text>
-                <Text as='span' fontSize={['lg','xl']} color={discountGreenColor}>{(product.data[id-1-((page-1)*9)].price*(1-(product.data[id-1-((page-1)*9)].discount / 100))).toFixed(2).replace('.', ',')}€</Text>
-                <Text as='span' fontSize={['sm','md']} color={discountYellowColor}>(-{product.data[id-1-((page-1)*9)].discount}%)</Text>
+                <Text as='span' fontSize={['xs','sm']} textDecoration='line-through' color={discountRedColor}> {productItem.price.toFixed(2).replace('.', ',')}€</Text>
+                <Text as='span' fontSize={['lg','xl']} color={discountGreenColor}>{(productItem.price*(1-(productItem.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
+                <Text as='span' fontSize={['sm','md']} color={discountYellowColor}>(-{productItem.discount}%)</Text>
               </>
               :
               <>
-                <Text as='span' fontSize={['sm','md']} >{(product.data[id-1-((page-1)*9)].price).toFixed(2).replace('.', ',')}€</Text>
+                <Text as='span' fontSize={['sm','md']} >{(productItem.price).toFixed(2).replace('.', ',')}€</Text>
               </>
               }
             </Box>
@@ -246,13 +236,13 @@ function ProductItem() {
               marginBottom='0.5rem'
               fontSize={['sm', 'md']}
             >
-              Stock: {product.data[id-1-((page-1)*9)].stock}
+              Stock: {productItem.stock}
             </Box>
               <NumberInput 
                 id={'number-input-'+id} 
                 defaultValue={1} 
                 min={1} 
-                max={product.data[id-1-((page-1)*9)].stock}
+                max={productItem.stock}
                 marginBottom='0.75rem'
               >
                 <NumberInputField />
@@ -284,7 +274,7 @@ function ProductItem() {
               bgPos="center"
               style={{
                 backgroundImage:
-                  `url(/images/${product.data[id-1-((page-1)*9)].image_link}.png`
+                  `url(/images/${productItem.image_link}.png`
               }}
             >
             </Box>
@@ -292,7 +282,7 @@ function ProductItem() {
         </Box>
       </Box>
       <ProductReviewList 
-        productsId={product.data[id-1-((page-1)*9)].id}
+        productsId={productItem.id}
       />
     </Box>
   )

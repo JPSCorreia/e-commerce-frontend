@@ -16,9 +16,7 @@ function AddressList() {
   const { user, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-
     const getData = async () => {
-
       const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
       await getAccessTokenSilently({
        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
@@ -27,7 +25,7 @@ function AddressList() {
       await dispatch(api.addresses.getAddresses({token, user_email: user.email})) 
     }
     getData();
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box className='address-list'>

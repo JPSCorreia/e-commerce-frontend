@@ -1,11 +1,6 @@
 import '../../Style/App.css';
 import * as React from 'react';
-import Address from '../Addresses/Address';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { useAuth0 } from "@auth0/auth0-react";
-import { api } from '../../Features/routes';
-import { Text, List, Box, ListItem, useColorModeValue } from '@chakra-ui/react'
+import { Text, Box, useColorModeValue } from '@chakra-ui/react'
 import RemoveAddressButton from '../Addresses/RemoveAddressButton';
 import EditAddressButton from '../Addresses/EditAddressButton';
 
@@ -14,9 +9,6 @@ import EditAddressButton from '../Addresses/EditAddressButton';
 function CartAddress(props) {
 
   // React/Redux State/Action Management.
-  const dispatch = useDispatch();
-  const addressesData = useSelector((state) => state.addressesData.data || [])
-  const { user, getAccessTokenSilently } = useAuth0();
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
 
 
