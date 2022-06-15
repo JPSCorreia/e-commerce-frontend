@@ -70,6 +70,7 @@ function NavBar() {
           margin='auto 0'
           marginLeft='1.5rem'
           fontSize={[ "sm", "md", "xl", "2xl" ]}
+          fontWeight="bold"
           fontFamily
           textDecoration='none'
           _hover={{
@@ -80,6 +81,7 @@ function NavBar() {
           <NavLink
             to={'/products/1'}
             className='products-page-link'
+            
           >
             Browse
           </NavLink>
@@ -99,7 +101,7 @@ function NavBar() {
             className="app-link"
             marginRight='1rem'
             fontSize={[ "sm", "md", "xl", "2xl" ]}
-            fontWeight={["bold", "normal"]}
+            fontWeight="bold"
             _hover={{
               color: themeColor,
               transition: '0.2s',

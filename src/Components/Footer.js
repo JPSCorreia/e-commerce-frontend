@@ -32,7 +32,7 @@ function Footer() {
       marginLeft={['0.75rem', '1.5rem']}
       textAlign='left'
      >
-     © 2022, Emporium Inc. and its affiliates
+     © 2022, Emporium Inc.
      </Text>
      <Box display='flex' marginRight={['0.25rem', '1rem']}>
      <Link href='https://github.com/JPSCorreia/e-commerce-frontend' display='flex'>

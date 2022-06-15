@@ -56,18 +56,20 @@ function Order(props) {
         >      
         <Text 
           className='address-text' 
-          fontSize={['sm', 'xl']}
+          fontSize={['md', '2xl']}
           margin='0 !important'
+          fontWeight='bold'
           // marginTop='0.5rem !important'
         >
-          Order:
+          Order
         </Text>
         <Text 
           className='address-text'
           margin='0 !important'
           // marginTop='0.5rem !important'
           marginLeft='0.5rem !important'
-          fontSize={['sm', 'md']}
+          fontSize={['md', '2xl']}
+          fontWeight='bold'
         >
           #{props.order.id}
         </Text>

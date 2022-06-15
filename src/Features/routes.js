@@ -79,6 +79,16 @@ export const api = {
       }
     ),
 
+    // get list of all products.
+    getMostDiscountedProducts: createAsyncThunk(
+      'productData/getMostDiscountedProducts',
+      async (number) => { 
+        const response = await axios.get(`${backendURL}/api/products/discounted/${number}`) 
+        console.log(response)
+        return response.data
+      }
+    ),
+
     // set product stock
     setStock: createAsyncThunk(
       'productData/setStock',

@@ -81,7 +81,7 @@ function CartItem(props) {
           margin='1.25rem 1rem'
           width={['95%','95%','50%']}
         >
-          <Box className='product-name' fontSize={['sm', 'md']}>
+          <Box className='product-name' fontWeight="bold" fontSize={['sm', 'md']}>
             {props.product.name} 
           </Box>
           <Box 

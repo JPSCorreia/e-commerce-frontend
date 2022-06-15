@@ -10,7 +10,7 @@ function CarouselItem(props) {
 
   return(
     <Box>
-    <Text fontSize={['2xl', '4xl']} >{props.product.description}</Text>
+    {/* <Text fontWeight="bold" fontSize={['2xl', '4xl']} >{props.product.description}</Text> */}
     <Box  
       overflow='hidden'   
     >
@@ -25,6 +25,7 @@ function CarouselItem(props) {
         {/* </AspectRatio> */}
       </NavLink>
     </Box>
+    <Text mt='0.5rem' mb='0.5rem' fontWeight='bold' fontSize='xl'>{props.product.description}</Text>
     <Text marginBottom='0.5rem'>{props.product.name}</Text>
     {props.product.discount?
     <>

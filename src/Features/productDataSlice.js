@@ -13,7 +13,9 @@ export const productDataSlice = createSlice({
     productById: [],
     productByIdIsLoading: true,
     rating: 0,
-    ratingIsLoading: true
+    ratingIsLoading: true,
+    discountedProducts: [],
+    discountedProductsDataIsLoading: true
   },
   reducers: {
   },
@@ -51,6 +53,18 @@ export const productDataSlice = createSlice({
     },
     [api.products.getProductPage.rejected]: (state, action) => {
       state.dataIsLoading = true;
+    },
+
+
+    [api.products.getMostDiscountedProducts.pending]: (state, action) => {
+      state.discountedProductsDataIsLoading = true;
+    },
+    [api.products.getMostDiscountedProducts.fulfilled]: (state, action) => {
+      state.discountedProducts = action.payload;
+      state.discountedProductsDataIsLoading = false;
+    },
+    [api.products.getMostDiscountedProducts.rejected]: (state, action) => {
+      state.discountedProductsDataIsLoading = true;
     },
 
 

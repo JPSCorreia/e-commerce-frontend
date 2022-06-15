@@ -11,6 +11,8 @@ function SearchResults(props) {
   const searchResults = useSelector((state) => state.productData.searchResults)
   const searchResultsIsLoading = useSelector((state) => state.productData.searchResultsIsLoading)
   
+
+
   if (searchResultsIsLoading) {
     return <Loader />
   }
@@ -28,7 +30,7 @@ function SearchResults(props) {
         margin='0 auto'
         justifyContent={[ "center", "center" , "center", "center", "flex-start" ]}
       >
-        {searchResults.data?.map((product, index) => (
+        {searchResults && searchResults.data?.map((product, index) => (
           <Product 
             searchString={props.searchString}
             fromSearch

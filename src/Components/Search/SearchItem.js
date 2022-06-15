@@ -39,7 +39,7 @@ function SearchItem() {
   const discountRedColor = useColorModeValue('red.500', 'red.300');
   const discountGreenColor = useColorModeValue('green.500', 'green.300');
   const discountYellowColor = useColorModeValue('yellow.600', 'yellow.400');
-  const productData = useSelector((state) => state.productData.productById.data)
+  const productData = useSelector((state) => state.productData?.productById?.data)
   const reviewsData = useSelector((state) => state.reviewsData[product.id] || [])
 
 
@@ -157,6 +157,7 @@ function SearchItem() {
           <Box 
             className='product-name'
             fontSize={['sm', 'md']}
+            fontWeight="bold"
           >
            {product.name} 
           </Box>

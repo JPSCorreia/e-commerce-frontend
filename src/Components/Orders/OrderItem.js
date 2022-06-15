@@ -59,6 +59,7 @@ function OrderItem(props) {
         <Box 
           className='product-name'
           fontSize={['sm', 'md']}
+          fontWeight="bold"
         >
           {props.orderItem.name}
         </Box>

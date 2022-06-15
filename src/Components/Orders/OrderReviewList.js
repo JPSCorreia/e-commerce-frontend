@@ -63,7 +63,7 @@ function OrderReviewList(props) {
         
         { orderReviewData[props.index] &&
           <>
-            <Text>Your Review</Text>
+            <Text fontSize={['sm', 'md', 'lg']}>Your Review</Text>
             <OrderReview 
               orderId={props.orderId}
               review={orderReviewData[props.index]}
