@@ -64,20 +64,17 @@ function Home() {
       <Text fontSize={['xs', 'sm', 'md']} color='white'>Shipping worlwide. Free shipping on all orders to the EU.</Text>
     </Box>
     <Show breakpoint='(max-width: 550px)'>
-          <NavLink
-            to={'/'}
-            className='home-page-link'
-          >
-              <Image 
-                className='navbar-logo' 
-                src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'}
-                minWidth='320px'
-                maxWidth='320px'
-                margin='0 auto'
-                mt={4}
-                borderRadius='4px'
-              />
-          </NavLink>
+      <Image 
+        className='navbar-logo' 
+        src={(colorMode === 'light')? '/images/emporium-light.png' : '/images/emporium-dark.png'}
+        // minWidth='320px'
+        // maxWidth='320px'
+        minWidth={['280px', '320px']}
+        maxWidth={['280px', '320px']}
+        margin='0 auto'
+        mt={4}
+        borderRadius='4px'
+      />
     </Show>
     <Box 
       // className='carousel-container'

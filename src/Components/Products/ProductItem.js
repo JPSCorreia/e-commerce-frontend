@@ -44,7 +44,6 @@ function ProductItem() {
     return previousValue + currentValue.rating
   }, 0)/ reviewsData.length);
 
-
   useEffect(() => {
     const getData = async () => {
       const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
@@ -52,9 +51,7 @@ function ProductItem() {
        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
        scope: 'openid'
      })
-      if (product.length === 0) {
         await dispatch(api.products.getProductPage(page)) 
-      }
       if (isAuthenticated) await dispatch(api.cart.getCartProductsByEmail({ token, email: user.email }))
     }
     getData();
@@ -167,8 +164,8 @@ function ProductItem() {
             </Box>
             <Show breakpoint='(max-width: 650px)'>
               <Box
-                h='216px'
-                w="288px"
+                h={['160px', '180px', '216px']}
+                w={['220px', '240px', "288px"]}
                 margin='0 auto'
                 marginTop='1rem'
                 rounded="lg"
@@ -264,8 +261,8 @@ function ProductItem() {
           </Box>
           <Hide breakpoint='(max-width: 650px)'>
             <Box
-              h='216px'
-              w="288px"
+              h={['170px', '180px', '270px']}
+              w={["400px", "380px", "320px"]}
               marginRight='1.25rem'
               marginTop='1.25rem'
               marginBottom='1.25rem'

@@ -28,17 +28,17 @@ function CarouselItem(props) {
     <Text mt='0.5rem' mb='0.5rem' fontWeight='bold' fontSize='xl'>{props.product.description}</Text>
     <Text marginBottom='0.5rem'>{props.product.name}</Text>
     {props.product.discount?
-    <>
+    <Box mb={5}>
       <Text as='span'>In stock now for only: </Text>
       <Text as='span' textDecoration='line-through' color={discountRedColor}>{props.product.price.toFixed(2).replace('.', ',')}€</Text>
       <Text as='span' fontSize='2xl' color={discountGreenColor}>{(props.product.price*(1-(props.product.discount / 100))).toFixed(2).replace('.', ',')}€</Text>
       <Text as='span' fontSize='sm' color={discountYellowColor}>(-{props.product.discount}%)</Text>
-    </>
+    </Box>
     :
-    <>
+    <Box mb={5}>
       <Text as='span' >In stock now for only: </Text>
       <Text as='span' fontSize='2xl'>{props.product.price.toFixed(2).replace('.', ',')}€</Text>
-    </>
+    </Box>
     }
     </Box>
   )

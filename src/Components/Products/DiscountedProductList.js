@@ -22,7 +22,6 @@ function DiscountedProductList() {
     getData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-   console.log(discountedProductData)
 
   return(
     <Box 

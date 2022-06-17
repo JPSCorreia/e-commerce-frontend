@@ -25,7 +25,7 @@
   background-color: #2D3748;
   opacity: 1;
   background-size: 4px 4px;
-  background-image: repeating-linear-gradient(45deg, #000000 0, #000000 0.4px, #2D3748 0, #2D3748 50%);
+  background-image: repeating-linear-gradient(45deg, #1A202C 0, #1A202C 0.4px, #2D3748 0, #2D3748 50%);
 
 }
 

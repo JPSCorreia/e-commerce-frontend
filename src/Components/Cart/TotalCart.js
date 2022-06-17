@@ -17,7 +17,7 @@ function TotalCart() {
       <Box 
         className='total-cart'  
         display='flex'
-        flexDirection={['column','row']}
+        flexDirection={['column','column', 'row']}
         marginBottom='1rem' 
         width={['90%','80%']}
         alignSelf='center'
@@ -26,7 +26,7 @@ function TotalCart() {
         alignItems='center'
       >
         <Heading 
-          fontSize={['xl', '3xl']}
+          fontSize={['xl', 'xl', 'xl', '3xl']}
           marginBottom={['0.5rem','0']}
         >
           Total Price: {Number(totalPrice).toFixed(2).replace('.', ',')}€

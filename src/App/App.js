@@ -23,12 +23,13 @@ import { useDispatch } from 'react-redux';
 
 function App() {
 
+  // Turn off console logging outside development
   if (!process.env.REACT_APP_IN_DEVELOPMENT) {
     console.log = function() {}
   }
 
   // React/Redux State/Action Management.
-  const { isAuthenticated, isLoading, user } = useAuth0();
+  const { isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const { colorMode } = useColorMode()
 
@@ -36,6 +37,16 @@ function App() {
   useEffect(() => {
     const getData = async () => {
     if (!isLoading && isAuthenticated) {
+      try {
+        const token = process.env.REACT_APP_IN_DEVELOPMENT? 'dev token' :
+        await getAccessTokenSilently({
+         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+         scope: 'openid'
+       })
+      } catch(e) {
+        console.log(e)
+      }
+
       const registeredUser = await dispatch(api.users.getUserByEmail(user.email)).unwrap();
       if (registeredUser.length < 1) {
         await dispatch(api.users.addUser({"email": user.email, "admin": false, "image_link": user.picture}))

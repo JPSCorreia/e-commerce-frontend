@@ -45,8 +45,10 @@ function Product(props) {
           mx="auto"
         >
           <Box
-            h={64}
-            w="full"
+            // h={64}
+            // w="full"
+            h={['220px', '280px', '280px']}
+            w={["300px", "360px", "360px"]}
             rounded="lg"
             bgSize="cover"
             bgPos="center"

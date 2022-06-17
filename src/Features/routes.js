@@ -84,7 +84,6 @@ export const api = {
       'productData/getMostDiscountedProducts',
       async (number) => { 
         const response = await axios.get(`${backendURL}/api/products/discounted/${number}`) 
-        console.log(response)
         return response.data
       }
     ),

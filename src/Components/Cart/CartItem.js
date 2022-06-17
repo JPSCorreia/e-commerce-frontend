@@ -93,8 +93,8 @@ function CartItem(props) {
           </Box>
           <Show breakpoint='(max-width: 550px)'>
           <Box
-            h='216px'
-            w="288px"
+            h={['160px', '180px', '216px']}
+            w={['220px', '240px', "288px"]}
             margin='0 auto'
             marginTop='1rem'
             rounded="lg"
@@ -151,8 +151,8 @@ function CartItem(props) {
         </Box>
         <Hide breakpoint='(max-width: 550px)'>
         <Box
-          h='270px'
-          w="320px"
+          h={['170px', '180px', '270px']}
+          w={["400px", "380px", "320px"]}
           marginRight='1.25rem'
           marginTop='1.25rem'
           marginBottom='1.25rem'
