@@ -191,7 +191,9 @@ function ProductItem() {
                   size={18}
                   color2={'#ffd700'} 
                 />
-                <Text fontSize='xs' mr='0.25rem'>({reviewsData.length} Ratings)</Text>
+                { reviewsData.length === 1 && <Text fontSize='xs' mr='0.25rem'>({reviewsData.length} Rating)</Text> }
+                { reviewsData.length !== 1 && <Text fontSize='xs' mr='0.25rem'>({reviewsData.length} Ratings)</Text> }
+  
               </Box>
             }
             {isNaN(totalRating) &&

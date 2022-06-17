@@ -1,5 +1,5 @@
 import '../../Style/App.css';
-import { Flex, Text, ListItem, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Text, ListItem, useColorModeValue, Avatar } from '@chakra-ui/react'
 import ReactStars from "react-rating-stars-component";
 import { useAuth0 } from "@auth0/auth0-react";
 import ProductEditReviewButton from './ProductEditReviewButton';
@@ -26,8 +26,15 @@ function ProductReview(props) {
       marginTop='0.5rem'
       marginBottom='0.75rem'
     >  
-      <Flex ml='0.75rem' mt='0.5rem' justifyContent='start' >
-        <Text fontSize='1.25rem' mr='1rem' >
+      <Flex ml='0.75rem' mt='0.5rem' justifyContent='start' alignItems='center' >
+
+        <Avatar 
+          name={`avatar-${props.review.full_name}`}
+          src={props.review.image_link} 
+          size='sm' 
+          mr='0.5rem'
+        />
+        <Text fontSize='1.25rem' mr='0.5rem' >
           {props.review.full_name}
         </Text>
         <ReactStars

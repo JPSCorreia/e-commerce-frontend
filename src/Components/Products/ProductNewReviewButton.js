@@ -45,6 +45,7 @@ function ProductNewReviewButton(props) {
         full_name: formik.values.name,
         comment: formik.values.comment,
         rating: formik.values.rating,
+        image_link: user.picture
       }))
 
       dispatch(api.orderReviews.getReviews({ token: token, order_id: props.orderId, user_email: user.email }))

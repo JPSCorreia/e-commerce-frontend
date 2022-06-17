@@ -55,6 +55,7 @@ function ProductEditReviewButton(props) {
         full_name: formik.values.name,
         comment: formik.values.comment,
         rating: formik.values.rating,
+        image_link: user.picture
       }))  
 
       if (props.fromOrder) {

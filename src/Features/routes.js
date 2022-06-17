@@ -48,9 +48,6 @@ export const api = {
 
 
 
-
-
-
   // product routes
   products: {
   
@@ -318,7 +315,6 @@ export const api = {
       }
     ),
 
-
     // set order placed toast display
     setAddOrderToastDisplayed: createAsyncThunk(
       'orderData/setAddOrderToastDisplayed',
@@ -362,11 +358,12 @@ export const api = {
             user_email: obj.user_email,
             full_name: obj.full_name,
             comment: obj.comment,
-            rating: obj.rating
+            rating: obj.rating,
+            image_link: obj.image_link
           }
           }
         )
-        return { id: response.data, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating}
+        return { id: response.data, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating, image_link: obj.image_link}
       }
     ),
 
@@ -388,11 +385,12 @@ export const api = {
           data: { 
             full_name: obj.full_name,
             comment: obj.comment,
-            rating: obj.rating
+            rating: obj.rating,
+            image_link: obj.image_link
           }
           }
         )
-        const response = { id: obj.id, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating}
+        const response = { id: obj.id, products_id: obj.products_id, user_email: obj.user_email, full_name: obj.full_name, comment: obj.comment, rating: obj.rating, image_link: obj.image_link}
         return response
       }
     ),
