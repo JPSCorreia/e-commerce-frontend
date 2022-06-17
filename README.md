@@ -6,7 +6,7 @@
 
 ##### Emporium is a **PERN(PostgreSQL, Express, React, Node.js)** E-commerce Application.
 
-**Deployed at https://e-commerce-frontend2.herokuapp.com**
+**Deployed at https://emporium-shop.herokuapp.com**
 
 ---
 **Functionalities:**
