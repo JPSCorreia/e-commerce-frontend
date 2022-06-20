@@ -8,7 +8,7 @@
 
 **Deployed at https://emporium-shop.herokuapp.com**
 
-**Backend: at https://github.com/JPSCorreia/emporium-shop-backend**
+**Backend: https://github.com/JPSCorreia/emporium-shop-backend**
 
 ---
 **Functionalities:**
