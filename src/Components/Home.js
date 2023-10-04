@@ -78,7 +78,7 @@ function Home() {
     </Show>
     <Box 
       // className='carousel-container'
-      // backgroundColor={backgroundColor}
+      /// backgroundColor={backgroundColor}
       width='90%'
       borderRadius='8px'
       margin='0 auto'
