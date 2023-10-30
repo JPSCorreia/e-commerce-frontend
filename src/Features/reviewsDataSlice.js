@@ -14,7 +14,7 @@ export const reviewsDataSlice = createSlice({
       state.dataIsLoading = true;
     },
     [api.reviews.getReviews.fulfilled]: (state, action) => {
-      state[action.payload.productId] = action.payload.data;
+      state[action.payload.products_id] = action.payload.data;
       state.dataIsLoading = false;
     },
     [api.reviews.getReviews.rejected]: (state, action) => {

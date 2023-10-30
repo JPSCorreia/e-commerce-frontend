@@ -328,7 +328,7 @@ export const api = {
     'orderData/getNumberOfOrders',
     async (obj) => { 
       const response = await axios.get(`${backendURL}/api/orders/get_number/${obj.user_email}`, { headers: {Authorization: `Bearer ${obj.token}` }}) 
-      return response.data.count
+      return response.data
     }
   ),
 
@@ -343,8 +343,9 @@ export const api = {
         const response = await axios.get(`${backendURL}/api/reviews/${obj.products_id}`, 
           { headers: {Authorization: `Bearer ${obj.token}` }}
         )
-        const responseData = { data: response.data, productId: obj.products_id}
-        return responseData
+        
+       const responseData = { data: response.data, products_id: obj.products_id }
+       return responseData
       }
     ),
 
@@ -409,6 +410,23 @@ export const api = {
         )
         const responseData = { data: response.data, order_id: obj.order_id }
         return responseData
+        // console.log(response)
+        // if (response.status === 200) {
+        //   // const responseData = { data: response.data, order_id: obj.order_id }
+        //   const responseData = { data: [], order_id: obj.order_id }
+        //   return responseData
+        // } else {
+        //   const responseData = { data: [], order_id: obj.order_id }
+        //   return responseData
+        // }
+
+        // const responseData = { data: response.data, order_id: obj.order_id }
+        // if (response.data) {
+        //   return responseData
+        // } else {
+        //   return []
+        // }
+        
       }
     ),
 
@@ -451,7 +469,7 @@ export const api = {
     deleteAddress: createAsyncThunk(
       'addressesData/deleteAddress',
       async (obj) => {
-        const response = await axios.delete(`${backendURL}/api/addresses/delete_address/${obj.user_email}/${obj.id}`, 
+        const response = await axios.delete(`${backendURL}/api/addresses/${obj.id}`, 
           { headers: {Authorization: `Bearer ${obj.token}` }}
         )
         return response.data

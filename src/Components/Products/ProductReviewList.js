@@ -35,8 +35,6 @@ function ProductReviewList(props) {
   if (reviewsDataIsLoading) {
     return <Loader />
   }
-  
- 
   return(
     <>
     { reviewsData.length > 0 &&

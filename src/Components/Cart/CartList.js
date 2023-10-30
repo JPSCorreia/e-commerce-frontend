@@ -13,13 +13,13 @@ function CartList() {
   return(
     <Box className='cart-list'>
       <List>
-        {cartData.map((product, index) => (
+        {cartData? cartData.map((product, index) => (
           <CartItem 
             product={product}
             key={index}
             id={`cart-product-${product.id}`}
           />
-        ))}
+        )) : ''}
       </List>
     </Box>
   )
