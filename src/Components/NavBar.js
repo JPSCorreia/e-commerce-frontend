@@ -19,6 +19,9 @@ import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { BsPersonCircle } from "react-icons/bs";
 import { BsBorderWidth } from "react-icons/bs";
 import SearchBar from './Search/SearchBar'
+import { useDispatch } from 'react-redux';
+import { api } from '../Features/routes';
+import { useEffect } from 'react';
 
 
 function NavBar() {
@@ -30,7 +33,15 @@ function NavBar() {
   const numberOfCartItems = useSelector((state) => state.cartData.numberOfCartItems)
   const { colorMode } = useColorMode()
   const themeColorNavBar = useColorModeValue('gray.200', 'gray.700')
-
+  const corsData = useSelector((state) => state.userData.testCors)
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    const getData = async () => {
+      await dispatch(api.users.testCors()) 
+    }
+    getData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   return(
     <Box 
@@ -86,6 +97,7 @@ function NavBar() {
             Browse
           </NavLink>
         </Text>
+        <h1>tem de mostrar: {corsData.data}</h1>
         </Hide>
       </Box>
       <SearchBar />
