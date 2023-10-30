@@ -18,6 +18,7 @@ function Home() {
   // React/Redux State/Action Management.
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.productData.data)
+  const corsData = useSelector((state) => state.userData.testCors)
   const { colorMode } = useColorMode()
   const backgroundColor = useColorModeValue('gray.100', 'gray.600');
   const dataIsLoading = useSelector((state) => state.productData.dataIsLoading)
@@ -26,6 +27,7 @@ function Home() {
   useEffect(() => {
     const getData = async () => {
       await dispatch(api.products.getProductPage(1)) 
+      await dispatch(api.users.testCors()) 
     }
     getData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -76,6 +78,7 @@ function Home() {
         borderRadius='4px'
       />
     </Show>
+    <h1>tem de mostrar: {corsData.data}</h1>
     <Box 
       // className='carousel-container'
       /// backgroundColor={backgroundColor}

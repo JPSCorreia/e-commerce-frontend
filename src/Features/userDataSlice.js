@@ -12,10 +12,25 @@ export const userDataSlice = createSlice({
     year: '',
     userByEmail: '',
     userByEmailIsLoading: true,
+    testCors: '',
+    testCorsIsLoading: true
   },
   reducers: {
   },
   extraReducers: {
+
+
+    [api.users.testCors.pending]: (state, action) => {
+      state.testCorsIsLoading = true;
+    },
+    [api.users.testCors.fulfilled]: (state, action) => {
+      console.log(action.payload)
+      state.testCors = action.payload;
+      state.testCorsIsLoading = false;
+    },
+    [api.users.testCors.rejected]: (state, action) => {
+      state.testCorsIsLoading = true;
+    },
 
     [api.users.getUsers.pending]: (state, action) => {
       state.dataIsLoading = true;
