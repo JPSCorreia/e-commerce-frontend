@@ -97,7 +97,7 @@ function NavBar() {
             Browse
           </NavLink>
         </Text>
-        <h1>tem de mostrar:</h1>
+        <h1>tem de mostrar: {corsData.data}</h1>
         </Hide>
       </Box>
       <SearchBar />
