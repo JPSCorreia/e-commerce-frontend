@@ -9,14 +9,6 @@ export const api = {
   // user routes
   users: {
 
-        // test CORS.
-        testCors: createAsyncThunk(
-          'userData/testCors',
-          async () => { 
-            return axios.get(`${backendURL}/test-cors`) 
-          }
-        ),
-
     // get list of all users.
     getUsers: createAsyncThunk(
       'userData/getUsers',
