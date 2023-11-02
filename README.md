@@ -23,7 +23,7 @@
 
 **Technologies:**
 
-- [React] (https://react.dev/) application bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [React](https://react.dev/) application bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 - [Redux](https://redux.js.org/) /[ Redux toolkit](https://redux-toolkit.js.org/) State management.
 - [Chakra UI](https://chakra-ui.com/) Component-based library for UI.
 - [Auth0](https://auth0.com/) with [jwt](https://jwt.io/) User authentication and authorization.
@@ -31,10 +31,10 @@
 - [Formik](https://formik.org/) and [yup](https://www.npmjs.com/package/yup) Form management and validation.
 
 - [Express.js](https://expressjs.com/) Web framework.
-- [cors] (https://www.npmjs.com/package/cors) CORS enabling middleware.
+- [cors](https://www.npmjs.com/package/cors) CORS enabling middleware.
 - [helmet](https://www.npmjs.com/package/helmet), [hpp](https://www.npmjs.com/package/hpp), [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) and [csurf](https://www.npmjs.com/package/csurf) Backend middleware protection.
-- [joi] (https://joi.dev/) Schema validation.
-- [jest] (https://jestjs.io/) Testing framework.
+- [joi](https://joi.dev/) Schema validation.
+- [jest](https://jestjs.io/) Testing framework.
 - [PostgreSQL](https://www.postgresql.org/) Database.
 
 
