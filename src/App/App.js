@@ -49,6 +49,7 @@ function App() {
 
       const registeredUser = await dispatch(api.users.getUserByEmail(user.email)).unwrap();
       if (registeredUser.length < 1) {
+        console.log('registering user')
         await dispatch(api.users.addUser({"email": user.email, "admin": false, "image_link": user.picture}))
       }
     }}
