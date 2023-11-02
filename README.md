@@ -1,14 +1,13 @@
 
 ![image](https://github.com/JPSCorreia/e-commerce-frontend/blob/main/public/images/emporium-light.png?raw=true)
 
-
 # Emporium
 
 ##### Emporium is a **PERN(PostgreSQL, Express, React, Node.js)** E-commerce Application.
 
-**Deployed at https://emporium-shop.herokuapp.com**
+**Deployed at https://emporium-shop.vercel.app/**
 
-**Backend: https://github.com/JPSCorreia/emporium-shop-backend**
+**Backend: https://github.com/JPSCorreia/e-commerce-backend-serverless**
 
 ---
 **Functionalities:**
@@ -17,24 +16,26 @@
 - Browse the store
 - Search for products
 - Add products to cart
-- Add or edit the delivery address 
+- Add or edit the delivery address
 - Make a purchase
 - Review a product you bought
 - Switch between light and dark color theme
 
-
 **Technologies:**
 
-- Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-- [Redux](https://redux.js.org/) /[ Redux toolkit](https://redux-toolkit.js.org/) for managing states.
+- [React] (https://react.dev/) application bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [Redux](https://redux.js.org/) /[ Redux toolkit](https://redux-toolkit.js.org/) State management.
 - [Chakra UI](https://chakra-ui.com/) Component-based library for UI.
-- [Auth0](https://auth0.com/) with [jwt](https://jwt.io/) for authentication and authorization.
-- [React Router](https://reactrouter.com/) for page routing in React.
+- [Auth0](https://auth0.com/) with [jwt](https://jwt.io/) User authentication and authorization.
+- [React Router](https://reactrouter.com/) Page routing in React.
 - [Formik](https://formik.org/) and [yup](https://www.npmjs.com/package/yup) Form management and validation.
 
-- [Express.js](https://expressjs.com/) Web framework
-- [helmet](https://www.npmjs.com/package/helmet), [hpp](https://www.npmjs.com/package/hpp) and [csurf](https://www.npmjs.com/package/csurf) Backend middleware protection
-- [PostgreSQL](https://www.postgresql.org/) Database
+- [Express.js](https://expressjs.com/) Web framework.
+- [cors] (https://www.npmjs.com/package/cors) CORS enabling middleware.
+- [helmet](https://www.npmjs.com/package/helmet), [hpp](https://www.npmjs.com/package/hpp), [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) and [csurf](https://www.npmjs.com/package/csurf) Backend middleware protection.
+- [joi] (https://joi.dev/) Schema validation.
+- [jest] (https://jestjs.io/) Testing framework.
+- [PostgreSQL](https://www.postgresql.org/) Database.
 
 
 # ☕ Usage
